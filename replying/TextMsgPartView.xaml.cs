@@ -25,8 +25,8 @@ namespace Dzik.replying
         {
             InitializeComponent();
 
-            MsgPartLabel.Content = content.Substring(0, Math.Min(content.Length, 40));
-            TypeAndLenLabel.Content = $"[TEXT, {content.Length} znaków]";
+            MsgPartLabel.Content = content.Trim().Substring(0, Math.Min(content.Length, 70));
+            TypeAndLenLabel.Content = $"TEXT, {content.Length} znaków";
             this.content = content;
         }
 
