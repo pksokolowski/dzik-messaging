@@ -25,9 +25,10 @@ namespace Dzik.replying
         {
             InitializeComponent();
 
-            MsgPartLabel.Content = content.Trim().Substring(0, Math.Min(content.Length, 70));
+            var trimmedContent = content.Trim();
+            MsgPartLabel.Content = trimmedContent.Substring(0, Math.Min(trimmedContent.Length, 70));
             TypeAndLenLabel.Content = $"TEXT, {content.Length} znaków";
-            this.content = content;
+            this.content = trimmedContent;
         }
 
         private void CopyButton_Click(object sender, RoutedEventArgs e)

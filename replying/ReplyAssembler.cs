@@ -78,7 +78,8 @@ namespace Dzik.replying
             }
 
             // add last part if anything is left there
-            if (part.ToString().Length > 0)
+            var lastPartString = part.ToString();
+            if (lastPartString.TrimEnd().Length > 0)
             {
                 finishedParts.Add(new MsgPart(part.ToString(), MsgPartType.TEXT));
             }
