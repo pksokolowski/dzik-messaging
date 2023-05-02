@@ -1,4 +1,5 @@
 ﻿using Dzik.editing;
+using Dzik.Properties;
 using Dzik.replying;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,9 @@ namespace Dzik
 
             EditorStartBehavior.InitializeEditor(Input);
             DataLossPreventor.Setup(this, Input);
+
+            SourceInitialized += MainWindowRoot_SourceInitialized;
+            Closing += MainWindowRoot_Closing;
         }
 
         private void QuoteButton_Click(object sender, RoutedEventArgs e)
@@ -77,6 +81,38 @@ namespace Dzik
             this.IsEnabled = false;
             replyWindow.Closed += (_, __) => { this.IsEnabled = true; };
             replyWindow.Show();
+        }
+
+
+        private void MainWindowRoot_SourceInitialized(object sender, EventArgs e)
+        {
+            // Height="{Binding Source={x:Static p:Settings.Default}, Path=WindowHeight, Mode=TwoWay}"
+
+            this.Top = Settings.Default.Top;
+            this.Left = Settings.Default.Left;
+            this.Height = Settings.Default.Height;
+            this.Width = Settings.Default.Width;
+        }
+
+        private void MainWindowRoot_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
+                Settings.Default.Top = RestoreBounds.Top;
+                Settings.Default.Left = RestoreBounds.Left;
+                Settings.Default.Height = RestoreBounds.Height;
+                Settings.Default.Width = RestoreBounds.Width;
+            }
+            else
+            {
+                Settings.Default.Top = this.Top;
+                Settings.Default.Left = this.Left;
+                Settings.Default.Height = this.Height;
+                Settings.Default.Width = this.Width;
+            }
+
+            Settings.Default.Save();
         }
     }
 }
