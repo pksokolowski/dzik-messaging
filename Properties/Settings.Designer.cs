@@ -70,5 +70,41 @@ namespace Dzik.Properties {
                 this["Width"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2990")]
+        public int MsgPartMaxLen {
+            get {
+                return ((int)(this["MsgPartMaxLen"]));
+            }
+            set {
+                this["MsgPartMaxLen"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double ReplyWindowTop {
+            get {
+                return ((double)(this["ReplyWindowTop"]));
+            }
+            set {
+                this["ReplyWindowTop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double ReplyWindowLeft {
+            get {
+                return ((double)(this["ReplyWindowLeft"]));
+            }
+            set {
+                this["ReplyWindowLeft"] = value;
+            }
+        }
     }
 }

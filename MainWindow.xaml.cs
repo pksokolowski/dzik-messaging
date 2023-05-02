@@ -77,7 +77,7 @@ namespace Dzik
 
             var msgParts = ReplyAssembler.Assemble(Input.Text);
 
-            var replyWindow = new ReplyWindow(msgParts) { Owner = this };
+            var replyWindow = new ReplyWindow(msgParts);
             this.IsEnabled = false;
             replyWindow.Closed += (_, __) => { this.IsEnabled = true; };
             replyWindow.Show();
@@ -86,8 +86,6 @@ namespace Dzik
 
         private void MainWindowRoot_SourceInitialized(object sender, EventArgs e)
         {
-            // Height="{Binding Source={x:Static p:Settings.Default}, Path=WindowHeight, Mode=TwoWay}"
-
             this.Top = Settings.Default.Top;
             this.Left = Settings.Default.Left;
             this.Height = Settings.Default.Height;

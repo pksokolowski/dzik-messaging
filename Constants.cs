@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 namespace Dzik
 {
     internal class Constants
-    {
-        internal const int MAX_MSG_LEN = 800;
-
+    {  
         internal const string MARKER_IMAGE_TAG = "&IMG";
         internal const string MARKER_ENCRYPTION_TAG = "&$";
     }

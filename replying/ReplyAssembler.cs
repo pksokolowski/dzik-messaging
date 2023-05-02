@@ -1,15 +1,20 @@
-﻿using System;
+﻿using Dzik.Properties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Controls;
-using System.Xml.Linq;
 
 namespace Dzik.replying
 {
     internal static class ReplyAssembler
     {
-        internal static List<MsgPart> Assemble(String content)
+
+        internal static List<MsgPart> Assemble(string content)
+        {
+            return Assemble(content, Settings.Default.MsgPartMaxLen);
+        }
+
+        internal static List<MsgPart> Assemble(string content, int maxMsgLen)
         {
             var lines = content.Split(new string[] { "\n" }, StringSplitOptions.None).ToList();
             var partialLen = 0;
@@ -22,7 +27,7 @@ namespace Dzik.replying
                 // the line might undergo a transformation prior to being measured and added
                 var effectiveLine = lines[i];
 
-                if (effectiveLine.Length + 1 > Constants.MAX_MSG_LEN)
+                if (effectiveLine.Length + 1 > maxMsgLen)
                 {
                     throw new Exception("Line lenght surpasses the max message len limit. Unsupported case!");
                 }
@@ -59,7 +64,7 @@ namespace Dzik.replying
                     effectiveLine = effectiveLine.ToUpper();
                 }
 
-                if (partialLen + effectiveLine.Length > Constants.MAX_MSG_LEN)
+                if (partialLen + effectiveLine.Length > maxMsgLen)
                 {
                     finishedParts.Add(new MsgPart(part.ToString(), MsgPartType.TEXT));
                     partialLen = 0;
