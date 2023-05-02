@@ -1,4 +1,5 @@
-﻿using Dzik.Properties;
+﻿using Dzik.domain;
+using Dzik.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,12 @@ namespace Dzik.replying
     internal static class ReplyAssembler
     {
 
-        internal static List<MsgPart> Assemble(string content)
+        internal static List<MsgPart> Assemble(string content, Encryptor encryptor)
         {
-            return Assemble(content, Settings.Default.MsgPartMaxLen);
+            return Assemble(content, Settings.Default.MsgPartMaxLen, encryptor);
         }
 
-        internal static List<MsgPart> Assemble(string content, int maxMsgLen)
+        internal static List<MsgPart> Assemble(string content, int maxMsgLen, Encryptor encryptor)
         {
             var lines = content.Split(new string[] { "\n" }, StringSplitOptions.None).ToList();
             var partialLen = 0;
@@ -61,7 +62,7 @@ namespace Dzik.replying
                         i = ii;
                     }
                     // just to indicate something is happening, replace with enryption once available.
-                    effectiveLine = effectiveLine.ToUpper();
+                    effectiveLine = encryptor.Encrypt(effectiveLine);
                 }
 
                 if (partialLen + effectiveLine.Length > maxMsgLen)

@@ -1,4 +1,5 @@
-﻿using Dzik.editing;
+﻿using Dzik.domain;
+using Dzik.editing;
 using Dzik.Properties;
 using Dzik.replying;
 using System;
@@ -30,8 +31,8 @@ namespace Dzik
             EditorStartBehavior.InitializeEditor(Input);
             DataLossPreventor.Setup(this, Input);
 
-            SourceInitialized += MainWindowRoot_SourceInitialized;
-            Closing += MainWindowRoot_Closing;
+            SourceInitialized += MainWindow_SourceInitialized;
+            Closing += MainWindow_Closing;
         }
 
         private void QuoteButton_Click(object sender, RoutedEventArgs e)
@@ -75,7 +76,7 @@ namespace Dzik
             // save draft before.
             DraftStorage.Store(Input);
 
-            var msgParts = ReplyAssembler.Assemble(Input.Text);
+            var msgParts = ReplyAssembler.Assemble(Input.Text, new MockEncryptor());
 
             var replyWindow = new ReplyWindow(msgParts);
             this.IsEnabled = false;
@@ -84,7 +85,7 @@ namespace Dzik
         }
 
 
-        private void MainWindowRoot_SourceInitialized(object sender, EventArgs e)
+        private void MainWindow_SourceInitialized(object sender, EventArgs e)
         {
             this.Top = Settings.Default.Top;
             this.Left = Settings.Default.Left;
@@ -92,7 +93,7 @@ namespace Dzik
             this.Width = Settings.Default.Width;
         }
 
-        private void MainWindowRoot_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (WindowState == WindowState.Maximized)
             {
