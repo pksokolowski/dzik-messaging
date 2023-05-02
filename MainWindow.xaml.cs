@@ -35,7 +35,7 @@ namespace Dzik
             var initialSelectionStart = Input.SelectionStart;
             var clipboardText = Clipboard.GetText();
             var quoted = LinesPrepender.Prepended(clipboardText, "> ", true);
-            if (!LinesPrepender.IsCarretAtTheBeginningOfLine(Input)) quoted = '\n' + quoted;
+            if (!LinesPrepender.IsCarretAtTheBeginningOfLine(Input)) quoted = "\n\n" + quoted;
 
             // add line breaks after, for convenience
             quoted += "\n\n";
@@ -73,7 +73,9 @@ namespace Dzik
 
             var msgParts = ReplyAssembler.Assemble(Input.Text);
 
-            var replyWindow = new ReplyWindow(msgParts);
+            var replyWindow = new ReplyWindow(msgParts) { Owner = this };
+            this.IsEnabled = false;
+            replyWindow.Closed += (_, __) => { this.IsEnabled = true; };
             replyWindow.Show();
         }
     }

@@ -41,6 +41,20 @@ namespace Dzik
             });
         }
 
+        private void Window_StateChanged(object sender, EventArgs e)
+        {          
+            try
+            {
+                var window = (sender as Window);
+                if (window.WindowState == WindowState.Minimized || window.WindowState == WindowState.Maximized)
+                {
+                    window.WindowState = WindowState.Normal;
+                }
+            }
+            catch
+            {
 
+            }
+        }
     }
 }
