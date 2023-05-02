@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dzik"
         mc:Ignorable="d"
-        Title="Gotowa odpowiedź" Height="600" Width="460" Topmost="True" WindowStartupLocation="CenterOwner" StateChanged="Window_StateChanged">
+        Title="Gotowa odpowiedź" Height="600" Width="460" Topmost="True" WindowStartupLocation="CenterOwner">
     <Grid>
         <ListBox x:Name="MsgPartsListBox" d:ItemsSource="{d:SampleData ItemCount=5}" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
 
