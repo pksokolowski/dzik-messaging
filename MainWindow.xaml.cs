@@ -1,4 +1,6 @@
-﻿using Dzik.domain;
+﻿using Dzik.crypto.algorithms;
+using Dzik.crypto.protocols;
+using Dzik.domain;
 using Dzik.editing;
 using Dzik.Properties;
 using Dzik.replying;
@@ -24,6 +26,8 @@ namespace Dzik
     /// </summary>
     public partial class MainWindow : Window
     {
+        private KeysVault keysVault = new KeysVault();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -41,7 +45,7 @@ namespace Dzik
             var clipboardText = Clipboard.GetText();
 
             // Handlers in order, only one can handle the content, then return.
-            if (CiphertextHandler.Handle(this, clipboardText, new MockDecryptor())) return;
+            if (CiphertextHandler.Handle(this, clipboardText, keysVault)) return;
             QuotationHandler.Handle(Input, clipboardText);
         }
 
@@ -72,7 +76,7 @@ namespace Dzik
             // save draft before.
             DraftStorage.Store(Input);
 
-            var msgParts = ReplyAssembler.Assemble(Input.Text, new MockEncryptor());
+            var msgParts = ReplyAssembler.Assemble(Input.Text, keysVault);
 
             var replyWindow = new ReplyWindow(msgParts);
             this.IsEnabled = false;

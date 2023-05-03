@@ -13,7 +13,7 @@ namespace Dzik.domain
 
     internal interface Decryptor
     {
-        String Decrypt(string plainText);
+        String Decrypt(string cipherText);
     }
 
     internal class MockEncryptor : Encryptor

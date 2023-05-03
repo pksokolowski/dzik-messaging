@@ -62,7 +62,7 @@ namespace Dzik.replying
                         i = ii;
                     }
                     // just to indicate something is happening, replace with enryption once available.
-                    effectiveLine = encryptor.Encrypt(effectiveLine);
+                    effectiveLine = Constants.MARKER_ENCRYPTION_TAG + encryptor.Encrypt(effectiveLine);
                 }
 
                 if (partialLen + effectiveLine.Length > maxMsgLen)
