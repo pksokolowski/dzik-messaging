@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dzik.common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,16 +14,23 @@ namespace Dzik.editing
     {
         internal static void Handle(TextBox tb, string content)
         {
-            var initialSelectionStart = tb.SelectionStart;
+            try
+            {
+                var initialSelectionStart = tb.SelectionStart;
 
-            var quoted = LinesPrepender.Prepended(content, "> ", true);
-            if (!LinesPrepender.IsCarretAtTheBeginningOfLine(tb)) quoted = "\n\n" + quoted;
+                var quoted = LinesPrepender.Prepended(content, "> ", true);
+                if (!LinesPrepender.IsCarretAtTheBeginningOfLine(tb)) quoted = "\n\n" + quoted;
 
-            // add line breaks after, for convenience
-            quoted += "\n\n";
-            ContentPaster.PasteInto(tb, quoted);
-            tb.SelectionStart = initialSelectionStart + quoted.Length;
-            tb.Focus();
+                // add line breaks after, for convenience
+                quoted += "\n\n";
+                ContentPaster.PasteInto(tb, quoted);
+                tb.SelectionStart = initialSelectionStart + quoted.Length;
+                tb.Focus();
+            }
+            catch (Exception)
+            {
+                DialogShower.ShowError("Dodawanie cytatu nie powiodło się.");
+            }
         }
     }
 }

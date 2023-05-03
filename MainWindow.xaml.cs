@@ -1,4 +1,5 @@
-﻿using Dzik.crypto.algorithms;
+﻿using Dzik.common;
+using Dzik.crypto.algorithms;
 using Dzik.crypto.protocols;
 using Dzik.domain;
 using Dzik.editing;
@@ -51,7 +52,14 @@ namespace Dzik
 
         private void SaveDraftButton_Click(object sender, RoutedEventArgs e)
         {
-            DraftStorage.Store(Input);
+            try
+            {
+                DraftStorage.Store(Input);
+            }
+            catch (Exception)
+            {
+                DialogShower.ShowError("Zapisywanie wersji roboczej nie powiodło się.\n\nZalecane jest zbackupowanie tekstu ręcznie, just in case.");
+            }
         }
 
         private void MarkImgButton_Click(object sender, RoutedEventArgs e)

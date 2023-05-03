@@ -26,9 +26,9 @@ namespace Dzik.editing
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                DialogShower.ShowError("Wystąpił błąd", "Deszyfrowanie nie powiodło się.\n\nUpewnij się, że kopiujesz tylko tekst zaszyfrowany i nic poza nim. Możesz spróbować dwukrotnego kliku na szyfrogram - powinien zaznaczyć się wówczas w całości.");
+                DialogShower.ShowError("Deszyfrowanie nie powiodło się.\n\nUpewnij się, że kopiujesz tylko tekst zaszyfrowany i nic poza nim. Możesz spróbować dwukrotnego kliku na szyfrogram - powinien zaznaczyć się wówczas w całości.");
                 return true;
             }
         }
