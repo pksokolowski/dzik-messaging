@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Dzik.crypto.algorithms
 {
-    internal static class AesCbcTool
+    internal static class AesTool
     {
         internal static byte[] GenerateKey()
         {
@@ -22,14 +22,14 @@ namespace Dzik.crypto.algorithms
             }
         }
 
-        internal static byte[] Encrypt(byte[] plainText, byte[] Key, PaddingMode paddingMode = PaddingMode.PKCS7)
+        internal static byte[] Encrypt(byte[] plainText, byte[] Key, PaddingMode paddingMode = PaddingMode.PKCS7, CipherMode cipherMode = CipherMode.CBC)
         {
             if (plainText == null || plainText.Length <= 0)
                 throw new ArgumentNullException("plainText");
             if (Key == null || Key.Length <= 0)
                 throw new ArgumentNullException("Key");
 
-            using (Aes aes = new AesCng() { Mode = CipherMode.CBC, Padding = paddingMode })
+            using (Aes aes = new AesCng() { Mode = cipherMode, Padding = paddingMode })
             {
                 aes.Key = Key;
                 byte[] iv = aes.IV;
@@ -48,7 +48,7 @@ namespace Dzik.crypto.algorithms
 
         }
 
-        internal static byte[] Decrypt(byte[] encryptedMessageBytes, byte[] Key, PaddingMode paddingMode = PaddingMode.PKCS7)
+        internal static byte[] Decrypt(byte[] encryptedMessageBytes, byte[] Key, PaddingMode paddingMode = PaddingMode.PKCS7, CipherMode cipherMode = CipherMode.CBC)
         {
             if (encryptedMessageBytes == null || encryptedMessageBytes.Length <= 0)
                 throw new ArgumentNullException("cipherText");
@@ -56,7 +56,7 @@ namespace Dzik.crypto.algorithms
                 throw new ArgumentNullException("Key");
 
 
-            using (Aes aes = new AesCng() { Mode = CipherMode.CBC, Padding = paddingMode })
+            using (Aes aes = new AesCng() { Mode = cipherMode, Padding = paddingMode })
             {
                 byte[] iv = new byte[aes.IV.Length];
                 Array.Copy(encryptedMessageBytes, 0, iv, 0, iv.Length);

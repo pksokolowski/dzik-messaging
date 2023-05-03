@@ -56,7 +56,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Constants.cs" />
-    <Compile Include="crypto\algorithms\AesCbcTool.cs" />
+    <Compile Include="crypto\algorithms\AesTool.cs" />
+    <Compile Include="crypto\algorithms\HmacTool.cs" />
+    <Compile Include="crypto\algorithms\RsaTool.cs" />
     <Compile Include="crypto\protocols\KeysVault.cs" />
     <Compile Include="crypto\utils\Base64PL.cs" />
     <Compile Include="domain\MsgCrypto.cs" />

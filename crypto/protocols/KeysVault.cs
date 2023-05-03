@@ -11,13 +11,13 @@ namespace Dzik.crypto.protocols
 {
     internal class KeysVault : Encryptor, Decryptor
     {
-        internal byte[] key = AesCbcTool.GenerateKey();
+        internal byte[] key = AesTool.GenerateKey();
 
 
         public string Encrypt(string plainText)
         {
             var plaintextBytes = Encoding.UTF8.GetBytes(plainText);
-            var cipherTextBytes = AesCbcTool.Encrypt(plaintextBytes, key);
+            var cipherTextBytes = AesTool.Encrypt(plaintextBytes, key);
             var ciphertextString = Base64PL.StringFromBytes(cipherTextBytes);
 
             return ciphertextString;
@@ -27,7 +27,7 @@ namespace Dzik.crypto.protocols
         public string Decrypt(string cipherText)
         {
             var cipherTextBytes = Base64PL.BytesFromString(cipherText);
-            var plainTextBytes = AesCbcTool.Decrypt(cipherTextBytes, key);
+            var plainTextBytes = AesTool.Decrypt(cipherTextBytes, key);
             var plainTextString = Encoding.UTF8.GetString(plainTextBytes);
 
             return plainTextString;
