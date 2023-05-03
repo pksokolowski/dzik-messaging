@@ -13,9 +13,9 @@ namespace Dzik.editing
     {
         internal static bool Handle(Window window, string content, Decryptor decryptor)
         {
-            if (!content.StartsWith(Constants.MARKER_ENCRYPTION_TAG)) return false;
+            if (!content.StartsWith(Constants.MARKER_TO_DECRYPT_TAG)) return false;
 
-            var ciphertext = content.Substring(Constants.MARKER_ENCRYPTION_TAG.Length);
+            var ciphertext = content.Substring(Constants.MARKER_TO_DECRYPT_TAG.Length);
             var plainText = decryptor.Decrypt(ciphertext);
 
             PlaintextWindow plainWindow = new PlaintextWindow(window, plainText);

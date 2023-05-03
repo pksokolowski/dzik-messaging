@@ -9,7 +9,8 @@ namespace Dzik
     internal class Constants
     {
         internal const string MARKER_IMAGE_TAG = "&IMG";
-        internal const string MARKER_ENCRYPTION_TAG = "$";
+        internal const string MARKER_TO_ENCRYPT_TAG = "$";
+        internal const string MARKER_TO_DECRYPT_TAG = "ĘĘĘ";
 
 
         public const int MasterSymmetricKeyLenBytes = 32;

@@ -51,18 +51,19 @@ namespace Dzik.replying
                 }
 
                 // handle dollar sign marker
-                if (effectiveLine.StartsWith(Constants.MARKER_ENCRYPTION_TAG))
+                if (effectiveLine.StartsWith(Constants.MARKER_TO_ENCRYPT_TAG))
                 {
                     // once one encryption tak is encountered, more are sought after -
                     for (int ii = i + 1; ii < lines.Count; ii++)
                     {
-                        if (!lines[ii].StartsWith(Constants.MARKER_ENCRYPTION_TAG)) break;
+                        if (!lines[ii].StartsWith(Constants.MARKER_TO_ENCRYPT_TAG)) break;
                         effectiveLine += '\n' + lines[ii];
                         // progress to the index of the last encryption marker in row, for loop will add 1 more on top of that later.
                         i = ii;
                     }
                     // just to indicate something is happening, replace with enryption once available.
-                    effectiveLine = Constants.MARKER_ENCRYPTION_TAG + encryptor.Encrypt(effectiveLine);
+                    var lineWithTrimmedMarker = effectiveLine.Substring(Constants.MARKER_TO_ENCRYPT_TAG.Length).TrimStart();
+                    effectiveLine = Constants.MARKER_TO_DECRYPT_TAG + encryptor.Encrypt(lineWithTrimmedMarker);
                 }
 
                 if (partialLen + effectiveLine.Length > maxMsgLen)
