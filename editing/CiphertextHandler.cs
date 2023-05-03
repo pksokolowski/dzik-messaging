@@ -1,4 +1,5 @@
-﻿using Dzik.domain;
+﻿using Dzik.common;
+using Dzik.domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,15 +14,23 @@ namespace Dzik.editing
     {
         internal static bool Handle(Window window, string content, Decryptor decryptor)
         {
-            if (!content.StartsWith(Constants.MARKER_TO_DECRYPT_TAG)) return false;
+            try
+            {
+                if (!content.StartsWith(Constants.MARKER_TO_DECRYPT_TAG)) return false;
 
-            var ciphertext = content.Substring(Constants.MARKER_TO_DECRYPT_TAG.Length);
-            var plainText = decryptor.Decrypt(ciphertext);
+                var ciphertext = content.Substring(Constants.MARKER_TO_DECRYPT_TAG.Length);
+                var plainText = decryptor.Decrypt(ciphertext);
 
-            PlaintextWindow plainWindow = new PlaintextWindow(window, plainText);
-            plainWindow.Show();
+                PlaintextWindow plainWindow = new PlaintextWindow(window, plainText);
+                plainWindow.Show();
 
-            return true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                DialogShower.ShowError("Wystąpił błąd", "Deszyfrowanie nie powiodło się.\n\nUpewnij się, że kopiujesz tylko tekst zaszyfrowany i nic poza nim. Możesz spróbować dwukrotnego kliku na szyfrogram - powinien zaznaczyć się wówczas w całości.");
+                return true;
+            }
         }
     }
 }
