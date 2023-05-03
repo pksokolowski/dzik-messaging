@@ -58,6 +58,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="crypto\algorithms\AesCbcTool.cs" />
     <Compile Include="crypto\protocols\KeysVault.cs" />
+    <Compile Include="crypto\utils\Base64PL.cs" />
     <Compile Include="domain\MsgCrypto.cs" />
     <Compile Include="editing\CiphertextHandler.cs" />
     <Compile Include="editing\QuotationHandler.cs" />

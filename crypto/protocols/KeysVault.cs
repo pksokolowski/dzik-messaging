@@ -1,4 +1,5 @@
 ﻿using Dzik.crypto.algorithms;
+using Dzik.crypto.utils;
 using Dzik.domain;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Dzik.crypto.protocols
         {
             var plaintextBytes = Encoding.UTF8.GetBytes(plainText);
             var cipherTextBytes = AesCbcTool.Encrypt(plaintextBytes, key);
-            var ciphertextString = Convert.ToBase64String(cipherTextBytes);
+            var ciphertextString = Base64PL.StringFromBytes(cipherTextBytes);
 
             return ciphertextString;
         }
@@ -25,7 +26,7 @@ namespace Dzik.crypto.protocols
 
         public string Decrypt(string cipherText)
         {
-            var cipherTextBytes = Convert.FromBase64String(cipherText);
+            var cipherTextBytes = Base64PL.BytesFromString(cipherText);
             var plainTextBytes = AesCbcTool.Decrypt(cipherTextBytes, key);
             var plainTextString = Encoding.UTF8.GetString(plainTextBytes);
 
