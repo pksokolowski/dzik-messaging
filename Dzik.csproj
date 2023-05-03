@@ -57,6 +57,11 @@
     </ApplicationDefinition>
     <Compile Include="Constants.cs" />
     <Compile Include="domain\MsgCrypto.cs" />
+    <Compile Include="editing\CiphertextHandler.cs" />
+    <Compile Include="editing\QuotationHandler.cs" />
+    <Compile Include="PlaintextWindow.xaml.cs">
+      <DependentUpon>PlaintextWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="replying\ImgMsgPartView.xaml.cs">
       <DependentUpon>ImgMsgPartView.xaml</DependentUpon>
     </Compile>
@@ -86,6 +91,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PlaintextWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="replying\ImgMsgPartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

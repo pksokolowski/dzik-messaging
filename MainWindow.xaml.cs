@@ -39,14 +39,10 @@ namespace Dzik
         {
             var initialSelectionStart = Input.SelectionStart;
             var clipboardText = Clipboard.GetText();
-            var quoted = LinesPrepender.Prepended(clipboardText, "> ", true);
-            if (!LinesPrepender.IsCarretAtTheBeginningOfLine(Input)) quoted = "\n\n" + quoted;
 
-            // add line breaks after, for convenience
-            quoted += "\n\n";
-            ContentPaster.PasteInto(Input, quoted);
-            Input.SelectionStart = initialSelectionStart + quoted.Length;
-            Input.Focus();
+            // Handlers in order, only one can handle the content, then return.
+            if (CiphertextHandler.Handle(this, clipboardText, new MockDecryptor())) return;
+            QuotationHandler.Handle(Input, clipboardText);
         }
 
         private void SaveDraftButton_Click(object sender, RoutedEventArgs e)
