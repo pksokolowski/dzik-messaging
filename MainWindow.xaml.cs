@@ -82,14 +82,29 @@ namespace Dzik
         private void ReplyButton_Click(object sender, RoutedEventArgs e)
         {
             // save draft before.
-            DraftStorage.Store(Input);
+            try
+            {
+                DraftStorage.Store(Input);
+            }
+            catch (Exception)
+            {
+                DialogShower.ShowError("Zapisywanie wersji roboczej nie powiodło się. Nie zatrzymano jednak procesu generowania odpowiedzi.");
+            }
 
-            var msgParts = ReplyAssembler.Assemble(Input.Text, keysVault);
+            try
+            {
+                var msgParts = ReplyAssembler.Assemble(Input.Text, keysVault);
 
-            var replyWindow = new ReplyWindow(msgParts);
-            this.IsEnabled = false;
-            replyWindow.Closed += (_, __) => { this.IsEnabled = true; };
-            replyWindow.Show();
+                var replyWindow = new ReplyWindow(msgParts);
+                this.IsEnabled = false;
+                replyWindow.Closed += (_, __) => { this.IsEnabled = true; };
+                replyWindow.Show();
+            }
+            catch (Exception)
+            {
+                DialogShower.ShowError("Generowanie odpowiedzi nie powiodło się. Możliwe powody:\n\n- bardzo długi blok tekstu, który samodzielnie przekracza limit długości pojedynczej wiadomości.\n\nBłąd szyfrowania, jeżeli występują elementy oznaczone do zaszyfrowania.");
+            }
+
         }
 
 
