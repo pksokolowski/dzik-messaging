@@ -20,10 +20,18 @@ namespace Dzik.replying
     /// </summary>
     public partial class ImgMsgPartView : UserControl
     {
+        private string content;
         public ImgMsgPartView(string description)
         {
             InitializeComponent();
             DescriptionLabel.Content = description;
+            this.content = description.Substring(Constants.MARKER_IMAGE_TAG.Length).TrimStart();
+        }
+
+        private void CopyButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(content);
+            wasCopiedCheckbox.IsChecked = true;
         }
     }
 }
