@@ -39,7 +39,7 @@ namespace Dzik.replying
                     // first add the part gathered so far, if any
                     if (part.Length > 0)
                     {
-                        finishedParts.Add(new MsgPart(part.ToString(), MsgPartType.TEXT));
+                        AddTrimmedPartOrSkipIfEmpty(part, finishedParts);
                         partialLen = 0;
                         part.Clear();
                     }
@@ -68,7 +68,7 @@ namespace Dzik.replying
 
                 if (partialLen + effectiveLine.Length > maxMsgLen)
                 {
-                    finishedParts.Add(new MsgPart(part.ToString(), MsgPartType.TEXT));
+                    AddTrimmedPartOrSkipIfEmpty(part, finishedParts);
                     partialLen = 0;
                     part.Clear();
                 }
@@ -87,6 +87,15 @@ namespace Dzik.replying
             }
 
             return finishedParts;
+        }
+
+        private static void AddTrimmedPartOrSkipIfEmpty(StringBuilder part, List<MsgPart> finishedParts)
+        {
+            var candidatePart = new MsgPart(part.ToString().Trim(), MsgPartType.TEXT);
+            if (candidatePart.content.Length > 0)
+            {
+                finishedParts.Add(candidatePart);
+            }
         }
     }
 

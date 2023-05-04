@@ -16,9 +16,10 @@ namespace Dzik.editing
         {
             try
             {
-                if (!content.StartsWith(Constants.MARKER_TO_DECRYPT_TAG)) return false;
+                var trimmedContent = content.Trim();
+                if (!trimmedContent.StartsWith(Constants.MARKER_TO_DECRYPT_TAG)) return false;
 
-                var ciphertext = content.Substring(Constants.MARKER_TO_DECRYPT_TAG.Length);
+                var ciphertext = trimmedContent.Substring(Constants.MARKER_TO_DECRYPT_TAG.Length);
                 var plainText = decryptor.Decrypt(ciphertext);
 
                 PlaintextWindow plainWindow = new PlaintextWindow(window, plainText);
