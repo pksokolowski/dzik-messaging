@@ -38,5 +38,9 @@ namespace Dzik
         /// </summary>
         public const int MostSensitiveDataRamExposureMaxTimeMillis = 5_000;
 
+        /// <summary>
+        /// Defines desired difficulty of breaking the password.
+        /// </summary>
+        public const int KeyDerivationIterationsCount = 1_000_002;
     }
 }

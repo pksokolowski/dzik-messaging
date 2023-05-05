@@ -29,7 +29,7 @@ namespace Dzik.crypto.protocols
             var cipherTextBytes = Base64PL.BytesFromString(cipherText);
             var plainTextBytes = AesTool.Decrypt(cipherTextBytes, key);
             var plainTextString = Encoding.UTF8.GetString(plainTextBytes);
-
+     
             return plainTextString;
         }
     }

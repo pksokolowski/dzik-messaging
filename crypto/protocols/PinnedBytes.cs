@@ -18,6 +18,10 @@ namespace Dzik.crypto.protocols
             bytes = new byte[length];
             handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
 
+            IntPtr bufPtr = this.handle.AddrOfPinnedObject();
+            UIntPtr cnt = new UIntPtr((uint)length);
+            VirtualLock(bufPtr, cnt);
+
             Alarmist.StartEggTimer();
         }
 
@@ -34,11 +38,22 @@ namespace Dzik.crypto.protocols
             {
                 bytes[i] = 0;
             }
+
+            IntPtr bufPtr = this.handle.AddrOfPinnedObject();
+            UIntPtr cnt = new UIntPtr((uint)bytes.Length);
+            VirtualUnlock(bufPtr, cnt);
+
             handle.Free();
             // make sure it cannot be used anymore.
             bytes = null;
 
             Alarmist.CancelEggTimer();
         }
+
+        [DllImport("kernel32.dll")]
+        private static extern bool VirtualLock(IntPtr lpAddress, UIntPtr dwSize);
+
+        [DllImport("kernel32.dll")]
+        private static extern bool VirtualUnlock(IntPtr lpAddress, UIntPtr dwSize);
     }
 }
