@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -60,6 +62,9 @@
     <Compile Include="crypto\algorithms\HmacTool.cs" />
     <Compile Include="crypto\algorithms\RsaTool.cs" />
     <Compile Include="crypto\protocols\KeysVault.cs" />
+    <Compile Include="crypto\protocols\PinnedBytes.cs" />
+    <Compile Include="crypto\protocols\ProtectedBytes.cs" />
+    <Compile Include="crypto\protocols\SensitiveDataExposureAlarmist.cs" />
     <Compile Include="crypto\utils\Base64PL.cs" />
     <Compile Include="domain\MsgCrypto.cs" />
     <Compile Include="editing\CiphertextHandler.cs" />
