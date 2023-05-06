@@ -14,7 +14,7 @@ namespace Dzik
 
 
         public const int MasterSymmetricKeyLenBytes = 32;
-        public const int MasterAuthhKeyLenBytes = 128;
+        public const int MasterAuthhKeyLenBytes = 64;
 
         public const int AesKeysLenBytes = 32;
         /// <summary>

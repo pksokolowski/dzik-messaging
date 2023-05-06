@@ -68,7 +68,7 @@ namespace Dzik
 
                     keysFromStorage.Dispose();
 
-                    keysVault = MasterKeysPacker.UnpackKeys(keys);
+                    keysVault = MasterKeysPacker.UnpackKeys(newKeys);
                     msgCryptoTool = new MsgCryptoTool(keysVault);
                 }
                 else

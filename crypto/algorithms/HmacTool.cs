@@ -11,7 +11,7 @@ namespace Dzik.crypto.algorithms
     internal class HmacTool
     {
         private const int FirstSignaturePartLen = 15;
-        private const int SecondSignaturePartLen = 64 - FirstSignaturePartLen;
+        private const int SecondSignaturePartLen = 32 - FirstSignaturePartLen;
         private const int SignatureLen = FirstSignaturePartLen + SecondSignaturePartLen;
 
         internal static byte[] GenerateKey()
@@ -59,7 +59,7 @@ namespace Dzik.crypto.algorithms
 
         internal static byte[] ComputeSignature(byte[] authKey, byte[] messageBytes)
         {
-            using (HMACSHA512 hmac = new HMACSHA512(authKey))
+            using (HMACSHA256 hmac = new HMACSHA256(authKey))
             {
                 return hmac.ComputeHash(messageBytes);
             }

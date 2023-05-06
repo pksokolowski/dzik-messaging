@@ -18,9 +18,9 @@ namespace Dzik.crypto.protocols
         private readonly ProtectedBytes masterKeyC;
         private readonly ProtectedBytes masterAuthenticationKey;
 
-        private const int envelopeHeaderLenBytes = 144;
+        private const int envelopeHeaderLenBytes = 112;
         private const int dataKeyLenBytes = 32;
-        private const int signatureLenBytes = 64;
+        private const int signatureLenBytes = 32;
 
         internal KeysVault(PinnedBytes masterA, PinnedBytes masterB, PinnedBytes masterC, PinnedBytes masterAuthenticationKey)
         {
