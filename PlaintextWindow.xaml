@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dzik"
         mc:Ignorable="d"
-        Title="Tekst odszyfrowany" Height="322" Width="514" Topmost="True" WindowStartupLocation="CenterOwner">
+        Title="Tekst odszyfrowany" Height="400" Width="760" Topmost="True" WindowStartupLocation="CenterOwner">
     <Grid>
         <TextBox x:Name="Output" Margin="0,0,0,63" TextWrapping="Wrap" Text="" IsReadOnly="True" IsReadOnlyCaretVisible="True" BorderThickness="0 2 0 2" Padding="2,2,2,2" Style="{DynamicResource InputTextBoxStyle}" VerticalScrollBarVisibility="Auto" FontSize="14"/>
         <Button x:Name="CloseWindowButton" Content="Zamknij" Margin="0,0,10,10" HorizontalAlignment="Right" Width="112" Height="48" VerticalAlignment="Bottom" Click="CloseWindowButton_Click"/>

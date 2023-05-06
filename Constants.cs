@@ -13,6 +13,8 @@ namespace Dzik
         internal const string MARKER_TO_DECRYPT_TAG = "ĘĘĘ";
 
 
+        public const int MIN_MSG_LENGTH_FOR_COMPRESSION = 201;
+
         public const int MasterSymmetricKeyLenBytes = 32;
         public const int MasterAuthhKeyLenBytes = 64;
 

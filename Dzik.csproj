@@ -75,6 +75,7 @@
     <Compile Include="crypto\utils\Base64PL.cs" />
     <Compile Include="crypto\utils\ByteArrayHexStringConverters.cs" />
     <Compile Include="crypto\utils\ByteArrayModificationUtils.cs" />
+    <Compile Include="crypto\utils\GzipCompressor.cs" />
     <Compile Include="crypto\utils\UnixDayStamper.cs" />
     <Compile Include="crypto\api\MsgCrypto.cs" />
     <Compile Include="editing\CiphertextHandler.cs" />

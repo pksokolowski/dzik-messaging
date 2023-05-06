@@ -64,6 +64,11 @@ namespace Dzik.replying
                     // just to indicate something is happening, replace with enryption once available.
                     var lineWithTrimmedMarker = effectiveLine.Substring(Constants.MARKER_TO_ENCRYPT_TAG.Length).TrimStart();
                     effectiveLine = Constants.MARKER_TO_DECRYPT_TAG + encryptor.Encrypt(lineWithTrimmedMarker);
+
+                    if (effectiveLine.Length + 1 > maxMsgLen)
+                    {
+                        throw new Exception("When encrypted, line surpasses the max message len limit. Unsupported case!");
+                    }
                 }
 
                 if (partialLen + effectiveLine.Length > maxMsgLen)
