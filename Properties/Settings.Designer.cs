@@ -73,7 +73,7 @@ namespace Dzik.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2990")]
+        [global::System.Configuration.DefaultSettingValueAttribute("16550")]
         public int MsgPartMaxLen {
             get {
                 return ((int)(this["MsgPartMaxLen"]));
