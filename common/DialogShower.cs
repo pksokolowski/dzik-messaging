@@ -17,7 +17,7 @@ namespace Dzik.common
 
         internal static void ShowDangerousWarning(string title, string message) => ShowDialog(title, message, MessageBoxImage.Warning);
         internal static void ShowError(string message) => ShowDialog("Wystąpił błąd", message, MessageBoxImage.Error);
-        internal static void ShowInfo(string title, string message) => ShowDialog(title, message, MessageBoxImage.Information);
+        internal static void ShowInfo(string message) => ShowDialog("Informacja", message, MessageBoxImage.Information);
 
         internal static UsersChoice ShowSaveExitCancelDialog(string title, string message)
         {

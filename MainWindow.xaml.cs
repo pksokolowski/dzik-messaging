@@ -1,11 +1,14 @@
 ﻿using Dzik.common;
 using Dzik.crypto.algorithms;
+using Dzik.crypto.api;
 using Dzik.crypto.protocols;
+using Dzik.data;
 using Dzik.domain;
 using Dzik.editing;
 using Dzik.Properties;
 using Dzik.replying;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,11 +30,13 @@ namespace Dzik
     /// </summary>
     public partial class MainWindow : Window
     {
-        private KeysVault keysVault = new KeysVault();
+        private KeysVault keysVault;
+        private MsgCryptoTool msgCryptoTool;
 
         public MainWindow()
         {
             InitializeComponent();
+            LoadMasterKeys();
 
             EditorStartBehavior.InitializeEditor(Input);
             DataLossPreventor.Setup(this, Input);
@@ -40,13 +45,47 @@ namespace Dzik
             Closing += MainWindow_Closing;
         }
 
+        private void LoadMasterKeys()
+        {
+            if (keysVault != null) return;
+
+            var keys = StorageManager.ReadMasterKeys();
+            using (keys)
+            {
+                if (keys == null)
+                {
+                    DialogShower.ShowInfo("Nie znaleziono kluczy, stworzone zostaną nowe");
+                    var newKeys = MasterKeysGenerator.GenerateMasterKeys();
+                    var successfullySavedNewKeys = StorageManager.WriteMasterKeys(newKeys);
+
+
+                    var keysFromStorage = StorageManager.ReadMasterKeys();
+
+                    if (!StructuralComparisons.StructuralEqualityComparer.Equals(keysFromStorage.bytes, newKeys))
+                    {
+                        throw new Exception("Saved new keys are not the same as the keys read right after!");
+                    }
+
+                    keysFromStorage.Dispose();
+
+                    keysVault = MasterKeysPacker.UnpackKeys(keys);
+                    msgCryptoTool = new MsgCryptoTool(keysVault);
+                }
+                else
+                {
+                    keysVault = MasterKeysPacker.UnpackKeys(keys);
+                    msgCryptoTool = new MsgCryptoTool(keysVault);
+                }
+            }
+        }
+
         private void QuoteButton_Click(object sender, RoutedEventArgs e)
         {
             var initialSelectionStart = Input.SelectionStart;
             var clipboardText = Clipboard.GetText();
 
             // Handlers in order, only one can handle the content, then return.
-            if (CiphertextHandler.Handle(this, clipboardText, keysVault)) return;
+            if (CiphertextHandler.Handle(this, clipboardText, msgCryptoTool)) return;
             QuotationHandler.Handle(Input, clipboardText);
         }
 
@@ -93,7 +132,7 @@ namespace Dzik
 
             try
             {
-                var msgParts = ReplyAssembler.Assemble(Input.Text, keysVault);
+                var msgParts = ReplyAssembler.Assemble(Input.Text, msgCryptoTool);
 
                 var replyWindow = new ReplyWindow(msgParts);
                 this.IsEnabled = false;

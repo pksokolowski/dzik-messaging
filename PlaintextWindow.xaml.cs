@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dzik.domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,11 +20,11 @@ namespace Dzik
     /// </summary>
     public partial class PlaintextWindow : Window
     {
-        public PlaintextWindow(Window owner, string content)
+        internal PlaintextWindow(Window owner, DecryptedMsg decryptedMsg)
         {
             this.Owner = owner;
             InitializeComponent();
-            Output.Text = content;
+            Output.Text = decryptedMsg.plainText;
         }
 
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)

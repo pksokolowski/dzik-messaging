@@ -5,24 +5,17 @@ using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Dzik.crypto.protocols
 {
-    internal class KeyStorage
+    internal static class KeyStorage
     {
-        private string KeyFilePath;
-        public KeyStorage(string keyFilePath)
-        {
-            KeyFilePath = keyFilePath;
-        }
-
-        internal bool IsKeyStored()
+        internal static bool IsKeyStored(string KeyFilePath)
         {
             return File.Exists(KeyFilePath);
         }
 
-        internal bool StoreKey(byte[] key, string password)
+        internal static bool StoreKey(string KeyFilePath, byte[] key, string password)
         {
             try
             {
@@ -36,7 +29,7 @@ namespace Dzik.crypto.protocols
             return true;
         }
 
-        internal bool StoreKey(byte[] key, byte[] KEK)
+        internal static bool StoreKey(string KeyFilePath, byte[] key, byte[] KEK)
         {
             try
             {
@@ -50,25 +43,33 @@ namespace Dzik.crypto.protocols
             return true;
         }
 
-        internal byte[] ReadKeyBytes(string password)
+        internal static byte[] ReadKeyBytes(string KeyFilePath, string password)
         {
             var keyFileContents = File.ReadAllBytes(KeyFilePath);
             return PasswordBasedEncryptor.Decrypt(keyFileContents, password);
         }
 
-        internal PinnedBytes ReadPinnedKeyBytes(SecureString password)
+        internal static PinnedBytes ReadPinnedKeyBytes(string KeyFilePath, SecureString password)
         {
             var keyFileContents = File.ReadAllBytes(KeyFilePath);
             return PasswordBasedEncryptor.DecryptPinned(keyFileContents, password);
         }
 
-        internal byte[] ReadKeyBytes(byte[] KEK)
+        internal static byte[] ReadKeyBytes(string KeyFilePath, byte[] KEK)
         {
             var keyFileContents = File.ReadAllBytes(KeyFilePath);
             return AesTool.Decrypt(KEK, keyFileContents);
         }
 
-        internal bool RemoveKey()
+        internal static PinnedBytes ReadPinnedKeyBytes(string KeyFilePath, byte[] KEK)
+        {
+            if (!IsKeyStored(KeyFilePath)) return null;
+
+            var keyFileContents = File.ReadAllBytes(KeyFilePath);
+            return AesTool.DecryptPinned(KEK, keyFileContents);
+        }
+
+        internal static bool RemoveKey(string KeyFilePath)
         {
             try
             {
@@ -82,11 +83,11 @@ namespace Dzik.crypto.protocols
         }
 
         /// <returns>key used for encrypting the data</returns>
-        internal byte[] BackupTheKey(string backupFilePath)
+        internal static byte[] BackupTheKey(string KeyFilePath, string backupFilePath)
         {
             try
             {
-                if (!IsKeyStored()) return null;
+                if (!IsKeyStored(KeyFilePath)) return null;
 
                 var fileBytes = File.ReadAllBytes(KeyFilePath);
 
@@ -103,9 +104,9 @@ namespace Dzik.crypto.protocols
             }
         }
 
-        internal bool RestoreBackup(string path, byte[] backupKey)
+        internal static bool RestoreBackup(string KeyFilePath, string path, byte[] backupKey)
         {
-            if (IsKeyStored()) return false;
+            if (IsKeyStored(KeyFilePath)) return false;
 
             var fileBytes = File.ReadAllBytes(path);
 

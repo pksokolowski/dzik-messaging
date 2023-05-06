@@ -23,99 +23,107 @@ namespace Dzik.crypto.algorithms
             }
         }
 
-        internal static byte[] Encrypt(byte[] plainText, byte[] Key, PaddingMode paddingMode = PaddingMode.PKCS7, CipherMode cipherMode = CipherMode.CBC)
+        internal static byte[] Encrypt(byte[] Key, byte[] plainText, PaddingMode paddingMode = PaddingMode.PKCS7, CipherMode cipherMode = CipherMode.CBC)
         {
-            if (plainText == null || plainText.Length <= 0)
-                throw new ArgumentNullException("plainText");
-            if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
-
-            using (Aes aes = new AesCng() { Mode = cipherMode, Padding = paddingMode })
+            try
             {
-                aes.Key = Key;
-                byte[] iv = aes.IV;
-
-                using (var encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
+                using (Aes aes = new AesCng() { Mode = cipherMode, Padding = paddingMode })
                 {
-                    var encrypted = PerformCryptography(plainText, encryptor);
+                    aes.Key = Key;
+                    byte[] iv = aes.IV;
 
-                    var encryptedMessage = new byte[iv.Length + encrypted.Length];
-                    Array.Copy(iv, 0, encryptedMessage, 0, iv.Length);
-                    Array.Copy(encrypted, 0, encryptedMessage, iv.Length, encrypted.Length);
-
-                    return encryptedMessage;
-                }
-            }
-
-        }
-
-        internal static byte[] Decrypt(byte[] encryptedMessageBytes, byte[] Key, PaddingMode paddingMode = PaddingMode.PKCS7, CipherMode cipherMode = CipherMode.CBC)
-        {
-            if (encryptedMessageBytes == null || encryptedMessageBytes.Length <= 0)
-                throw new ArgumentNullException("cipherText");
-            if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
-
-
-            using (Aes aes = new AesCng() { Mode = cipherMode, Padding = paddingMode })
-            {
-                byte[] iv = new byte[aes.IV.Length];
-                Array.Copy(encryptedMessageBytes, 0, iv, 0, iv.Length);
-
-                byte[] cipherText = new byte[encryptedMessageBytes.Length - iv.Length];
-                Array.Copy(encryptedMessageBytes, iv.Length, cipherText, 0, cipherText.Length);
-
-                aes.Key = Key;
-                aes.IV = iv;
-
-                using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
-                {
-                    return PerformCryptography(cipherText, decryptor);
-                }
-            }
-        }
-
-        internal static PinnedBytes DecryptPinned(byte[] encryptedMessageBytes, byte[] Key, PaddingMode paddingMode = PaddingMode.PKCS7, CipherMode cipherMode = CipherMode.CBC)
-        {
-            if (encryptedMessageBytes == null || encryptedMessageBytes.Length <= 0)
-                throw new ArgumentNullException("cipherText");
-            if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
-
-            using (Aes aes = new AesCng() { Mode = cipherMode, Padding = paddingMode })
-            {
-                byte[] iv = new byte[aes.IV.Length];
-                Array.Copy(encryptedMessageBytes, 0, iv, 0, iv.Length);
-
-                byte[] cipherText = new byte[encryptedMessageBytes.Length - iv.Length];
-                Array.Copy(encryptedMessageBytes, iv.Length, cipherText, 0, cipherText.Length);
-
-                aes.Key = Key;
-                aes.IV = iv;
-
-                PinnedBytes plaintextBlocks = new PinnedBytes(cipherText.Length);
-                PinnedBytes plaintext;
-
-                try
-                {
-                    using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
+                    using (var encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
                     {
-                        int written = decryptor.TransformBlock(cipherText, 0, cipherText.Length, plaintextBlocks.bytes, 0);
-                        byte[] lastBlock = decryptor.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
-                        Buffer.BlockCopy(lastBlock, 0, plaintextBlocks.bytes, written, lastBlock.Length);
+                        var encrypted = PerformCryptography(plainText, encryptor);
 
-                        plaintext = new PinnedBytes(written + lastBlock.Length);
-                        Array.Copy(plaintextBlocks.bytes, 0, plaintext.bytes, 0, plaintext.bytes.Length);
+                        var encryptedMessage = new byte[iv.Length + encrypted.Length];
+                        Array.Copy(iv, 0, encryptedMessage, 0, iv.Length);
+                        Array.Copy(encrypted, 0, encryptedMessage, iv.Length, encrypted.Length);
 
-                        plaintextBlocks.Dispose();
-                        return plaintext;
+                        return encryptedMessage;
                     }
                 }
-                catch
+
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        internal static byte[] Decrypt(byte[] Key, byte[] encryptedMessageBytes, PaddingMode paddingMode = PaddingMode.PKCS7, CipherMode cipherMode = CipherMode.CBC)
+        {
+            try
+            {
+
+
+                using (Aes aes = new AesCng() { Mode = cipherMode, Padding = paddingMode })
                 {
-                    plaintextBlocks.Dispose();                  
+                    byte[] iv = new byte[aes.IV.Length];
+                    Array.Copy(encryptedMessageBytes, 0, iv, 0, iv.Length);
+
+                    byte[] cipherText = new byte[encryptedMessageBytes.Length - iv.Length];
+                    Array.Copy(encryptedMessageBytes, iv.Length, cipherText, 0, cipherText.Length);
+
+                    aes.Key = Key;
+                    aes.IV = iv;
+
+                    using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
+                    {
+                        return PerformCryptography(cipherText, decryptor);
+                    }
                 }
-                throw new Exception("Failed to decrypt");
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        internal static PinnedBytes DecryptPinned(byte[] Key, byte[] encryptedMessageBytes, PaddingMode paddingMode = PaddingMode.PKCS7, CipherMode cipherMode = CipherMode.CBC)
+        {
+            try
+            {
+
+                using (Aes aes = new AesCng() { Mode = cipherMode, Padding = paddingMode })
+                {
+                    byte[] iv = new byte[aes.IV.Length];
+                    Array.Copy(encryptedMessageBytes, 0, iv, 0, iv.Length);
+
+                    byte[] cipherText = new byte[encryptedMessageBytes.Length - iv.Length];
+                    Array.Copy(encryptedMessageBytes, iv.Length, cipherText, 0, cipherText.Length);
+
+                    aes.Key = Key;
+                    aes.IV = iv;
+
+                    PinnedBytes plaintextBlocks = new PinnedBytes(cipherText.Length);
+                    PinnedBytes plaintext;
+
+                    try
+                    {
+                        using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
+                        {
+                            int written = decryptor.TransformBlock(cipherText, 0, cipherText.Length, plaintextBlocks.bytes, 0);
+                            byte[] lastBlock = decryptor.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+                            Buffer.BlockCopy(lastBlock, 0, plaintextBlocks.bytes, written, lastBlock.Length);
+
+                            plaintext = new PinnedBytes(written + lastBlock.Length);
+                            Array.Copy(plaintextBlocks.bytes, 0, plaintext.bytes, 0, plaintext.bytes.Length);
+
+                            plaintextBlocks.Dispose();
+                            return plaintext;
+                        }
+                    }
+                    catch
+                    {
+                        plaintextBlocks.Dispose();
+                    }
+                    throw new Exception("Failed to decrypt");
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
 
