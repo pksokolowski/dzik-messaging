@@ -61,10 +61,12 @@
     <Compile Include="crypto\algorithms\AesTool.cs" />
     <Compile Include="crypto\algorithms\HmacTool.cs" />
     <Compile Include="crypto\algorithms\RsaTool.cs" />
+    <Compile Include="crypto\protocols\KeyStorage.cs" />
     <Compile Include="crypto\protocols\KeysVault.cs" />
     <Compile Include="crypto\protocols\PasswordBasedEncryptor.cs" />
     <Compile Include="crypto\protocols\PinnedBytes.cs" />
     <Compile Include="crypto\protocols\ProtectedBytes.cs" />
+    <Compile Include="crypto\protocols\RandomKeyBasedEncryptor.cs" />
     <Compile Include="crypto\protocols\SensitiveDataExposureAlarmist.cs" />
     <Compile Include="crypto\utils\Base64PL.cs" />
     <Compile Include="domain\MsgCrypto.cs" />
