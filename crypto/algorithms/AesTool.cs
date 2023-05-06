@@ -131,19 +131,5 @@ namespace Dzik.crypto.algorithms
             }
         }
 
-        private static void PerformCryptography(byte[] data, ICryptoTransform cryptoTransform, byte[] output)
-        {
-            using (var ms = new MemoryStream())
-            using (var cryptoStream = new CryptoStream(ms, cryptoTransform, CryptoStreamMode.Write))
-            {
-                cryptoStream.Write(data, 0, data.Length);
-                cryptoStream.FlushFinalBlock();
-
-
-
-                ms.Read(output, 0, (int)ms.Length);
-            }
-        }
-
     }
 }
