@@ -24,7 +24,17 @@ namespace Dzik
         {
             this.Owner = owner;
             InitializeComponent();
+
             Output.Text = decryptedMsg.plainText;
+
+            var daysPluralIfNeeded = "dni";
+            if (decryptedMsg.daysSinceEncryption == 1) daysPluralIfNeeded = "dzień";
+            EncryptionAgeLabel.Content = $"Zaszyfrowano około {decryptedMsg.daysSinceEncryption} {daysPluralIfNeeded} temu.";
+
+            if(decryptedMsg.daysSinceEncryption > Constants.ReplayAttackMaxDaysWithoutWarning)
+            {
+                EncryptionAgeLabel.Foreground = Brushes.Red;               
+            }
         }
 
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
