@@ -18,9 +18,8 @@ namespace Dzik.crypto.protocols
         private readonly ProtectedBytes masterKeyC;
         private readonly ProtectedBytes masterAuthenticationKey;
 
-        private const int envelopeHeaderLenBytes = 160;
-        private const int dataKeyLenBytes = 32;
-        private const int dataKeyWithPaddingLenBytes = 36;
+        private const int envelopeHeaderLenBytes = 144;
+        private const int dataKeyLenBytes = 32;      
         private const int signatureLenBytes = 64;
 
         internal KeysVault(PinnedBytes masterA, PinnedBytes masterB, PinnedBytes masterC, PinnedBytes masterAuthenticationKey)
@@ -116,7 +115,7 @@ namespace Dzik.crypto.protocols
             if (signature == null) return null;
 
             // envelope data is combined
-            byte[] headerData = new byte[signatureLenBytes + dataKeyWithPaddingLenBytes];
+            byte[] headerData = new byte[signatureLenBytes + dataKeyLenBytes];
             Array.Copy(signature, 0, headerData, 0, signatureLenBytes);
             Array.Copy(dataKey, 0, headerData, signatureLenBytes, dataKeyLenBytes);
 
@@ -126,7 +125,7 @@ namespace Dzik.crypto.protocols
             var disposableKeyC = masterKeyC.obtainArray();
 
             // 3AES-encrypt header data
-            var A = AesTool.Encrypt(disposableKeyA.bytes, headerData);
+            var A = AesTool.Encrypt(disposableKeyA.bytes, headerData, PaddingMode.None);
             var B = AesTool.Encrypt(disposableKeyB.bytes, A, PaddingMode.None);
             var C = AesTool.Encrypt(disposableKeyC.bytes, B, PaddingMode.None);
 
@@ -161,7 +160,7 @@ namespace Dzik.crypto.protocols
             {
                 var B = AesTool.Decrypt(disposableKeyC.bytes, encryptedEnvelopeHeader, PaddingMode.None);
                 var A = AesTool.Decrypt(disposableKeyB.bytes, B, PaddingMode.None);
-                var envelopeHeader = AesTool.Decrypt(disposableKeyA.bytes, A);
+                var envelopeHeader = AesTool.Decrypt(disposableKeyA.bytes, A, PaddingMode.None);
 
                 if (envelopeHeader == null) return (null, null);
 
