@@ -19,7 +19,7 @@ namespace Dzik.crypto.protocols
         private readonly ProtectedBytes masterAuthenticationKey;
 
         private const int envelopeHeaderLenBytes = 144;
-        private const int dataKeyLenBytes = 32;      
+        private const int dataKeyLenBytes = 32;
         private const int signatureLenBytes = 64;
 
         internal KeysVault(PinnedBytes masterA, PinnedBytes masterB, PinnedBytes masterC, PinnedBytes masterAuthenticationKey)
@@ -125,9 +125,9 @@ namespace Dzik.crypto.protocols
             var disposableKeyC = masterKeyC.obtainArray();
 
             // 3AES-encrypt header data
-            var A = AesTool.Encrypt(disposableKeyA.bytes, headerData, PaddingMode.None);
-            var B = AesTool.Encrypt(disposableKeyB.bytes, A, PaddingMode.None);
-            var C = AesTool.Encrypt(disposableKeyC.bytes, B, PaddingMode.None);
+            var A = AesTool.Encrypt(disposableKeyA.bytes, DiffusionTool.ShifRight(headerData, 8), PaddingMode.None);
+            var B = AesTool.Encrypt(disposableKeyB.bytes, DiffusionTool.ShifRight(A, 8), PaddingMode.None);
+            var C = AesTool.Encrypt(disposableKeyC.bytes, DiffusionTool.ShifRight(B, 8), PaddingMode.None);
 
             // dispose of the plaintext keys
             disposableKeyA?.Dispose();
@@ -158,9 +158,9 @@ namespace Dzik.crypto.protocols
 
             try
             {
-                var B = AesTool.Decrypt(disposableKeyC.bytes, encryptedEnvelopeHeader, PaddingMode.None);
-                var A = AesTool.Decrypt(disposableKeyB.bytes, B, PaddingMode.None);
-                var envelopeHeader = AesTool.Decrypt(disposableKeyA.bytes, A, PaddingMode.None);
+                var B = DiffusionTool.ShifRight(AesTool.Decrypt(disposableKeyC.bytes, encryptedEnvelopeHeader, PaddingMode.None), -8);
+                var A = DiffusionTool.ShifRight(AesTool.Decrypt(disposableKeyB.bytes, B, PaddingMode.None), -8);
+                var envelopeHeader = DiffusionTool.ShifRight(AesTool.Decrypt(disposableKeyA.bytes, A, PaddingMode.None), -8);
 
                 if (envelopeHeader == null) return (null, null);
 
