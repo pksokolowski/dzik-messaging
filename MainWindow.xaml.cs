@@ -45,7 +45,7 @@ namespace Dzik
             Closing += MainWindow_Closing;
         }
 
-        private void LoadMasterKeys()
+        private async void LoadMasterKeys()
         {
             if (keysVault != null) return;
 
@@ -53,23 +53,12 @@ namespace Dzik
             using (keys)
             {
                 if (keys == null)
-                {
-                    DialogShower.ShowInfo("Nie znaleziono kluczy, stworzone zostaną nowe");
-                    var newKeys = MasterKeysGenerator.GenerateMasterKeys();
-                    var successfullySavedNewKeys = StorageManager.WriteMasterKeys(newKeys);
-
-
-                    var keysFromStorage = StorageManager.ReadMasterKeys();
-
-                    if (!StructuralComparisons.StructuralEqualityComparer.Equals(keysFromStorage.bytes, newKeys))
+                {                    
+                    await DzikKeyAgreement.Initialize((vault =>
                     {
-                        throw new Exception("Saved new keys are not the same as the keys read right after!");
-                    }
-
-                    keysFromStorage.Dispose();
-
-                    keysVault = MasterKeysPacker.UnpackKeys(newKeys);
-                    msgCryptoTool = new MsgCryptoTool(keysVault);
+                        keysVault = vault;
+                        msgCryptoTool = new MsgCryptoTool(vault);
+                    }));               
                 }
                 else
                 {
