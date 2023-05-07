@@ -10,12 +10,12 @@ namespace Dzik.replying
     internal static class ReplyAssembler
     {
 
-        internal static List<MsgPart> Assemble(string content, Encryptor encryptor)
+        internal static List<MsgPart> Assemble(string content, Encryptor encryptor, KeyExchangeResponseProvider keyExchangeResponseProvider)
         {
-            return Assemble(content, Settings.Default.MsgPartMaxLen, encryptor);
+            return Assemble(content, Settings.Default.MsgPartMaxLen, encryptor, keyExchangeResponseProvider);
         }
 
-        internal static List<MsgPart> Assemble(string content, int maxMsgLen, Encryptor encryptor)
+        internal static List<MsgPart> Assemble(string content, int maxMsgLen, Encryptor encryptor, KeyExchangeResponseProvider keyExchangeResponseProvider)
         {
             var lines = content.Split(new string[] { "\n" }, StringSplitOptions.None).ToList();
             var partialLen = 0;
@@ -31,6 +31,16 @@ namespace Dzik.replying
                 if (effectiveLine.Length + 1 > maxMsgLen)
                 {
                     throw new Exception("Line lenght surpasses the max message len limit. Unsupported case!");
+                }
+
+                // handle KEY_AGREEMENT_RESPONSE marker
+                if (effectiveLine.StartsWith(Constants.MARKER_INSERT_KEY_EXCHANGE_RESPONSE_HERE))
+                {
+                    var response = keyExchangeResponseProvider.GetKeyExchangeResponseOrNull();
+                    if (response != null)
+                    {
+                        effectiveLine = response;
+                    }
                 }
 
                 // handle IMG marker

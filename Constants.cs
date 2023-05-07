@@ -10,7 +10,9 @@ namespace Dzik
     {
         internal const string MARKER_IMAGE_TAG = "&IMG";
         internal const string MARKER_TO_ENCRYPT_TAG = "$";
-        internal const string MARKER_TO_DECRYPT_TAG = "ĘĘĘ";
+        internal const string MARKER_TO_DECRYPT_TAG = "ĘĘĘ";         
+        internal const string MARKER_KEY_EXCHANGE_RESPONSE_TO_INTERPRETE = "ęĘę";        
+        internal const string MARKER_INSERT_KEY_EXCHANGE_RESPONSE_HERE = "&INSERT_KEY_AGREEMENT_RESPONSE_HERE";        
 
 
         public const int MIN_MSG_LENGTH_FOR_COMPRESSION = 212;
@@ -19,6 +21,7 @@ namespace Dzik
         public const int MasterAuthhKeyLenBytes = 64;
 
         public const int AesKeysLenBytes = 32;
+        public const int RSA_KEY_LENGTH_BITS = 4096;
         /// <summary>
         /// must be set to 12.
         /// </summary>

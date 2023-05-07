@@ -80,6 +80,7 @@
     <Compile Include="crypto\algorithms\DiffusionTool.cs" />
     <Compile Include="crypto\algorithms\HmacTool.cs" />
     <Compile Include="crypto\algorithms\RsaTool.cs" />
+    <Compile Include="crypto\api\KeyAgreementResponseProviderImpl.cs" />
     <Compile Include="crypto\api\MsgCryptoTool.cs" />
     <Compile Include="crypto\protocols\DzikKeyAgreement.cs" />
     <Compile Include="crypto\protocols\KeyAgreementPacker.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="crypto\api\MsgCrypto.cs" />
     <Compile Include="crypto\utils\WindowsExplorerOpener.cs" />
     <Compile Include="editing\CiphertextHandler.cs" />
+    <Compile Include="editing\KeyAgreementResponseHandler.cs" />
     <Compile Include="editing\QuotationHandler.cs" />
     <Compile Include="PlaintextWindow.xaml.cs">
       <DependentUpon>PlaintextWindow.xaml</DependentUpon>

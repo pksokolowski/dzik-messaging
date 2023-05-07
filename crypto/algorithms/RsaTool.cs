@@ -10,7 +10,7 @@ namespace Dzik.crypto.algorithms
 {
     internal class RsaTool
     {
-        private const int KeySize = 16384;
+        private const int KeySize = Constants.RSA_KEY_LENGTH_BITS;
 
         public static KeyPair GenerateKeyPair()
         {

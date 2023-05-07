@@ -53,17 +53,26 @@ namespace Dzik
             using (keys)
             {
                 if (keys == null)
-                {                    
+                {
                     await DzikKeyAgreement.Initialize((vault =>
                     {
-                        keysVault = vault;
-                        msgCryptoTool = new MsgCryptoTool(vault);
-                    }));               
+                        // on new keys generated
+                        AcceptKeysVault(vault);
+                    }),
+                    (() =>
+                    {
+                        // on key exchange response ready
+                        Dispatcher.Invoke(new Action(() =>
+                        {
+                            ContentPaster.PasteAtTheBeginning(Input, Constants.MARKER_INSERT_KEY_EXCHANGE_RESPONSE_HERE + " Ta linijka zostanie podmieniona na wiadomość konfiguracyjną. Zachowaj ją w pierwszej wiadomości :)\n\n");
+                            DraftStorage.Store(Input);
+                            Input.Select(Input.Text.Length - 1, 0);
+                        }));
+                    }));
                 }
                 else
                 {
-                    keysVault = MasterKeysPacker.UnpackKeys(keys);
-                    msgCryptoTool = new MsgCryptoTool(keysVault);
+                    AcceptKeysVault(MasterKeysPacker.UnpackKeys(keys));
                 }
             }
         }
@@ -75,6 +84,11 @@ namespace Dzik
 
             // Handlers in order, only one can handle the content, then return.
             if (CiphertextHandler.Handle(this, clipboardText, msgCryptoTool)) return;
+            if (KeyAgreementResponseHandler.Handle(clipboardText, keysVault, vault =>
+            {
+                AcceptKeysVault(vault);
+
+            })) return;
             QuotationHandler.Handle(Input, clipboardText);
         }
 
@@ -121,7 +135,7 @@ namespace Dzik
 
             try
             {
-                var msgParts = ReplyAssembler.Assemble(Input.Text, msgCryptoTool);
+                var msgParts = ReplyAssembler.Assemble(Input.Text, msgCryptoTool, new KeyAgreementResponseProviderImpl());
 
                 var replyWindow = new ReplyWindow(msgParts);
                 this.IsEnabled = false;
@@ -133,6 +147,12 @@ namespace Dzik
                 DialogShower.ShowError("Generowanie odpowiedzi nie powiodło się. Możliwe powody:\n\n- bardzo długi blok tekstu, który samodzielnie przekracza limit długości pojedynczej wiadomości.\n\nBłąd szyfrowania, jeżeli występują elementy oznaczone do zaszyfrowania.");
             }
 
+        }
+
+        private void AcceptKeysVault(KeysVault vault)
+        {
+            keysVault = vault;
+            msgCryptoTool = new MsgCryptoTool(vault);
         }
 
 

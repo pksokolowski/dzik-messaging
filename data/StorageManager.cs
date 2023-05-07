@@ -17,6 +17,7 @@ namespace Dzik.data
         private static string MasterKeysPath = DataFolderPath + "/keys";
         private static string KeyAgreementChallengePath = DataFolderPath + "/challenge-Share";
         private static string KeyAgreementPrivateKeyPath = DataFolderPath + "/PrivateTemp-DoNotShare";
+        private static string KeyAgreementResponsePath = DataFolderPath + "/Response-Share.txt";
 
         private static byte[] MinimalDefenceKey = new byte[32] { 200, 3, 8, 3, 144, 3, 3, 77, 3, 144, 3, 3, 23, 3, 3, 12, 120, 3, 2, 3, 144, 3, 3, 77, 5, 144, 33, 163, 23, 111, 3, 121 };
 
@@ -76,6 +77,19 @@ namespace Dzik.data
         {
             EnsureDataFolderExists();
             KeyStorage.StoreKey(KeyAgreementPrivateKeyPath, privateKey, MinimalDefenceKey);
+        }
+
+        internal static void WriteKeyAgreementResponse(string response)
+        {
+            EnsureDataFolderExists();
+            File.WriteAllText(KeyAgreementResponsePath, response);
+        }
+
+        internal static string ReadKeyAgreementResponse()
+        {
+            EnsureDataFolderExists();
+            if (!File.Exists(KeyAgreementResponsePath)) return null;
+            return File.ReadAllText(KeyAgreementResponsePath);
         }
     }
 }

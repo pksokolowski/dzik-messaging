@@ -20,6 +20,11 @@ namespace Dzik.domain
         DecryptedMsg Decrypt(string basePlCiphertext);
     }
 
+    internal interface KeyExchangeResponseProvider
+    {
+        string GetKeyExchangeResponseOrNull();
+    }
+
     class DecryptedMsg
     {
         public string plainText;

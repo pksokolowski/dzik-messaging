@@ -14,5 +14,11 @@ namespace Dzik.editing
             var carretPos = tb.SelectionStart;
             tb.Text = tb.Text.Insert(tb.SelectionStart, content);
         }
+
+        internal static void PasteAtTheBeginning(TextBox tb, String content)
+        {
+            tb.Text = tb.Text.Insert(0, content);
+        }
+
     }
 }
