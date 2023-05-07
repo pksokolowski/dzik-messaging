@@ -84,6 +84,7 @@
     <Compile Include="crypto\api\KeyAgreementResponseProviderImpl.cs" />
     <Compile Include="crypto\api\MsgCryptoTool.cs" />
     <Compile Include="crypto\protocols\DzikKeyAgreement.cs" />
+    <Compile Include="crypto\protocols\FIleEncryptionTool.cs" />
     <Compile Include="crypto\protocols\KeyAgreementPacker.cs" />
     <Compile Include="crypto\protocols\KeyStorage.cs" />
     <Compile Include="crypto\protocols\KeysVault.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="crypto\api\MsgCrypto.cs" />
     <Compile Include="crypto\utils\WindowsExplorerOpener.cs" />
     <Compile Include="editing\CiphertextHandler.cs" />
+    <Compile Include="editing\FileDropHandler.cs" />
     <Compile Include="editing\KeyAgreementResponseHandler.cs" />
     <Compile Include="editing\QuotationHandler.cs" />
     <Compile Include="PlaintextWindow.xaml.cs">

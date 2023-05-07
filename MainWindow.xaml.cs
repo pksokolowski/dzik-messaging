@@ -33,6 +33,8 @@ namespace Dzik
         private KeysVault keysVault;
         private MsgCryptoTool msgCryptoTool;
 
+        private FileDropHandler fileDropHandler;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -40,6 +42,8 @@ namespace Dzik
 
             EditorStartBehavior.InitializeEditor(Input);
             DataLossPreventor.Setup(this, Input);
+
+            fileDropHandler = new FileDropHandler(Input, () => { return keysVault; });
 
             SourceInitialized += MainWindow_SourceInitialized;
             Closing += MainWindow_Closing;
@@ -98,7 +102,7 @@ namespace Dzik
             {
                 DraftStorage.Store(Input);
             }
-            catch (Exception)
+            catch
             {
                 DialogShower.ShowError("Zapisywanie wersji roboczej nie powiodło się.\n\nZalecane jest zbackupowanie tekstu ręcznie, just in case.");
             }
@@ -128,7 +132,7 @@ namespace Dzik
             {
                 DraftStorage.Store(Input);
             }
-            catch (Exception)
+            catch
             {
                 DialogShower.ShowError("Zapisywanie wersji roboczej nie powiodło się. Nie zatrzymano jednak procesu generowania odpowiedzi.");
             }
@@ -142,9 +146,9 @@ namespace Dzik
                 replyWindow.Closed += (_, __) => { this.IsEnabled = true; };
                 replyWindow.Show();
             }
-            catch (Exception)
+            catch
             {
-                DialogShower.ShowError("Generowanie odpowiedzi nie powiodło się. Możliwe powody:\n\n- bardzo długi blok tekstu, który samodzielnie przekracza limit długości pojedynczej wiadomości.\n\nBłąd szyfrowania, jeżeli występują elementy oznaczone do zaszyfrowania.");
+                DialogShower.ShowError("Generowanie odpowiedzi nie powiodło się. Prawdopodobne powody:\n\n- bardzo długi blok tekstu, który samodzielnie przekracza limit długości pojedynczej wiadomości.\n\n- błąd szyfrowania, jeżeli występują elementy oznaczone do zaszyfrowania.");
             }
 
         }
