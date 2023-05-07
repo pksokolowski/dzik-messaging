@@ -65,13 +65,10 @@ namespace Dzik.editing
                         case FileCryptoOperationResult.unknownError:
                             resultDescription = "BŁĄD";
                             break;
-                        case FileCryptoOperationResult.XamlMessageDetected:
-                            resultDescription = "ZNALEZIONO LIST";
-                            break;
                     }
 
                     var fileName = Path.GetFileName(file);
-                    builder.AppendLine($"Plik: \"{fileName}\" - {resultDescription}");
+                    builder.AppendLine($"Plik: \"{fileName}\" - {resultDescription}\n\nUwaga: Szyfrowanie plików operuje na kopiach - plik zaszyfrowany nazywa się tak, jak oryginał, ale nie ma rozszerzenia.");
                 }
 
                 DialogShower.ShowInfo(builder.ToString());

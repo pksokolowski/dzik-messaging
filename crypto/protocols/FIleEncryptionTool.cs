@@ -113,7 +113,6 @@ namespace Dzik.crypto.protocols
         decryptedOldCiphertext,
         fileIsEmpty,
         decryptionError,
-        unknownError,
-        XamlMessageDetected
+        unknownError   
     }
 }
