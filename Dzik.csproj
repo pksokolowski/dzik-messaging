@@ -103,6 +103,7 @@
     <Compile Include="crypto\api\MsgCrypto.cs" />
     <Compile Include="crypto\utils\WindowsExplorerOpener.cs" />
     <Compile Include="editing\CiphertextHandler.cs" />
+    <Compile Include="editing\PrefixAdder.cs" />
     <Compile Include="editing\FileDropHandler.cs" />
     <Compile Include="editing\KeyAgreementResponseHandler.cs" />
     <Compile Include="editing\QuotationHandler.cs" />

@@ -88,11 +88,7 @@ namespace Dzik
 
             // Handlers in order, only one can handle the content, then return.
             if (CiphertextHandler.Handle(this, clipboardText, msgCryptoTool)) return;
-            if (KeyAgreementResponseHandler.Handle(clipboardText, keysVault, vault =>
-            {
-                AcceptKeysVault(vault);
-
-            })) return;
+            if (KeyAgreementResponseHandler.Handle(clipboardText, keysVault, vault => { AcceptKeysVault(vault); })) return;
             QuotationHandler.Handle(Input, clipboardText);
         }
 
@@ -123,6 +119,11 @@ namespace Dzik
             Input.SelectionStart = initialSelectionStart + imgMarkerText.Length + 1;
             Input.SelectionLength = imgMarkerTextNoteInitialText.Length - 1;
             Input.Focus();
+        }
+
+        private void EncryptSelectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            PrefixAdder.Handle(Input, Constants.MARKER_TO_ENCRYPT_TAG);
         }
 
         private void ReplyButton_Click(object sender, RoutedEventArgs e)

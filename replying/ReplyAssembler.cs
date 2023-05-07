@@ -67,19 +67,20 @@ namespace Dzik.replying
                     for (int ii = i + 1; ii < lines.Count; ii++)
                     {
                         if (!lines[ii].StartsWith(Constants.MARKER_TO_ENCRYPT_TAG)) break;
-                        effectiveLine += '\n' + lines[ii];
+                        var lineWithMarkerTrimmed = lines[ii].Substring(Constants.MARKER_TO_ENCRYPT_TAG.Length).TrimStart();
+                        effectiveLine += '\n' + lineWithMarkerTrimmed;
                         // progress to the index of the last encryption marker in row, for loop will add 1 more on top of that later.
                         i = ii;
                     }
                     // just to indicate something is happening, replace with enryption once available.
                     var lineWithTrimmedMarker = effectiveLine.Substring(Constants.MARKER_TO_ENCRYPT_TAG.Length).TrimStart();
-                        effectiveLine = Constants.MARKER_TO_DECRYPT_TAG + encryptor.Encrypt(lineWithTrimmedMarker);
+                    effectiveLine = Constants.MARKER_TO_DECRYPT_TAG + encryptor.Encrypt(lineWithTrimmedMarker);
 
-                        if (effectiveLine.Length + 1 > maxMsgLen)
-                        {
-                            throw new Exception("When encrypted, line surpasses the max message len limit. Unsupported case!");
-                        }
-                    }              
+                    if (effectiveLine.Length + 1 > maxMsgLen)
+                    {
+                        throw new Exception("When encrypted, line surpasses the max message len limit. Unsupported case!");
+                    }
+                }
 
                 if (partialLen + effectiveLine.Length > maxMsgLen)
                 {

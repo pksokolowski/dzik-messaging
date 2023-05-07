@@ -16,6 +16,8 @@ namespace Dzik.editing
         {
             try
             {
+                if (content.Trim().Length == 0) return;
+
                 var initialSelectionStart = tb.SelectionStart;
 
                 var quoted = LinesPrepender.Prepended(content, "> ", true);

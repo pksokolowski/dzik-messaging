@@ -23,9 +23,23 @@ namespace Dzik.editing
             }
         }
 
+        internal static String PrependedRetainingNewLines(String content, String newLinePrefix, bool forcePrefixAtTheBeginning)
+        {
+            var withReplacedNewLines = content.Replace("\n", $"\n{newLinePrefix}");
+
+            if (forcePrefixAtTheBeginning)
+            {
+                return newLinePrefix + withReplacedNewLines;
+            }
+            else
+            {
+                return withReplacedNewLines;
+            }
+        }
+
         internal static bool IsCarretAtTheBeginningOfLine(TextBox input)
         {
-            var cStart = input.SelectionStart;      
+            var cStart = input.SelectionStart;
             return cStart == 0 || input.Text[cStart - 1] == '\n';
         }
 
