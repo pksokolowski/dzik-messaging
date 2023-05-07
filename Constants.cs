@@ -21,7 +21,7 @@ namespace Dzik
         public const int MasterAuthhKeyLenBytes = 64;
 
         public const int AesKeysLenBytes = 32;
-        public const int RSA_KEY_LENGTH_BITS = 4096;
+        public const int RSA_KEY_LENGTH_BITS = 16384;
         /// <summary>
         /// must be set to 12.
         /// </summary>
