@@ -68,9 +68,10 @@ namespace Dzik.editing
                     }
 
                     var fileName = Path.GetFileName(file);
-                    builder.AppendLine($"Plik: \"{fileName}\" - {resultDescription}\n\nUwaga: Szyfrowanie plików operuje na kopiach - plik zaszyfrowany nazywa się tak, jak oryginał, ale nie ma rozszerzenia.");
+                    builder.AppendLine($"Plik: \"{fileName}\" - {resultDescription}\n");
                 }
 
+                builder.AppendLine("Szyfrowanie plików operuje na kopiach - plik zaszyfrowany nazywa się tak jak oryginał, ale nie ma rozszerzenia.");
                 DialogShower.ShowInfo(builder.ToString());
             }
         }
