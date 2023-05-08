@@ -77,6 +77,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Constants.cs" />
+    <Compile Include="crypto\algorithms\AesCtrTool.cs" />
     <Compile Include="crypto\algorithms\AesTool.cs" />
     <Compile Include="crypto\algorithms\DiffusionTool.cs" />
     <Compile Include="crypto\algorithms\HmacTool.cs" />
