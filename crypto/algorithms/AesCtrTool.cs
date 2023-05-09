@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dzik.crypto.protocols;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -16,7 +17,7 @@ namespace Dzik.crypto.algorithms
                 if (nonce.Length != NONCE_LEN) throw new Exception("nonce must be 12 bytes long");
                 if (key.Length != KEY_LEN) throw new Exception("Key must be 32 bytes long");
 
-                var blocksNeeded = data.Length / BLOCK_LEN;
+                var blocksNeeded = (data.Length / BLOCK_LEN) + 1;
                 var streamFrames = new byte[blocksNeeded * BLOCK_LEN];
 
                 for (uint i = 0; i < blocksNeeded; i++)
@@ -31,7 +32,7 @@ namespace Dzik.crypto.algorithms
                     Array.Copy(frame, 0, streamFrames, i * BLOCK_LEN, BLOCK_LEN);
                 }
 
-                var streamKey = AesTool.Encrypt(key, streamFrames, PaddingMode.None, CipherMode.ECB);
+                var streamKey = EncryptECB(key, streamFrames);
 
                 var output = new byte[data.Length];
 
@@ -40,11 +41,29 @@ namespace Dzik.crypto.algorithms
                     output[i] = (byte)(data[i] ^ streamKey[i]);
                 });
 
-                return new byte[] { };
+                return output;
             }
             catch
             {
                 return null;
+            }
+        }
+
+
+        private static byte[] EncryptECB(byte[] Key, byte[] data)
+        {
+            using (Aes aes = new AesCng() { Mode = CipherMode.ECB, Padding = PaddingMode.None })
+            {
+                var output = new byte[data.Length];
+                aes.Key = Key;
+                using (var encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
+                {
+                    int written = encryptor.TransformBlock(data, 0, data.Length, output, 0);
+                    byte[] lastBlock = encryptor.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+                    Buffer.BlockCopy(lastBlock, 0, output, written, lastBlock.Length);
+
+                    return output;
+                }
             }
         }
 

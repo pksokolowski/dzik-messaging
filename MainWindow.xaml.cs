@@ -2,6 +2,7 @@
 using Dzik.crypto.algorithms;
 using Dzik.crypto.api;
 using Dzik.crypto.protocols;
+using Dzik.crypto.utils;
 using Dzik.data;
 using Dzik.domain;
 using Dzik.editing;
