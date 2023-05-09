@@ -16,19 +16,23 @@ namespace Dzik.crypto.protocols
         private readonly ProtectedBytes masterKeyA;
         private readonly ProtectedBytes masterKeyB;
         private readonly ProtectedBytes masterKeyC;
+        private readonly ProtectedBytes masterKeyD;
+        private readonly ProtectedBytes masterKeyE;
         private readonly ProtectedBytes masterAuthenticationKey;
-
+        
         private const int envelopeHeaderLenBytes = 112;
         private const int dataKeyLenBytes = 32;
         private const int signatureLenBytes = 32;
 
-        internal KeysVault(PinnedBytes masterA, PinnedBytes masterB, PinnedBytes masterC, PinnedBytes masterAuthenticationKey)
+        internal KeysVault(PinnedBytes masterA, PinnedBytes masterB, PinnedBytes masterC, PinnedBytes masterD, PinnedBytes masterE, PinnedBytes masterAuthenticationKey)
         {
             this.masterKeyA = new ProtectedBytes(masterA);
             this.masterKeyB = new ProtectedBytes(masterB);
             this.masterKeyC = new ProtectedBytes(masterC);
+            this.masterKeyD = new ProtectedBytes(masterD);
+            this.masterKeyE = new ProtectedBytes(masterE);
             this.masterAuthenticationKey = new ProtectedBytes(masterAuthenticationKey);
-
+           
             ((App)Application.Current).Exit += KeysVault_Exit;
         }
 
