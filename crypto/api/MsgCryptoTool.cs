@@ -24,7 +24,7 @@ namespace Dzik.crypto.api
             var plaintextBytes = Encoding.UTF8.GetBytes(plainText);
             var plainTextCompressedInfNeeded = CompressIfNeeded(plaintextBytes);
             var cipherTextBytes = keysVault.EncryptAndSign(plainTextCompressedInfNeeded);
-            var ciphertextString = Base64PL.StringFromBytes(cipherTextBytes);
+            var ciphertextString = Base256.StringFromBytes(cipherTextBytes);
 
             return ciphertextString;
         }
@@ -32,7 +32,7 @@ namespace Dzik.crypto.api
 
         public DecryptedMsg Decrypt(string cipherText)
         {
-            var cipherTextBytes = Base64PL.BytesFromString(cipherText);
+            var cipherTextBytes = Base256.BytesFromString(cipherText);
             var verifyAndDecryptResult = keysVault.VerifyAndDecrypt(cipherTextBytes);
             var plaintextBytesDecompressedIfNeeded = HandleCompressionIfAny(verifyAndDecryptResult.plainText);
             var plainTextString = Encoding.UTF8.GetString(plaintextBytesDecompressedIfNeeded);

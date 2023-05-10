@@ -97,6 +97,7 @@
     <Compile Include="crypto\protocols\ProtectedBytes.cs" />
     <Compile Include="crypto\protocols\RandomKeyBasedEncryptor.cs" />
     <Compile Include="crypto\protocols\SensitiveDataExposureAlarmist.cs" />
+    <Compile Include="crypto\utils\Base256.cs" />
     <Compile Include="crypto\utils\Base64PL.cs" />
     <Compile Include="crypto\utils\ByteArrayHexStringConverters.cs" />
     <Compile Include="crypto\utils\ByteArrayModificationUtils.cs" />
