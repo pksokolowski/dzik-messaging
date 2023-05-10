@@ -69,7 +69,7 @@ namespace Dzik.crypto.algorithms
 
         private const int BLOCK_LEN = 16;
         private const int COUNTER_LEN = 4;
-        private const int NONCE_LEN = 12;
+        private const int NONCE_LEN = Constants.CtrNonceLengthBytes;
         private const int KEY_LEN = 32;
     }
 }

@@ -19,7 +19,7 @@ namespace Dzik.crypto.protocols
         private readonly ProtectedBytes masterKeyD;
         private readonly ProtectedBytes masterKeyE;
         private readonly ProtectedBytes masterAuthenticationKey;
-        
+
         private const int envelopeHeaderLenBytes = 112;
         private const int dataKeyLenBytes = 32;
         private const int signatureLenBytes = 32;
@@ -32,7 +32,7 @@ namespace Dzik.crypto.protocols
             this.masterKeyD = new ProtectedBytes(masterD);
             this.masterKeyE = new ProtectedBytes(masterE);
             this.masterAuthenticationKey = new ProtectedBytes(masterAuthenticationKey);
-           
+
             ((App)Application.Current).Exit += KeysVault_Exit;
         }
 
@@ -67,11 +67,14 @@ namespace Dzik.crypto.protocols
             Array.Copy(header, 0, message, 0, header.Length);
             Array.Copy(encryptedData, 0, message, header.Length, encryptedData.Length);
 
-            return message;
+            return DeterministicCtrHardener.ToggleHardening(masterKeyD, message);
         }
 
-        internal VerifyAndDecryptResult VerifyAndDecrypt(byte[] encryptedMessage)
+        internal VerifyAndDecryptResult VerifyAndDecrypt(byte[] encryptedHardenedMessage)
         {
+            // toggle off hardening
+            var encryptedMessage = DeterministicCtrHardener.ToggleHardening(masterKeyD, encryptedHardenedMessage);
+
             // if entire message is smaller than header size, the format is incorrect.
             if (encryptedMessage.Length < envelopeHeaderLenBytes) return null;
 

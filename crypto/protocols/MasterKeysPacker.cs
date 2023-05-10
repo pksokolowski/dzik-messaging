@@ -14,7 +14,7 @@ namespace Dzik.crypto.protocols
     {
         private const int keyLenBytes = Constants.MasterSymmetricKeyLenBytes;
         private const int authKeyLenBytes = Constants.MasterAuthhKeyLenBytes;
-        private const int allKeysBundleLen = 3 * keyLenBytes + authKeyLenBytes;
+        private const int allKeysBundleLen = 5 * keyLenBytes + authKeyLenBytes;
 
         internal static byte[] PackKeys(byte[] masterA, byte[] masterB, byte[] masterC, byte[] masterD, byte[] masterE, byte[] hmacKey)
         {

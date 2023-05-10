@@ -25,12 +25,7 @@ namespace Dzik
         /// <summary>
         /// must be set to 12.
         /// </summary>
-        public const int GcmNonceLengthBytes = 12;
-
-        /// <summary>
-        /// Must be set to 16.
-        /// </summary>
-        public const int GcmTagLengthBytes = 16;
+        public const int CtrNonceLengthBytes = 12;   
 
         /// <summary>
         /// After more than this many days since encryption of the message encountered, 

@@ -84,6 +84,7 @@
     <Compile Include="crypto\algorithms\RsaTool.cs" />
     <Compile Include="crypto\api\KeyAgreementResponseProviderImpl.cs" />
     <Compile Include="crypto\api\MsgCryptoTool.cs" />
+    <Compile Include="crypto\protocols\DeterministicCtrHardener.cs" />
     <Compile Include="crypto\protocols\DzikKeyAgreement.cs" />
     <Compile Include="crypto\protocols\FIleEncryptionTool.cs" />
     <Compile Include="crypto\protocols\KeyAgreementPacker.cs" />
