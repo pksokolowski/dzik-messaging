@@ -46,7 +46,7 @@ namespace Dzik.crypto.protocols
                 var masterKeysEncryptedWithPublicKey = RsaTool.Encrypt(publicKey, newKeys);
                 var response = AesTool.Encrypt(exchangeSymKey, masterKeysEncryptedWithPublicKey);
 
-                var readyResponse = Constants.MARKER_KEY_EXCHANGE_RESPONSE_TO_INTERPRETE + Base64PL.StringFromBytes(response);
+                var readyResponse = Constants.MARKER_KEY_EXCHANGE_RESPONSE_TO_INTERPRETE + Base256.StringFromBytes(response);
 
                 StorageManager.WriteMasterKeys(newKeys);
                 StorageManager.WriteKeyAgreementResponse(readyResponse);
@@ -64,17 +64,15 @@ namespace Dzik.crypto.protocols
         internal static void AcceptResponse(string responseWithMarker, Action<KeysVault> onKeysReceivedInExchange)
         {
             // if doesnt have private keys, throw exception
-            var privateKeyBytes = StorageManager.ReadKeyAgreementPrivateKeyOrNull();
-            if (privateKeyBytes == null) throw new Exception("No private key found");
-            var challengeBytes = StorageManager.ReadKeyAgreementChallengeOrNull();
-            if (challengeBytes == null) throw new Exception("Could not find challenge file.");
+            var privateKeyBytes = StorageManager.ReadKeyAgreementPrivateKeyOrNull() ?? throw new Exception("No private key found");
+            var challengeBytes = StorageManager.ReadKeyAgreementChallengeOrNull() ?? throw new Exception("Could not find challenge file.");
 
             var privateKey = KeyAgreementPacker.UnpackPrivateKey(privateKeyBytes);
             var (publicKey, exchangeSymKey) = KeyAgreementPacker.UnpackChallenge(challengeBytes);
 
             // decrypt response and save master secrets.
             var response = responseWithMarker.Substring(Constants.MARKER_KEY_EXCHANGE_RESPONSE_TO_INTERPRETE.Length);
-            var responseBytes = Base64PL.BytesFromString(response);
+            var responseBytes = Base256.BytesFromString(response);
 
             var decryptedInnedCiphertext = AesTool.Decrypt(exchangeSymKey, responseBytes);
             var plaintextMasterKeys = RsaTool.Decrypt(privateKey, decryptedInnedCiphertext);
