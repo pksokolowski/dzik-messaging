@@ -20,7 +20,7 @@ namespace Dzik.crypto.protocols
             // if has nothing, generate private keys and challenge, then return
             if (challenge == null && privateKey == null)
             {
-                DialogShower.ShowInfo("Rozpoczęto generowanie challengu, nie wyłączaj apki");
+                DialogShower.ShowInfo("Rozpoczęto generowanie challengu, nie wyłączaj apki.\n\nTo może potrwać kilka minut.");
 
                 var keyPair = await Task.Run(() => RsaTool.GenerateKeyPair());
                 var symKey = AesTool.GenerateKey();
