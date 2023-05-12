@@ -1,4 +1,5 @@
 ﻿using Dzik.common;
+using Dzik.crypto.utils;
 using Dzik.domain;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Dzik.editing
             try
             {
                 var trimmedContent = content.Trim();
-                if (!trimmedContent.StartsWith(Constants.MARKER_TO_DECRYPT_TAG)) return false;
+                if (!TagUtil.StartsWithTag(Constants.MARKER_TO_DECRYPT_TAG, trimmedContent)) return false;
 
                 var ciphertext = trimmedContent.Substring(Constants.MARKER_TO_DECRYPT_TAG.Length);
                 var decryptedMsg = decryptor.Decrypt(ciphertext);

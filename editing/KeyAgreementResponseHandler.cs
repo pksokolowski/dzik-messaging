@@ -1,5 +1,6 @@
 ﻿using Dzik.common;
 using Dzik.crypto.protocols;
+using Dzik.crypto.utils;
 using Dzik.domain;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Dzik.editing
             try
             {
                 if (keysVault != null) return false;
-                if (!content.StartsWith(Constants.MARKER_KEY_EXCHANGE_RESPONSE_TO_INTERPRETE)) return false;
+                if (!TagUtil.StartsWithTag(Constants.MARKER_KEY_EXCHANGE_RESPONSE_TO_INTERPRETE, content)) return false;
 
                 DzikKeyAgreement.AcceptResponse(content, onKeysReceivedInExchange);
 

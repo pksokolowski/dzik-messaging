@@ -102,6 +102,7 @@
     <Compile Include="crypto\utils\ByteArrayHexStringConverters.cs" />
     <Compile Include="crypto\utils\ByteArrayModificationUtils.cs" />
     <Compile Include="crypto\utils\GzipCompressor.cs" />
+    <Compile Include="crypto\utils\TagUtil.cs" />
     <Compile Include="crypto\utils\UnixDayStamper.cs" />
     <Compile Include="crypto\api\MsgCrypto.cs" />
     <Compile Include="crypto\utils\WindowsExplorerOpener.cs" />
