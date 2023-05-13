@@ -27,7 +27,10 @@ namespace Dzik
             LoadMasterKeys();
 
             EditorStartBehavior.InitializeEditor(Input);
-            DataLossPreventor.Setup(this, Input);
+            DataLossPreventor.Setup(this, Input, hasUnsavedChanges =>
+            {
+                if (hasUnsavedChanges) { Title = "*Dzik"; } else { Title = "Dzik"; }
+            });
 
             fileDropHandler = new FileDropHandler(Input, () => { return keysVault; });
 
@@ -81,6 +84,15 @@ namespace Dzik
         private void SaveDraftButton_Click(object sender, RoutedEventArgs e)
         {
             SaveDraft();
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                SaveDraft();
+                e.Handled = true;
+            }
         }
 
         private void SaveDraft()
@@ -179,15 +191,6 @@ namespace Dzik
             }
 
             Settings.Default.Save();
-        }
-
-        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control)
-            {
-                SaveDraft();
-                e.Handled = true;
-            }
         }
     }
 }

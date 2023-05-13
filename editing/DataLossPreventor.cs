@@ -12,26 +12,39 @@ namespace Dzik.editing
 {
     internal static class DataLossPreventor
     {
-        internal static void Setup(Window window, TextBox input)
+        internal static void Setup(Window window, TextBox input, Action<bool> onHasUnsavedChangesChanged)
         {
             ((App)Application.Current).SessionEnding += DataLossPreventor.OnSessionEnding;
             window.Closing += Window_Closing;
 
             inputTextBox = input;
             inputTextBox.TextChanged += InputTextBox_TextChanged;
+            OnHasUnsavedChangesChanged = onHasUnsavedChangesChanged;
         }
 
         private static void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             HasPotentiallyUnsavedChanges = true;
+            SignalUnsavedChangesState(true);
         }
 
         private static TextBox inputTextBox;
         private static bool HasPotentiallyUnsavedChanges = false;
+        private static bool LastNotifiedHasUnsavedChState = false;
+        private static Action<bool> OnHasUnsavedChangesChanged;
 
         internal static void OnDataSaved()
         {
             HasPotentiallyUnsavedChanges = false;
+            SignalUnsavedChangesState(false);
+        }
+
+        private static void SignalUnsavedChangesState(bool hasUnsavedChanges)
+        {
+            if (hasUnsavedChanges == LastNotifiedHasUnsavedChState) return;
+            LastNotifiedHasUnsavedChState = hasUnsavedChanges;
+
+            OnHasUnsavedChangesChanged(hasUnsavedChanges);
         }
 
         private static void OnSessionEnding(object sender, SessionEndingCancelEventArgs e)
