@@ -7,6 +7,7 @@ using Dzik.Properties;
 using Dzik.replying;
 using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Dzik
 {
@@ -78,6 +79,11 @@ namespace Dzik
         }
 
         private void SaveDraftButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveDraft();
+        }
+
+        private void SaveDraft()
         {
             try
             {
@@ -173,6 +179,15 @@ namespace Dzik
             }
 
             Settings.Default.Save();
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                SaveDraft();
+                e.Handled = true;
+            }
         }
     }
 }
