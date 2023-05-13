@@ -16,11 +16,13 @@ namespace Dzik.editing
         {
             try
             {
-                if (content.Trim().Length == 0) return;
+                var trimmedContent = content.Trim();
+
+                if (trimmedContent.Length == 0) return;
 
                 var initialSelectionStart = tb.SelectionStart;
 
-                var quoted = LinesPrepender.Prepended(content, "> ", true);
+                var quoted = LinesPrepender.Prepended(trimmedContent, "> ", true);
                 if (!LinesPrepender.IsCarretAtTheBeginningOfLine(tb)) quoted = "\n\n" + quoted;
 
                 // add line breaks after, for convenience
