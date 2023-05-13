@@ -27,7 +27,7 @@ namespace Dzik.crypto.utils
 
             for (int i = 0; i < input.Length; i++)
             {
-                output[i] = (byte)(((int)input[i]) - GetByteShift(input[i]));
+                output[i] = (byte)(input[i] - GetByteShift(input[i]));
             }
 
             return output;
@@ -35,15 +35,21 @@ namespace Dzik.crypto.utils
 
         internal static int GetUTF16Shift(byte b)
         {
-            if (b < 198) return 249;
-            return 603;
+            if (b < SECOND_RANGE_BYTE_THRESHOLD) return FIRST_RANGE_UTF_START;
+            return SECOND_RANGE_CORRECTED;
         }
 
         internal static int GetByteShift(int utf16)
         {
-            if (utf16 >= 603) return 603;
-            return 249;
+            if (utf16 >= SECOND_RANGE_CORRECTED) return SECOND_RANGE_CORRECTED;
+            return FIRST_RANGE_UTF_START;
         }
+        
+        internal const int FIRST_RANGE_UTF_START = 249;
+        internal const int SECOND_RANGE_UTF_START = 768;
+        internal const int SECOND_RANGE_BYTE_THRESHOLD = 155;
+
+        internal const int SECOND_RANGE_CORRECTED = SECOND_RANGE_UTF_START - SECOND_RANGE_BYTE_THRESHOLD;
     }
 }
 
