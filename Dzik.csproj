@@ -101,11 +101,13 @@
     <Compile Include="crypto\utils\Base64PL.cs" />
     <Compile Include="crypto\utils\ByteArrayHexStringConverters.cs" />
     <Compile Include="crypto\utils\ByteArrayModificationUtils.cs" />
+    <Compile Include="crypto\utils\CompressorPL.cs" />
     <Compile Include="crypto\utils\GzipCompressor.cs" />
     <Compile Include="crypto\utils\TagUtil.cs" />
     <Compile Include="crypto\utils\UnixDayStamper.cs" />
     <Compile Include="crypto\api\MsgCrypto.cs" />
     <Compile Include="crypto\utils\WindowsExplorerOpener.cs" />
+    <Compile Include="data\PolishVocabularyLoader.cs" />
     <Compile Include="editing\CiphertextHandler.cs" />
     <Compile Include="editing\PrefixAdder.cs" />
     <Compile Include="editing\FileDropHandler.cs" />
@@ -188,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <None Include="Resources\PolishVocabulary.txt" />
     <Resource Include="Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
