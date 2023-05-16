@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dzik.common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,53 +11,52 @@ namespace Dzik.crypto.utils
     {
         private readonly Dictionary<ushort, string> IntToWord = new Dictionary<ushort, string>();
         private readonly Dictionary<string, ushort> WordToInt = new Dictionary<string, ushort>();
-        private readonly HashSet<char> initialChars = new HashSet<char>();
+
         public CompressorPL(string[] vocabulary)
         {
             // populate dictionary
             for (int i = 0; i < vocabulary.Length; i++)
             {
+                if (WordToInt.ContainsKey(vocabulary[i])) continue;
                 IntToWord.Add((ushort)i, vocabulary[i]);
                 WordToInt.Add(vocabulary[i], (ushort)i);
-
-                initialChars.Add(vocabulary[i][0]);
             }
         }
 
         internal string Compress(string input)
         {
-            var s = input.Replace(COMPRESSOR_MARKER, 'x');
-
+            var s = input.Replace(NEXT_CHAR_IS_NOT_COMPRESSED_MARKER, 'x');
             var builder = new StringBuilder();
 
             for (int i = 0; i < s.Length; i++)
             {
                 var c = s[i];
-                if (initialChars.Contains(c))
-                {
-                    var wordEndIndex = IndexOfWordEnd(s, i);
-                    var wordSubstring = s.Substring(i, wordEndIndex - i);
+                var extraShift = 0;
 
-                    if (WordToInt.ContainsKey(wordSubstring))
-                    {
-                        // compress word
-                        var vocabIndex = WordToInt[wordSubstring];
-                        var encodedIndex = (char)vocabIndex;
-                        builder.Append(COMPRESSOR_MARKER);
-                        builder.Append(encodedIndex);
-                    }
-                    else
-                    {
-                        builder.Append(wordSubstring);
-                    }
-
-                    i += wordSubstring.Length - 1;
-                }
-                else
+                if (c >= COMPRESSION_SYMBOLS_ZERO)
                 {
+                    builder.Append(NEXT_CHAR_IS_NOT_COMPRESSED_MARKER);
                     builder.Append(c);
+                    continue;
                 }
+
+                for (int ii = PART_MAX_LEN; ii >= PART_MIN_LEN; ii--)
+                {
+                    if (i + ii >= input.Length) continue;
+
+                    var candidate = s.Substring(i, ii);
+                    var candidateCode = CodeForString(candidate);
+                    if (candidateCode == -1) continue;
+
+                    c = (char)candidateCode;
+                    extraShift = ii - 1;
+                    break;
+                }
+
+                builder.Append(c);
+                i += extraShift;
             }
+
             return builder.ToString();
         }
 
@@ -66,30 +66,43 @@ namespace Dzik.crypto.utils
 
             for (int i = 0; i < input.Length; i++)
             {
-                if (input[i] == COMPRESSOR_MARKER)
+                if (input[i] == NEXT_CHAR_IS_NOT_COMPRESSED_MARKER)
                 {
-                    var compressedWordIndex = (ushort)input[i + 1];
-                    var word = IntToWord[compressedWordIndex];
-                    builder.Append(word);
+                    builder.Append(input[i + 1]);
+                    i += 1;
                 }
                 else
                 {
-                    builder.Append(input[i]);
+                    if (input[i] >= COMPRESSION_SYMBOLS_ZERO)
+                    {
+                        var s = CodeToString(input[i]);
+                        builder.Append(s);
+                    }
+                    else
+                    {
+                        builder.Append(input[i]);
+                    }
                 }
             }
+
             return builder.ToString();
         }
 
-        private int IndexOfWordEnd(string s, int startIndex)
+        private int CodeForString(string input)
         {
-            for (int i = startIndex; i < s.Length; ++i)
-            {
-                if (NON_WORD_CHARS.Contains(s[i])) return i;
-            }
-            return s.Length;
+            if (!WordToInt.ContainsKey(input)) return -1;
+            return COMPRESSION_SYMBOLS_ZERO + WordToInt[input];
         }
 
-        private const char COMPRESSOR_MARKER = (char)215;
-        private HashSet<char> NON_WORD_CHARS = new HashSet<char>() { ' ', ',', '.', ';', '"', '\'', '(', ')', '/' };
+        private string CodeToString(ushort code)
+        {
+            return IntToWord[(ushort)(code - COMPRESSION_SYMBOLS_ZERO)];
+        }
+
+        private const char NEXT_CHAR_IS_NOT_COMPRESSED_MARKER = (char)215;
+        private const ushort COMPRESSION_SYMBOLS_ZERO = 1500;
+
+        private const int PART_MAX_LEN = 10;
+        private const int PART_MIN_LEN = 2;
     }
 }

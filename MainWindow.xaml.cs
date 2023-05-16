@@ -152,7 +152,7 @@ namespace Dzik
             }
             catch
             {
-                DialogShower.ShowError("Generowanie odpowiedzi nie powiodło się. Prawdopodobne powody:\n\n- bardzo długi blok tekstu, który samodzielnie przekracza limit długości pojedynczej wiadomości.\n\n- błąd szyfrowania, jeżeli występują elementy oznaczone do zaszyfrowania.");
+                DialogShower.ShowError("Generowanie odpowiedzi nie powiodło się. Prawdopodobne powody:\n\n- bardzo długi blok tekstu, który samodzielnie przekracza limit długości pojedynczej wiadomości.");
             }
 
         }

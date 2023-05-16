@@ -1,6 +1,7 @@
 ﻿using Dzik.crypto.algorithms;
 using Dzik.crypto.protocols;
 using Dzik.crypto.utils;
+using Dzik.data;
 using Dzik.domain;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Dzik.crypto.api
     internal class MsgCryptoTool : Encryptor, Decryptor
     {
         private KeysVault keysVault;
+        private CompressorPL compressorPL = new CompressorPL(PolishVocabularyLoader.GetVocabulary());
 
         internal MsgCryptoTool(KeysVault keysVault)
         {
@@ -21,8 +23,7 @@ namespace Dzik.crypto.api
 
         public string Encrypt(string plainText)
         {
-            var plaintextBytes = Encoding.UTF8.GetBytes(plainText);
-            var plainTextCompressedInfNeeded = CompressIfNeeded(plaintextBytes);
+            var plainTextCompressedInfNeeded = CompressIfNeeded(plainText);
             var cipherTextBytes = keysVault.EncryptAndSign(plainTextCompressedInfNeeded);
             var ciphertextString = Base256.StringFromBytes(cipherTextBytes);
 
@@ -34,40 +35,49 @@ namespace Dzik.crypto.api
         {
             var cipherTextBytes = Base256.BytesFromString(cipherText);
             var verifyAndDecryptResult = keysVault.VerifyAndDecrypt(cipherTextBytes);
-            var plaintextBytesDecompressedIfNeeded = HandleCompressionIfAny(verifyAndDecryptResult.plainText);
-            var plainTextString = Encoding.UTF8.GetString(plaintextBytesDecompressedIfNeeded);
+            var plainTextString = HandleCompressionIfAny(verifyAndDecryptResult.plainText);            
 
             return new DecryptedMsg(plainTextString, verifyAndDecryptResult.daysSinceEncryption);
         }
 
-        private byte[] CompressIfNeeded(byte[] plaintext)
+        private byte[] CompressIfNeeded(string plaintext)
         {
             if (plaintext.Length < Constants.MIN_MSG_LENGTH_FOR_COMPRESSION)
             {
-                return DataPrependedWithByte(plaintext, NO_COMPRESSION_MARKER);
+                var plaintextBytes = Encoding.UTF8.GetBytes(plaintext);
+                return DataPrependedWithByte(plaintextBytes, NO_COMPRESSION_MARKER);
             }
             else
             {
+                // precompress
+                var precompressedPlaintext = compressorPL.Compress(plaintext);
+
                 // compress
-                var compressedPlaintext = GzipCompressor.Compress(plaintext);
+                var plaintextBytes = Encoding.UTF8.GetBytes(precompressedPlaintext);
+                var compressedPlaintext = GzipCompressor.Compress(plaintextBytes);
 
                 // mark as compressed
                 return DataPrependedWithByte(compressedPlaintext, GenerateRandomCompressionMarker());
             }
         }
 
-        private byte[] HandleCompressionIfAny(byte[] plaintext)
+        private string HandleCompressionIfAny(byte[] plaintext)
         {
             var plaintextWithoutMarkers = StripCompressionRelatedMarkers(plaintext);
 
             if (plaintext[0] == NO_COMPRESSION_MARKER)
             {
-                return plaintextWithoutMarkers;
+                return Encoding.UTF8.GetString(plaintextWithoutMarkers);
             }
             else
             {
                 var decompressedPlaintextBytes = GzipCompressor.Decompress(plaintextWithoutMarkers);
-                return decompressedPlaintextBytes;
+                var plaintextString = Encoding.UTF8.GetString(decompressedPlaintextBytes);
+
+                // undo precompression
+                var plaintextDecompressed = compressorPL.Decompress(plaintextString);
+
+                return plaintextDecompressed;
             }
         }
 
