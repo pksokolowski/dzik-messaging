@@ -57,7 +57,10 @@ namespace Dzik.crypto.utils
                 i += extraShift;
             }
 
-            return builder.ToString();
+            var output = builder.ToString();
+
+            // self-test and return compressed version only if decompression yielded the correct input.
+            if (Decompress(output) == s) return output; else return s;
         }
 
         internal string Decompress(string input)
@@ -102,7 +105,7 @@ namespace Dzik.crypto.utils
         private const char NEXT_CHAR_IS_NOT_COMPRESSED_MARKER = (char)215;
         private const ushort COMPRESSION_SYMBOLS_ZERO = 1500;
 
-        private const int PART_MAX_LEN = 10;
-        private const int PART_MIN_LEN = 2;
+        private const int PART_MAX_LEN = 25;
+        private const int PART_MIN_LEN = 3;
     }
 }
