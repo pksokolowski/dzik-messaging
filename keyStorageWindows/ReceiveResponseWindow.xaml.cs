@@ -68,6 +68,8 @@ namespace Dzik.keyStorageWindows
 
             // password-less:
             DzikKeyAgreement.AcceptResponse(responseWithMarker, kek, null, onKeysReceivedInExchange);
+
+            Close();
         }
     }
 }

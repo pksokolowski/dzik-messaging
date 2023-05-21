@@ -28,22 +28,20 @@ namespace Dzik.keyStorageWindows
         {
             this.Owner = owner;
             this.onPasswordEntered = onPasswdEntered;
-            InitializeComponent();         
+            InitializeComponent();
+
+            this.ContentRendered += PasswordWindow_ContentRendered;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void PasswordWindow_ContentRendered(object sender, EventArgs e)
         {
-            this.Focus();
+            this.Activate();
             PasswordInput.Focus();
         }
 
         private async void UnlockButton_Click(object sender, RoutedEventArgs e)
         {
-            Progress.Visibility = Visibility.Visible;
-
-            await Task.Run(() => { onPasswordEntered(PasswordInput.SecurePassword, this); });
-
-            Progress.Visibility = Visibility.Collapsed;
+            await TryPassword();
         }
 
         private void CloseDzikButton_Click(object sender, RoutedEventArgs e)
@@ -54,7 +52,27 @@ namespace Dzik.keyStorageWindows
 
         internal void IndicateWrongPassword()
         {
-            Dispatcher.Invoke(new Action(() => { MainBorder.BorderBrush = Brushes.Red; }));
+            Dispatcher.Invoke(new Action(() => { 
+                MainBorder.BorderBrush = Brushes.Red; 
+                PasswordInput.Clear();
+                PasswordInput.Focus();
+            }));
+        }
+
+        private async void PasswordInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            Dispatcher.Invoke(new Action(() => { MainBorder.BorderBrush = Brushes.LightGray; }));
+            if (e.Key == Key.Enter)
+            {
+                await TryPassword();
+            }
+        }
+
+        private async Task TryPassword()
+        {
+            Progress.Visibility = Visibility.Visible;
+            await Task.Run(() => { onPasswordEntered(PasswordInput.SecurePassword, this); });
+            Progress.Visibility = Visibility.Collapsed;
         }
     }
 }

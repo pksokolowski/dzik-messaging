@@ -62,7 +62,7 @@ namespace Dzik
                     break;
 
                 case StorageManager.MasterKeysState.PASSWD_PROTECTED:
-                    this.IsEnabled = false;           
+                    this.IsEnabled = false;
                     var passwdWindow = new PasswordWindow(this, (passwd, paswdWindow) =>
                     {
                         var keysCandidate = StorageManager.ReadPasswordProtectedMasterKeys(passwd);
@@ -74,28 +74,31 @@ namespace Dzik
                         }
                         using (keysCandidate)
                         {
-                            var vaultCandidate = MasterKeysPacker.UnpackKeys(keysCandidate);
+                            Dispatcher.Invoke(new Action(() =>
+                            {
+                                var vaultCandidate = MasterKeysPacker.UnpackKeys(keysCandidate);
 
-                            var test = new byte[] { 1, 2, 3, 4, 5 };
-                            var testEncrypted = vaultCandidate.EncryptAndSign(test);
-                            var roundTripResult = vaultCandidate.VerifyAndDecrypt(testEncrypted);
-                            if (roundTripResult == null || !Enumerable.SequenceEqual(test, roundTripResult.plainText))
-                            {
-                                // password is incorrect 2
-                                paswdWindow.IndicateWrongPassword();
-                            }
-                            else
-                            {
-                                keysVault = vaultCandidate;
-                                EditorStartBehavior.RestoreDraft(Input);
-                                this.IsEnabled = true;
-                                paswdWindow.Close();                      
-                            }
+                                var test = new byte[] { 1, 2, 3, 4, 5 };
+                                var testEncrypted = vaultCandidate.EncryptAndSign(test);
+                                var roundTripResult = vaultCandidate.VerifyAndDecrypt(testEncrypted);
+                                if (roundTripResult == null || !Enumerable.SequenceEqual(test, roundTripResult.plainText))
+                                {
+                                    // password is incorrect 2
+                                    paswdWindow.IndicateWrongPassword();
+                                }
+                                else
+                                {
+                                    AcceptKeysVault(vaultCandidate);
+                                    EditorStartBehavior.RestoreDraft(Input);
+                                    this.IsEnabled = true;
+                                    paswdWindow.Close();
+                                }
+                            }));
                         }
                     });
                     passwdWindow.Show();
                     passwdWindow.Focus();
-                    
+
                     break;
 
                 case StorageManager.MasterKeysState.NOT_PRESENT:

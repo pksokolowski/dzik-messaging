@@ -15,6 +15,7 @@ namespace Dzik.editing
             if (draft == null) return;
 
             input.Text = draft;
+            DataLossPreventor.OnDataSaved();
         }   
     }
 }

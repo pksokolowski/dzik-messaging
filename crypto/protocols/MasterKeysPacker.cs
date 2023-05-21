@@ -25,12 +25,12 @@ namespace Dzik.crypto.protocols
 
             var allKeys = new byte[masterA.Length + masterB.Length + masterC.Length + masterD.Length + masterE.Length + hmacKey.Length];
 
-            Array.Copy(masterA, 0, allKeys, 0, masterA.Length);
-            Array.Copy(masterB, 0, allKeys, keyLenBytes, masterB.Length);
-            Array.Copy(masterC, 0, allKeys, 2 * keyLenBytes, masterC.Length);
-            Array.Copy(masterD, 0, allKeys, 2 * keyLenBytes, masterD.Length);
-            Array.Copy(masterE, 0, allKeys, 2 * keyLenBytes, masterE.Length);
-            Array.Copy(hmacKey, 0, allKeys, 3 * keyLenBytes, hmacKey.Length);
+            Array.Copy(masterA, 0, allKeys, 0, keyLenBytes);
+            Array.Copy(masterB, 0, allKeys, keyLenBytes, keyLenBytes);
+            Array.Copy(masterC, 0, allKeys, 2 * keyLenBytes, keyLenBytes);
+            Array.Copy(masterD, 0, allKeys, 3 * keyLenBytes, keyLenBytes);
+            Array.Copy(masterE, 0, allKeys, 4 * keyLenBytes, keyLenBytes);
+            Array.Copy(hmacKey, 0, allKeys, 5 * keyLenBytes, authKeyLenBytes);
 
             return allKeys;
         }
@@ -54,7 +54,9 @@ namespace Dzik.crypto.protocols
             {
                 return new KeysVault(masterA, masterB, masterC, masterD, masterE, hmacKey);
             }
-            catch (Exception) { }
+            catch (Exception eee) {
+                masterA.Dispose();
+            }
             finally
             {
                 masterA.Dispose();
