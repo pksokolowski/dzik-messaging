@@ -90,8 +90,8 @@ namespace Dzik
                                 {
                                     AcceptKeysVault(vaultCandidate);
                                     EditorStartBehavior.RestoreDraft(Input);
-                                    this.IsEnabled = true;
                                     paswdWindow.Close();
+                                    this.IsEnabled = true;
                                 }
                             }));
                         }
@@ -102,10 +102,15 @@ namespace Dzik
                     break;
 
                 case StorageManager.MasterKeysState.NOT_PRESENT:
+                    this.IsEnabled = false;
                     DzikKeyAgreement.Initialize((vault =>
                     {
                         // on new keys generated
                         AcceptKeysVault(vault);
+                        Dispatcher.Invoke(new Action(() =>
+                        {
+                            this.IsEnabled = true;
+                        }));
                     }),
                     (() =>
                     {
@@ -115,6 +120,7 @@ namespace Dzik
                             ContentPaster.PasteAtTheBeginning(Input, Constants.MARKER_INSERT_KEY_EXCHANGE_RESPONSE_HERE + " Ta linijka zostanie podmieniona na wiadomość konfiguracyjną. Zachowaj ją w pierwszej wiadomości :)\n\n");
                             DraftStorage.Store(Input);
                             Input.Select(Input.Text.Length - 1, 0);
+                            this.IsEnabled = true;
                         }));
                     }));
                     EditorStartBehavior.RestoreDraft(Input);

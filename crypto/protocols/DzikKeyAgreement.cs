@@ -28,7 +28,7 @@ namespace Dzik.crypto.protocols
             // if has challenge, and no private keys, generate response, notify user and return;
             if (challenge != null && privateKey == null)
             {
-                GenerateResponse(onNewKeysGenerated, onKeyExchangeResponseReady, challenge);
+                new GenerateResponseWindow(onNewKeysGenerated, onKeyExchangeResponseReady, challenge).Show();
                 return;
             }
 
@@ -38,26 +38,6 @@ namespace Dzik.crypto.protocols
         internal static void AcceptResponse(string responseWithMarker, Action<KeysVault> onKeysReceivedInExchange)
         {
             new ReceiveResponseWindow(responseWithMarker, onKeysReceivedInExchange).Show();
-        }
-
-        internal static void GenerateResponse(Action<KeysVault> onNewKeysGenerated, Action onKeyExchangeResponseReady, byte[] challenge)
-        {
-            var (publicKey, exchangeSymKey) = KeyAgreementPacker.UnpackChallenge(challenge);
-
-            var newKeys = MasterKeysGenerator.GenerateMasterKeys();
-
-            var masterKeysEncryptedWithPublicKey = RsaTool.Encrypt(publicKey, newKeys);
-            var response = AesTool.Encrypt(exchangeSymKey, masterKeysEncryptedWithPublicKey);
-
-            var readyResponse = Constants.MARKER_KEY_EXCHANGE_RESPONSE_TO_INTERPRETE + Base256.StringFromBytes(response);
-
-            StorageManager.WriteMasterKeys(newKeys);
-            StorageManager.WriteKeyAgreementResponse(readyResponse);
-
-            var keysVault = MasterKeysPacker.UnpackKeys(newKeys);
-
-            onNewKeysGenerated(keysVault);
-            onKeyExchangeResponseReady();
         }
 
         /// <returns>random KEK used to encrypt the private key</returns>
@@ -75,6 +55,36 @@ namespace Dzik.crypto.protocols
             StorageManager.WriteKeyAgreementPrivateKey(encryptedPrivKey);
 
             return kek;
+        }
+
+        internal static void GenerateResponse(Action<KeysVault> onNewKeysGenerated, Action onKeyExchangeResponseReady, byte[] challenge, string passwordOrNull)
+        {
+            var (publicKey, exchangeSymKey) = KeyAgreementPacker.UnpackChallenge(challenge);
+
+            var newKeys = MasterKeysGenerator.GenerateMasterKeys();
+
+            var masterKeysEncryptedWithPublicKey = RsaTool.Encrypt(publicKey, newKeys);
+            var response = AesTool.Encrypt(exchangeSymKey, masterKeysEncryptedWithPublicKey);
+
+            var readyResponse = Constants.MARKER_KEY_EXCHANGE_RESPONSE_TO_INTERPRETE + Base256.StringFromBytes(response);
+
+            if (passwordOrNull != null)
+            {
+                // with password:        
+                StorageManager.WritePasswordProtectedMasterKeys(newKeys, passwordOrNull);
+            }
+            else
+            {
+                // without password:
+                StorageManager.WriteMasterKeys(newKeys);
+            }
+
+            StorageManager.WriteKeyAgreementResponse(readyResponse);
+
+            var keysVault = MasterKeysPacker.UnpackKeys(newKeys);
+
+            onNewKeysGenerated(keysVault);
+            onKeyExchangeResponseReady();
         }
 
         internal static void AcceptResponse(string responseWithMarker, byte[] privKeyKEK, string passwordOrNull, Action<KeysVault> onKeysReceivedInExchange)
@@ -95,7 +105,7 @@ namespace Dzik.crypto.protocols
             var decryptedInnedCiphertext = AesTool.Decrypt(exchangeSymKey, responseBytes);
             var plaintextMasterKeys = RsaTool.Decrypt(privateKey, decryptedInnedCiphertext);
 
-            if(passwordOrNull != null)
+            if (passwordOrNull != null)
             {
                 // with password:        
                 StorageManager.WritePasswordProtectedMasterKeys(plaintextMasterKeys, passwordOrNull);
@@ -104,7 +114,7 @@ namespace Dzik.crypto.protocols
             {
                 // without password:
                 StorageManager.WriteMasterKeys(plaintextMasterKeys);
-            }            
+            }
 
             var keysVault = MasterKeysPacker.UnpackKeys(plaintextMasterKeys);
             onKeysReceivedInExchange(keysVault);
