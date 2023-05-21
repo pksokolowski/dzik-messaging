@@ -41,6 +41,6 @@ namespace Dzik
         /// <summary>
         /// Defines desired difficulty of breaking the password.
         /// </summary>
-        public const int KeyDerivationIterationsCount = 1_000_002;
+        public const int KeyDerivationIterationsCount = 500_555;
     }
 }

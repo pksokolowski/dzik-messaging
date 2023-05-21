@@ -3,9 +3,12 @@ using Dzik.crypto.api;
 using Dzik.crypto.protocols;
 using Dzik.data;
 using Dzik.editing;
+using Dzik.keyStorageWindows;
 using Dzik.Properties;
 using Dzik.replying;
 using System;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -24,9 +27,7 @@ namespace Dzik
         public MainWindow()
         {
             InitializeComponent();
-            LoadMasterKeys();
 
-            EditorStartBehavior.InitializeEditor(Input);
             DataLossPreventor.Setup(this, Input, hasUnsavedChanges =>
             {
                 if (hasUnsavedChanges) { Title = "*Dzik"; } else { Title = "Dzik"; }
@@ -38,15 +39,66 @@ namespace Dzik
             Closing += MainWindow_Closing;
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadMasterKeys();
+        }
+
         private void LoadMasterKeys()
         {
             if (keysVault != null) return;
 
-            var keys = StorageManager.ReadMasterKeys();
-            using (keys)
+            var keysStatus = StorageManager.GetMasterKeysState();
+
+            switch (keysStatus)
             {
-                if (keys == null)
-                {
+                case StorageManager.MasterKeysState.UNPROTECTED:
+                    var keys = StorageManager.ReadMasterKeys();
+                    using (keys)
+                    {
+                        AcceptKeysVault(MasterKeysPacker.UnpackKeys(keys));
+                    }
+                    EditorStartBehavior.RestoreDraft(Input);
+                    break;
+
+                case StorageManager.MasterKeysState.PASSWD_PROTECTED:
+                    this.IsEnabled = false;           
+                    var passwdWindow = new PasswordWindow(this, (passwd, paswdWindow) =>
+                    {
+                        var keysCandidate = StorageManager.ReadPasswordProtectedMasterKeys(passwd);
+                        if (keysCandidate == null)
+                        {
+                            // password is incorrect 1 (or error loading)
+                            paswdWindow.IndicateWrongPassword();
+                            return;
+                        }
+                        using (keysCandidate)
+                        {
+                            var vaultCandidate = MasterKeysPacker.UnpackKeys(keysCandidate);
+
+                            var test = new byte[] { 1, 2, 3, 4, 5 };
+                            var testEncrypted = vaultCandidate.EncryptAndSign(test);
+                            var roundTripResult = vaultCandidate.VerifyAndDecrypt(testEncrypted);
+                            if (roundTripResult == null || !Enumerable.SequenceEqual(test, roundTripResult.plainText))
+                            {
+                                // password is incorrect 2
+                                paswdWindow.IndicateWrongPassword();
+                            }
+                            else
+                            {
+                                keysVault = vaultCandidate;
+                                EditorStartBehavior.RestoreDraft(Input);
+                                this.IsEnabled = true;
+                                paswdWindow.Close();                      
+                            }
+                        }
+                    });
+                    passwdWindow.Show();
+                    passwdWindow.Focus();
+                    
+                    break;
+
+                case StorageManager.MasterKeysState.NOT_PRESENT:
                     DzikKeyAgreement.Initialize((vault =>
                     {
                         // on new keys generated
@@ -62,11 +114,8 @@ namespace Dzik
                             Input.Select(Input.Text.Length - 1, 0);
                         }));
                     }));
-                }
-                else
-                {
-                    AcceptKeysVault(MasterKeysPacker.UnpackKeys(keys));
-                }
+                    EditorStartBehavior.RestoreDraft(Input);
+                    break;
             }
         }
 

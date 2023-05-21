@@ -35,6 +35,11 @@ namespace Dzik.crypto.protocols
             // if has challenge and private keys, do nothing here, will handle the response when it arrives, in a separate method.
         }
 
+        internal static void AcceptResponse(string responseWithMarker, Action<KeysVault> onKeysReceivedInExchange)
+        {
+            new ReceiveResponseWindow(responseWithMarker, onKeysReceivedInExchange).Show();
+        }
+
         internal static void GenerateResponse(Action<KeysVault> onNewKeysGenerated, Action onKeyExchangeResponseReady, byte[] challenge)
         {
             var (publicKey, exchangeSymKey) = KeyAgreementPacker.UnpackChallenge(challenge);
@@ -57,7 +62,7 @@ namespace Dzik.crypto.protocols
 
         /// <returns>random KEK used to encrypt the private key</returns>
         internal static async Task<byte[]> GeneratePrivateKeyAndChallengeAndReturnKEK()
-        {          
+        {
             var keyPair = await Task.Run(() => RsaTool.GenerateKeyPair());
             var symKey = AesTool.GenerateKey();
 
@@ -67,16 +72,18 @@ namespace Dzik.crypto.protocols
             var (encryptedPrivKey, kek) = RandomKeyBasedEncryptor.Encrypt(privateKeyBytes);
 
             StorageManager.WriteKeyAgreementChallenge(challengeBytes, true);
-            StorageManager.WriteKeyAgreementPrivateKey(privateKeyBytes);
+            StorageManager.WriteKeyAgreementPrivateKey(encryptedPrivKey);
 
             return kek;
         }
 
-        internal static void AcceptResponse(string responseWithMarker, Action<KeysVault> onKeysReceivedInExchange)
+        internal static void AcceptResponse(string responseWithMarker, byte[] privKeyKEK, string passwordOrNull, Action<KeysVault> onKeysReceivedInExchange)
         {
             // if doesnt have private keys, throw exception
-            var privateKeyBytes = StorageManager.ReadKeyAgreementPrivateKeyOrNull() ?? throw new Exception("No private key found");
+            var encryptedPrivateKeyBytes = StorageManager.ReadKeyAgreementPrivateKeyOrNull() ?? throw new Exception("No private key found");
             var challengeBytes = StorageManager.ReadKeyAgreementChallengeOrNull() ?? throw new Exception("Could not find challenge file.");
+
+            var privateKeyBytes = RandomKeyBasedEncryptor.Decrypt(privKeyKEK, encryptedPrivateKeyBytes);
 
             var privateKey = KeyAgreementPacker.UnpackPrivateKey(privateKeyBytes);
             var (publicKey, exchangeSymKey) = KeyAgreementPacker.UnpackChallenge(challengeBytes);
@@ -88,7 +95,16 @@ namespace Dzik.crypto.protocols
             var decryptedInnedCiphertext = AesTool.Decrypt(exchangeSymKey, responseBytes);
             var plaintextMasterKeys = RsaTool.Decrypt(privateKey, decryptedInnedCiphertext);
 
-            StorageManager.WriteMasterKeys(plaintextMasterKeys);
+            if(passwordOrNull != null)
+            {
+                // with password:        
+                StorageManager.WritePasswordProtectedMasterKeys(plaintextMasterKeys, passwordOrNull);
+            }
+            else
+            {
+                // without password:
+                StorageManager.WriteMasterKeys(plaintextMasterKeys);
+            }            
 
             var keysVault = MasterKeysPacker.UnpackKeys(plaintextMasterKeys);
             onKeysReceivedInExchange(keysVault);

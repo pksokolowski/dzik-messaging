@@ -22,8 +22,6 @@ namespace Dzik.editing
 
                 DzikKeyAgreement.AcceptResponse(content, onKeysReceivedInExchange);
 
-                DialogShower.ShowInfo("Accepted key exchange response");
-
                 return true;
             }
             catch (Exception)

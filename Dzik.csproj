@@ -113,8 +113,14 @@
     <Compile Include="editing\FileDropHandler.cs" />
     <Compile Include="editing\KeyAgreementResponseHandler.cs" />
     <Compile Include="editing\QuotationHandler.cs" />
+    <Compile Include="keyStorageWindows\PasswordWindow.xaml.cs">
+      <DependentUpon>PasswordWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="keyStorageWindows\PrepareChallengeWindow.xaml.cs">
       <DependentUpon>PrepareChallengeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="keyStorageWindows\ReceiveResponseWindow.xaml.cs">
+      <DependentUpon>ReceiveResponseWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlaintextWindow.xaml.cs">
       <DependentUpon>PlaintextWindow.xaml</DependentUpon>
@@ -129,7 +135,15 @@
     <Compile Include="ReplyWindow.xaml.cs">
       <DependentUpon>ReplyWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="keyStorageWindows\PasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="keyStorageWindows\PrepareChallengeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="keyStorageWindows\ReceiveResponseWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

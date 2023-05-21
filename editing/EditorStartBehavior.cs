@@ -9,7 +9,7 @@ namespace Dzik.editing
 {
     internal static class EditorStartBehavior
     {
-        internal static void InitializeEditor(TextBox input)
+        internal static void RestoreDraft(TextBox input)
         {
             var draft = DraftStorage.ReadDraft();
             if (draft == null) return;

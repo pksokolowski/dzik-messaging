@@ -16,7 +16,10 @@ namespace Dzik.data
         private static string TempSecretDataFolderPath = "dzik-temp-priv-data";
 
         private static string DraftFilePath = DataFolderPath + "/draft.txt";
+
         private static string MasterKeysPath = DataFolderPath + "/keys";
+        private static string EncryptedMasterKeysPath = DataFolderPath + "/ekeys";
+
         private static string KeyAgreementChallengePath = DataFolderPath + "/challenge-Share";
         private static string KeyAgreementPrivateKeyPath = TempSecretDataFolderPath + "/PrivateTemp-DoNotShare";
         private static string KeyAgreementResponsePath = DataFolderPath + "/Response-Share.txt";
@@ -33,6 +36,9 @@ namespace Dzik.data
             if (!Directory.Exists(TempSecretDataFolderPath)) Directory.CreateDirectory(TempSecretDataFolderPath);
         }
 
+
+        // Drafts:
+
         internal static void SaveDraft(String content)
         {
             EnsureDataFolderExists();
@@ -43,6 +49,31 @@ namespace Dzik.data
         {
             EnsureDataFolderExists();
             return File.ReadAllText(DraftFilePath);
+        }
+
+
+        // Master keys:
+
+        internal enum MasterKeysState { UNPROTECTED, PASSWD_PROTECTED, NOT_PRESENT }
+        internal static MasterKeysState GetMasterKeysState()
+        {
+            if (File.Exists(MasterKeysPath))
+            {
+                return MasterKeysState.UNPROTECTED;
+            }
+
+            if (File.Exists(EncryptedMasterKeysPath))
+            {
+                return MasterKeysState.PASSWD_PROTECTED;
+            }
+
+            return MasterKeysState.NOT_PRESENT;
+        }
+
+        internal static PinnedBytes ReadPasswordProtectedMasterKeys(SecureString passwd)
+        {
+            EnsureDataFolderExists();
+            return KeyStorage.ReadPinnedKeyBytes(EncryptedMasterKeysPath, passwd);
         }
 
         internal static PinnedBytes ReadMasterKeys()
@@ -57,6 +88,14 @@ namespace Dzik.data
             return KeyStorage.StoreKey(MasterKeysPath, masterKeys, MinimalDefenceKey);
         }
 
+        internal static bool WritePasswordProtectedMasterKeys(byte[] masterKeys, string password)
+        {
+            EnsureDataFolderExists();
+            return KeyStorage.StoreKey(EncryptedMasterKeysPath, masterKeys, password);
+        }
+
+
+        // Key Agreement Challenge:
 
         internal static byte[] ReadKeyAgreementChallengeOrNull()
         {
@@ -76,8 +115,11 @@ namespace Dzik.data
             WindowsExplorerOpener.ShowFileInExplorer(DataFolderPath);
         }
 
+
+        // Key Agreement Private key
+
         internal static byte[] ReadKeyAgreementPrivateKeyOrNull()
-        {            
+        {
             if (!File.Exists(KeyAgreementPrivateKeyPath)) return null;
             return KeyStorage.ReadKeyBytes(KeyAgreementPrivateKeyPath, MinimalDefenceKey);
         }
@@ -87,6 +129,9 @@ namespace Dzik.data
             EnsureTempPrivDataFolderExists();
             KeyStorage.StoreKey(KeyAgreementPrivateKeyPath, privateKey, MinimalDefenceKey);
         }
+
+
+        // Key Agreement Response:
 
         internal static void WriteKeyAgreementResponse(string response)
         {
