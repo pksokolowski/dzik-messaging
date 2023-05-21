@@ -38,7 +38,7 @@ namespace Dzik
             Closing += MainWindow_Closing;
         }
 
-        private async void LoadMasterKeys()
+        private void LoadMasterKeys()
         {
             if (keysVault != null) return;
 
@@ -47,7 +47,7 @@ namespace Dzik
             {
                 if (keys == null)
                 {
-                    await DzikKeyAgreement.Initialize((vault =>
+                    DzikKeyAgreement.Initialize((vault =>
                     {
                         // on new keys generated
                         AcceptKeysVault(vault);

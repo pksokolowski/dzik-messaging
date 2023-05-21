@@ -2,6 +2,7 @@
 using Dzik.crypto.algorithms;
 using Dzik.crypto.utils;
 using Dzik.data;
+using Dzik.keyStorageWindows;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,52 +14,62 @@ namespace Dzik.crypto.protocols
 {
     internal static class DzikKeyAgreement
     {
-        internal static async Task Initialize(Action<KeysVault> onNewKeysGenerated, Action onKeyExchangeResponseReady)
+        internal static void Initialize(Action<KeysVault> onNewKeysGenerated, Action onKeyExchangeResponseReady)
         {
             var challenge = StorageManager.ReadKeyAgreementChallengeOrNull();
             var privateKey = StorageManager.ReadKeyAgreementPrivateKeyOrNull();
             // if has nothing, generate private keys and challenge, then return
             if (challenge == null && privateKey == null)
             {
-                DialogShower.ShowInfo("Rozpoczęto generowanie challengu, nie wyłączaj apki.\n\nTo może potrwać kilka minut.");
-
-                var keyPair = await Task.Run(() => RsaTool.GenerateKeyPair());
-                var symKey = AesTool.GenerateKey();
-
-                var challengeBytes = KeyAgreementPacker.PackChallenge(keyPair.publicKey, symKey);
-                var privateKeyBytes = KeyAgreementPacker.PackPrivateKey(keyPair.privateKey);
-
-                StorageManager.WriteKeyAgreementChallenge(challengeBytes, true);
-                StorageManager.WriteKeyAgreementPrivateKey(privateKeyBytes);
-
-                DialogShower.ShowInfo("Wygenerowano challenge, przekaż plik dzik-data/challenge-Share drugiej osobie");
-
+                new PrepareChallengeWindow().Show();
                 return;
             }
 
             // if has challenge, and no private keys, generate response, notify user and return;
             if (challenge != null && privateKey == null)
             {
-                var (publicKey, exchangeSymKey) = KeyAgreementPacker.UnpackChallenge(challenge);
-
-                var newKeys = MasterKeysGenerator.GenerateMasterKeys();
-
-                var masterKeysEncryptedWithPublicKey = RsaTool.Encrypt(publicKey, newKeys);
-                var response = AesTool.Encrypt(exchangeSymKey, masterKeysEncryptedWithPublicKey);
-
-                var readyResponse = Constants.MARKER_KEY_EXCHANGE_RESPONSE_TO_INTERPRETE + Base256.StringFromBytes(response);
-
-                StorageManager.WriteMasterKeys(newKeys);
-                StorageManager.WriteKeyAgreementResponse(readyResponse);
-
-                var keysVault = MasterKeysPacker.UnpackKeys(newKeys);
-
-                onNewKeysGenerated(keysVault);
-                onKeyExchangeResponseReady();
+                GenerateResponse(onNewKeysGenerated, onKeyExchangeResponseReady, challenge);
                 return;
             }
 
             // if has challenge and private keys, do nothing here, will handle the response when it arrives, in a separate method.
+        }
+
+        internal static void GenerateResponse(Action<KeysVault> onNewKeysGenerated, Action onKeyExchangeResponseReady, byte[] challenge)
+        {
+            var (publicKey, exchangeSymKey) = KeyAgreementPacker.UnpackChallenge(challenge);
+
+            var newKeys = MasterKeysGenerator.GenerateMasterKeys();
+
+            var masterKeysEncryptedWithPublicKey = RsaTool.Encrypt(publicKey, newKeys);
+            var response = AesTool.Encrypt(exchangeSymKey, masterKeysEncryptedWithPublicKey);
+
+            var readyResponse = Constants.MARKER_KEY_EXCHANGE_RESPONSE_TO_INTERPRETE + Base256.StringFromBytes(response);
+
+            StorageManager.WriteMasterKeys(newKeys);
+            StorageManager.WriteKeyAgreementResponse(readyResponse);
+
+            var keysVault = MasterKeysPacker.UnpackKeys(newKeys);
+
+            onNewKeysGenerated(keysVault);
+            onKeyExchangeResponseReady();
+        }
+
+        /// <returns>random KEK used to encrypt the private key</returns>
+        internal static async Task<byte[]> GeneratePrivateKeyAndChallengeAndReturnKEK()
+        {          
+            var keyPair = await Task.Run(() => RsaTool.GenerateKeyPair());
+            var symKey = AesTool.GenerateKey();
+
+            var challengeBytes = KeyAgreementPacker.PackChallenge(keyPair.publicKey, symKey);
+            var privateKeyBytes = KeyAgreementPacker.PackPrivateKey(keyPair.privateKey);
+
+            var (encryptedPrivKey, kek) = RandomKeyBasedEncryptor.Encrypt(privateKeyBytes);
+
+            StorageManager.WriteKeyAgreementChallenge(challengeBytes, true);
+            StorageManager.WriteKeyAgreementPrivateKey(privateKeyBytes);
+
+            return kek;
         }
 
         internal static void AcceptResponse(string responseWithMarker, Action<KeysVault> onKeysReceivedInExchange)

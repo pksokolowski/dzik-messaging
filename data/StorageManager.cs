@@ -69,7 +69,10 @@ namespace Dzik.data
         {
             EnsureDataFolderExists();
             KeyStorage.StoreKey(KeyAgreementChallengePath, challenge, MinimalDefenceKey);
+        }
 
+        internal static void OpenChallengeLocationInExplorer()
+        {
             WindowsExplorerOpener.ShowFileInExplorer(DataFolderPath);
         }
 
