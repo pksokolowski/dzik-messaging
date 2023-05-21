@@ -5,15 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dzik.keyStorageWindows"
         mc:Ignorable="d"
-        Title="Dzik - Ekran powitalny" Height="388" Width="600" WindowStartupLocation="CenterScreen" Topmost="True">
-    <Grid>
-        <TextBlock Margin="10,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="231"><Run Text="Cześć :)"/><Run Text=","/><Run Text=" "/><Run Text="p"/><Run Text="oniżej masz krótkie wprowadzenie"/><Run Text="."/><LineBreak/><Run/><LineBreak/><Run Text="1. Piszesz "/><Run Text="zasadniczo "/><Run Text="jak w notatniku. Działają m.in skróty Ctrl+Z, Ctrl+S (save)."/><LineBreak/><Run Text="2. Pod edytorem"/><Run Text=" są dodatkowe przyciski:"/><LineBreak/><Run Text="2.1. 'wklej cytat' - "/><Run Text="wkleja to co masz skopiowane, z dodanymi znaczkami '&gt;'"/><LineBreak/><Run Text="2.2. 'obrazek' - zostawia w tekście znacznik przypominający by dodać obrazek."/><LineBreak/><Run Text="2.3. 'szyfruj' - "/><Run Text="dodaje $ na początku linijek zaznaczonego tekstu. Dalej można się domyślić :)"/><LineBreak/><Run Text="2.4. 'zapisz' - zapisuje obecny stan odpowiedzi, można potem zamknąć apkę i się nie zgubi."/><LineBreak/><Run Text="2.5. "/><Run Text="'odpowiedz' - klikasz ją gdy skończysz pisać, Dzik podzieli wówczas wiadomość na fragmenty tekstu oraz miejsca na obrazki. Potem tylko kopiujesz z listy gotowe fragmenty, i wklejasz je w PM (a obrazki dodajesz)."/><LineBreak/><Run/><LineBreak/><Run Language="pl-pl" Text="Jeżeli chcesz, możesz zabezpieczyć Dzika hasłem - będzie ono wówczas wymagane przy każdym uruchomieniu. Jeżeli natomiast nie chcesz ustawiać hasła - zostaw te pola puste."/></TextBlock>
+        Title="Dzik - Ekran powitalny" Height="388" Width="600" WindowStartupLocation="CenterScreen" Topmost="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}" ShowInTaskbar="False">
+    <Border Background="White" CornerRadius="10,10,10,10" BorderBrush="#FF545454" BorderThickness="2,2,2,2">
+        <Grid>
+            <TextBlock Margin="10,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="231"><Run Text="Cześć :)"/><Run Text=","/><Run Text=" "/><Run Text="p"/><Run Text="oniżej masz krótkie wprowadzenie"/><Run Text="."/><LineBreak/><Run/><LineBreak/><Run Text="1. Piszesz "/><Run Text="zasadniczo "/><Run Text="jak w notatniku. Działają m.in skróty Ctrl+Z"/><Run Language="pl-pl" Text=" (cofnij)"/><Run Text=", Ctrl+S (save)."/><LineBreak/><Run Text="2. Pod edytorem"/><Run Text=" są dodatkowe przyciski:"/><LineBreak/><Run Text="2.1. 'wklej cytat' - "/><Run Text="wkleja to co masz skopiowane, z dodanymi znaczkami '&gt;'"/><Run Text="."/><LineBreak/><Run Text="2.2. 'obrazek' - zostawia w tekście znacznik przypominający by dodać obrazek."/><LineBreak/><Run Text="2.3. 'szyfruj' - "/><Run Text="działa na zaznaczony fragment tekstu"/><Run Text="; deszyfrowanie zaś odbywa się przez 'wklej cytat'."/><LineBreak/><Run Text="2.4. 'zapisz' - zapisuje obecny stan odpowiedzi"/><Run Text="."/><LineBreak/><Run Text="2.5. "/><Run Text="'odpowiedz' - klikasz ją gdy skończysz pisać, Dzik podzieli wówczas wiadomość na fragmenty tekstu oraz miejsca na obrazki. Potem tylko kopiujesz z listy gotowe fragmenty, i wklejasz je w PM (a obrazki dodajesz)."/><LineBreak/><Run/><LineBreak/><Run Text="Jeżeli chcesz, możesz zabezpieczyć Dzika hasłem - będzie ono wówczas wymagane przy każdym uruchomieniu. Jeżeli natomiast nie chcesz ustawiać hasła - zostaw te pola puste."/></TextBlock>
 
-        <TextBlock HorizontalAlignment="Left" Margin="10,0,0,80" TextWrapping="Wrap" Text="(Opcjonalnie) ustaw hasło do Dzika" Height="16" VerticalAlignment="Bottom"/>
-        <TextBox x:Name="passwdInput1" HorizontalAlignment="Left" Margin="10,0,0,57" TextWrapping="Wrap" Width="271" Height="18" VerticalAlignment="Bottom"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,0,0,36" TextWrapping="Wrap" Text="Powtórz hasło" Height="16" VerticalAlignment="Bottom"/>
-        <TextBox x:Name="passwdInput2" HorizontalAlignment="Left" Margin="10,0,0,13" TextWrapping="Wrap" Width="271" Height="18" VerticalAlignment="Bottom"/>
-        <Button Content="OK" Margin="0,0,10,10" Click="Button_Click" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="147"/>
-        <ProgressBar HorizontalAlignment="Left" Height="10" Margin="758,225,0,0" VerticalAlignment="Top" Width="100"/>
-    </Grid>
+            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,80" TextWrapping="Wrap" Text="(Opcjonalnie) ustaw hasło do Dzika" Height="16" VerticalAlignment="Bottom"/>
+            <TextBox x:Name="passwdInput1" HorizontalAlignment="Left" Margin="10,0,0,57" TextWrapping="Wrap" Width="271" Height="18" VerticalAlignment="Bottom"/>
+            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,36" TextWrapping="Wrap" Text="Powtórz hasło" Height="16" VerticalAlignment="Bottom"/>
+            <TextBox x:Name="passwdInput2" HorizontalAlignment="Left" Margin="10,0,0,13" TextWrapping="Wrap" Width="271" Height="18" VerticalAlignment="Bottom"/>
+            <Button Content="OK" Margin="0,0,10,10" Click="Button_Click" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="147"/>
+            <ProgressBar HorizontalAlignment="Left" Height="10" Margin="758,225,0,0" VerticalAlignment="Top" Width="100"/>
+        </Grid>
+    </Border>
 </Window>

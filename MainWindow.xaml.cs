@@ -125,7 +125,7 @@ namespace Dzik
                             // on key exchange response ready
                             Dispatcher.Invoke(new Action(() =>
                                {
-                                   ContentPaster.PasteAtTheBeginning(Input, Constants.MARKER_INSERT_KEY_EXCHANGE_RESPONSE_HERE + " Ta linijka zostanie podmieniona na wiadomość konfiguracyjną. Zachowaj ją w pierwszej wiadomości :)\n\n");
+                                   ContentPaster.PasteAtTheBeginning(Input, "Poniższa linijka zostanie podmieniona na wiadomość konfiguracyjną. Zachowaj ją w pierwszej wiadomości :)\n" + Constants.MARKER_INSERT_KEY_EXCHANGE_RESPONSE_HERE + "\n\n");
                                    DraftStorage.Store(Input);
                                    Input.Select(Input.Text.Length - 1, 0);
                                    this.IsEnabled = true;
