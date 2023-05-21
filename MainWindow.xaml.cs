@@ -106,7 +106,10 @@ namespace Dzik
                         () =>
                         {
                             // on disabling main window needed
-                            this.IsEnabled = false;
+                            Dispatcher.Invoke(new Action(() =>
+                            {
+                                this.IsEnabled = false;
+                            }));
                         },
                         vault =>
                         {

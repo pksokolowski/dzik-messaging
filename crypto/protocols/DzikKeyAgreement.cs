@@ -20,8 +20,7 @@ namespace Dzik.crypto.protocols
             var privateKey = StorageManager.ReadKeyAgreementPrivateKeyOrNull();
             // if has nothing, generate private keys and challenge, then return
             if (challenge == null && privateKey == null)
-            {
-                onDisablingMainWindowNeeded();
+            {                
                 new PrepareChallengeWindow().Show();
                 return;
             }
