@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Setup komunikacji - challenge generator" Height="296" Width="457" WindowStartupLocation="CenterScreen" Topmost="True">
     <Grid>
-        <Button x:Name="FinishButton" Content="Zakończ" HorizontalAlignment="Center" Margin="0,0,0,10" Width="91" Click="FinishButton_Click" Height="20" VerticalAlignment="Bottom"/>
+        <Button x:Name="FinishButton" Content="Zakończ" HorizontalAlignment="Center" Margin="0,0,0,10" Width="91" Click="FinishButton_Click" Height="20" VerticalAlignment="Bottom" IsEnabled="False"/>
         <TextBlock Margin="10,10,10,0" TextWrapping="Wrap" Text="Zapisz w formie fizycznej poniższy KEK klucza prywatnego, zachowaj go dla siebie. KEK pojawi się po wygenerowaniu pary kluczy wymiany" VerticalAlignment="Top"/>
         <TextBlock x:Name="KEKOutputTextBlock" HorizontalAlignment="Center" Margin="0,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="271" Height="68" Background="#FFF9F9F9" FontFamily="Cascadia Code SemiBold" MouseDown="KEKOutputTextBlock_MouseDown"/>
         <ProgressBar x:Name="progressBar" HorizontalAlignment="Center" Height="10" Margin="0,156,0,0" VerticalAlignment="Top" Width="271" IsIndeterminate="True"/>

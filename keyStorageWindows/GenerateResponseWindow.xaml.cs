@@ -45,11 +45,14 @@ namespace Dzik.keyStorageWindows
                 }
 
                 DzikKeyAgreement.GenerateResponse(onNewKeysGenerated, onKeyExchangeResponseReady, challenge, passwdInput1.Text);
-                return;
+            }
+            else
+            {
+                // without password:
+                DzikKeyAgreement.GenerateResponse(onNewKeysGenerated, onKeyExchangeResponseReady, challenge, null);
             }
 
-            // without password:
-            DzikKeyAgreement.GenerateResponse(onNewKeysGenerated, onKeyExchangeResponseReady, challenge, null);
+            Close();
         }
     }
 }

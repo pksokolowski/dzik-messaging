@@ -31,6 +31,7 @@ namespace Dzik.keyStorageWindows
                 Dispatcher.Invoke(new Action(() => {
                     KEKOutputTextBlock.Text = ByteArrayHexStringConverters.MakePresentableStringOf(kek.Result);
                     progressBar.Visibility = Visibility.Collapsed;
+                    FinishButton.IsEnabled = true;
                 }));
             });            
         }

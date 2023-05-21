@@ -14,13 +14,14 @@ namespace Dzik.crypto.protocols
 {
     internal static class DzikKeyAgreement
     {
-        internal static void Initialize(Action<KeysVault> onNewKeysGenerated, Action onKeyExchangeResponseReady)
+        internal static void Initialize(Action onDisablingMainWindowNeeded, Action<KeysVault> onNewKeysGenerated, Action onKeyExchangeResponseReady)
         {
             var challenge = StorageManager.ReadKeyAgreementChallengeOrNull();
             var privateKey = StorageManager.ReadKeyAgreementPrivateKeyOrNull();
             // if has nothing, generate private keys and challenge, then return
             if (challenge == null && privateKey == null)
             {
+                onDisablingMainWindowNeeded();
                 new PrepareChallengeWindow().Show();
                 return;
             }
@@ -28,6 +29,7 @@ namespace Dzik.crypto.protocols
             // if has challenge, and no private keys, generate response, notify user and return;
             if (challenge != null && privateKey == null)
             {
+                onDisablingMainWindowNeeded();
                 new GenerateResponseWindow(onNewKeysGenerated, onKeyExchangeResponseReady, challenge).Show();
                 return;
             }
