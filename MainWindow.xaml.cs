@@ -39,11 +39,6 @@ namespace Dzik
             Closing += MainWindow_Closing;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            LoadMasterKeys();
-        }
-
         private void LoadMasterKeys()
         {
             if (keysVault != null) return;
@@ -236,6 +231,8 @@ namespace Dzik
             this.Left = Settings.Default.Left;
             this.Height = Settings.Default.Height;
             this.Width = Settings.Default.Width;
+
+            LoadMasterKeys();
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
