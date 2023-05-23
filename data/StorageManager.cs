@@ -16,6 +16,7 @@ namespace Dzik.data
         private static string TempSecretDataFolderPath = "dzik-temp-priv-data";
 
         private static string DraftFilePath = DataFolderPath + "/draft.txt";
+        private static string EncryptedDraftFilePath = DataFolderPath + "/edraft";
 
         private static string MasterKeysPath = DataFolderPath + "/keys";
         private static string EncryptedMasterKeysPath = DataFolderPath + "/ekeys";
@@ -49,6 +50,18 @@ namespace Dzik.data
         {
             EnsureDataFolderExists();
             return File.ReadAllText(DraftFilePath);
+        }
+
+        internal static void SaveEncryptedDraft(byte[] content)
+        {
+            EnsureDataFolderExists();
+            File.WriteAllBytes(EncryptedDraftFilePath, content);
+        }
+
+        internal static byte[] ReadEncryptedDraft()
+        {
+            EnsureDataFolderExists();
+            return File.ReadAllBytes(EncryptedDraftFilePath);
         }
 
 

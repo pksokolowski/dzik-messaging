@@ -1,4 +1,5 @@
 ﻿using Dzik.common;
+using Dzik.crypto.protocols;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,14 @@ namespace Dzik.editing
 {
     internal static class DataLossPreventor
     {
-        internal static void Setup(Window window, TextBox input, Action<bool> onHasUnsavedChangesChanged)
+        private static Func<KeysVault> GetKeysVaultOrNull;
+
+        internal static void Setup(Window window, TextBox input, Action<bool> onHasUnsavedChangesChanged, Func<KeysVault> getKeysVaultOrNull)
         {
             ((App)Application.Current).SessionEnding += DataLossPreventor.OnSessionEnding;
             window.Closing += Window_Closing;
 
+            GetKeysVaultOrNull = getKeysVaultOrNull;
             inputTextBox = input;
             inputTextBox.TextChanged += InputTextBox_TextChanged;
             OnHasUnsavedChangesChanged = onHasUnsavedChangesChanged;
@@ -63,7 +67,7 @@ namespace Dzik.editing
                 case DialogShower.UsersChoice.yes:
                     try
                     {
-                        DraftStorage.Store(inputTextBox);
+                        DraftStorage.Store(inputTextBox, GetKeysVaultOrNull());
                     }
                     catch
                     {

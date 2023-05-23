@@ -167,7 +167,6 @@
     <Compile Include="editing\ContentPaster.cs" />
     <Compile Include="editing\DataLossPreventor.cs" />
     <Compile Include="editing\DraftStorage.cs" />
-    <Compile Include="editing\EditorStartBehavior.cs" />
     <Compile Include="editing\LinesPrepender.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

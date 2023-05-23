@@ -10,6 +10,7 @@ using System;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Dzik
@@ -28,10 +29,15 @@ namespace Dzik
         {
             InitializeComponent();
 
-            DataLossPreventor.Setup(this, Input, hasUnsavedChanges =>
+            DataLossPreventor.Setup(
+                this,
+                Input,
+            hasUnsavedChanges =>
             {
                 if (hasUnsavedChanges) { Title = "*Dzik"; } else { Title = "Dzik"; }
-            });
+            },
+
+            () => keysVault);
 
             fileDropHandler = new FileDropHandler(Input, () => { return keysVault; });
 
@@ -53,7 +59,7 @@ namespace Dzik
                     {
                         AcceptKeysVault(MasterKeysPacker.UnpackKeys(keys));
                     }
-                    EditorStartBehavior.RestoreDraft(Input);
+                    RestoreDraft();
                     break;
 
                 case StorageManager.MasterKeysState.PASSWD_PROTECTED:
@@ -84,7 +90,7 @@ namespace Dzik
                                 else
                                 {
                                     AcceptKeysVault(vaultCandidate);
-                                    EditorStartBehavior.RestoreDraft(Input);
+                                    RestoreDraft();
                                     paswdWindow.Close();
                                     this.IsEnabled = true;
                                 }
@@ -121,12 +127,12 @@ namespace Dzik
                             Dispatcher.Invoke(new Action(() =>
                                {
                                    ContentPaster.PasteAtTheBeginning(Input, "Poniższa linijka zostanie podmieniona na wiadomość konfiguracyjną. Zachowaj ją w pierwszej wiadomości :)\n" + Constants.MARKER_INSERT_KEY_EXCHANGE_RESPONSE_HERE + "\n\n");
-                                   DraftStorage.Store(Input);
+                                   DraftStorage.Store(Input, keysVault);
                                    Input.Select(Input.Text.Length - 1, 0);
                                    this.IsEnabled = true;
                                }));
                         });
-                    EditorStartBehavior.RestoreDraft(Input);
+                    RestoreDraft();
                     break;
             }
         }
@@ -160,7 +166,7 @@ namespace Dzik
         {
             try
             {
-                DraftStorage.Store(Input);
+                DraftStorage.Store(Input, keysVault);
             }
             catch
             {
@@ -195,7 +201,7 @@ namespace Dzik
             // save draft before.
             try
             {
-                DraftStorage.Store(Input);
+                DraftStorage.Store(Input, keysVault);
             }
             catch
             {
@@ -216,6 +222,15 @@ namespace Dzik
                 DialogShower.ShowError("Generowanie odpowiedzi nie powiodło się. Prawdopodobne powody:\n\n- bardzo długi blok tekstu, który samodzielnie przekracza limit długości pojedynczej wiadomości.");
             }
 
+        }
+
+        internal void RestoreDraft()
+        {
+            var draft = DraftStorage.ReadDraft(keysVault);
+            if (draft == null) return;
+
+            Input.Text = draft;
+            DataLossPreventor.OnDataSaved();
         }
 
         private void AcceptKeysVault(KeysVault vault)
