@@ -55,6 +55,11 @@ namespace Dzik.data
         internal static void SaveEncryptedDraft(byte[] content)
         {
             EnsureDataFolderExists();
+            if (content.Length == 0)
+            {
+                File.Delete(EncryptedDraftFilePath);
+                return;
+            }
             File.WriteAllBytes(EncryptedDraftFilePath, content);
         }
 

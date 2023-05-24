@@ -22,8 +22,15 @@ namespace Dzik.editing
             else
             {
                 var bytes = Encoding.UTF8.GetBytes(input.Text);
-                var ciphertext = vaultOrNull.EncryptAndSign(bytes);
-                StorageManager.SaveEncryptedDraft(ciphertext);
+                if (bytes.Length == 0)
+                {
+                    StorageManager.SaveEncryptedDraft(bytes);
+                }
+                else
+                {
+                    var ciphertext = vaultOrNull.EncryptAndSign(bytes);
+                    StorageManager.SaveEncryptedDraft(ciphertext);
+                }
             }
 
             DataLossPreventor.OnDataSaved();
