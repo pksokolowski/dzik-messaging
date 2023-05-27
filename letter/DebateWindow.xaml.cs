@@ -179,13 +179,13 @@ namespace Dzik.letter
                 else
                 if (e.DataObject.GetDataPresent(DataFormats.XamlPackage))
                 {
-                    var data = e.DataObject.GetData(DataFormats.XamlPackage);
-                    if (data != null)
-                    {
-                        RtbTools.PlaceStreamedXamlPackageDataIntoTextRange(data as Stream, new TextRange(outboundRtb.Selection.Start, outboundRtb.Selection.End));
-                        e.Handled = true;
-                    }
-                    //e.Handled = false;
+                    //var data = e.DataObject.GetData(DataFormats.XamlPackage);
+                    //if (data != null)
+                    //{
+                    //    RtbTools.PlaceStreamedXamlPackageDataIntoTextRange(data as Stream, new TextRange(outboundRtb.Selection.Start, outboundRtb.Selection.End));
+                    //    e.Handled = true;
+                    //}
+                    e.Handled = true;
                 }
                 else if (e.DataObject.GetDataPresent(DataFormats.Xaml))
                 {
@@ -205,7 +205,13 @@ namespace Dzik.letter
 
         private void PlaceBitmapInOutboundRtb(IDataObject dataObject, Action onNullImage)
         {
-            var img = (InteropBitmap)dataObject.GetData(DataFormats.Bitmap);
+            var dataObj = dataObject.GetData(DataFormats.Bitmap);
+            if (dataObj is BitmapImage)
+            {
+                // unhandled type, ignore.
+                return;
+            }
+            var img = (InteropBitmap)dataObj;
             if (img == null)
             {
                 onNullImage();
@@ -301,7 +307,7 @@ namespace Dzik.letter
 
             try
             {
-                var messageBytes = ObtainBytesFrom(outboundRtb);             
+                var messageBytes = ObtainBytesFrom(outboundRtb);
                 var encryptionToFileResult = FileEncryptionTool.EncryptXamlMessageToFile(outputPath, keysVault, messageBytes);
 
                 if (encryptionToFileResult != FileCryptoOperationResult.encrypted)
