@@ -1,0 +1,13 @@
+﻿<Window x:Class="Dzik.letter.ImageViewerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Dzik.letter"
+        mc:Ignorable="d"
+        Title="Obraz" UseLayoutRounding="True" Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Path=Height}" Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Path=Width}" WindowStyle="None" WindowState="Maximized" Background="#FF0E0E0E" KeyDown="Window_KeyDown" MouseLeftButtonDown="Window_MouseLeftButtonDown" Topmost="True" ShowInTaskbar="False" ResizeMode="NoResize">
+    <Grid>
+        <Image x:Name="ImageView"/>
+
+    </Grid>
+</Window>

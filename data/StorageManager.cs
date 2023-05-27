@@ -12,7 +12,7 @@ namespace Dzik.data
 {
     internal static class StorageManager
     {
-        private static string DataFolderPath = "dzik-data";
+        internal const string DataFolderPath = "dzik-data";
         private static string TempSecretDataFolderPath = "dzik-temp-priv-data";
 
         private static string DraftFilePath = DataFolderPath + "/draft.txt";

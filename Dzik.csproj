@@ -58,6 +58,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -107,6 +108,7 @@
     <Compile Include="crypto\utils\UnixDayStamper.cs" />
     <Compile Include="crypto\api\MsgCrypto.cs" />
     <Compile Include="crypto\utils\WindowsExplorerOpener.cs" />
+    <Compile Include="data\LettersStorageManager.cs" />
     <Compile Include="data\PolishVocabularyLoader.cs" />
     <Compile Include="editing\CiphertextHandler.cs" />
     <Compile Include="editing\PrefixAdder.cs" />
@@ -125,6 +127,18 @@
     <Compile Include="keyStorageWindows\ReceiveResponseWindow.xaml.cs">
       <DependentUpon>ReceiveResponseWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="letter\ColorPickerWindow.xaml.cs">
+      <DependentUpon>ColorPickerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="letter\DebateWindow.xaml.cs">
+      <DependentUpon>DebateWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="letter\ImageViewerWindow.xaml.cs">
+      <DependentUpon>ImageViewerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="letter\ImgUtils.cs" />
+    <Compile Include="letter\RtbTools.cs" />
+    <Compile Include="letter\XamlMessageDraftStorage.cs" />
     <Compile Include="PlaintextWindow.xaml.cs">
       <DependentUpon>PlaintextWindow.xaml</DependentUpon>
     </Compile>
@@ -151,6 +165,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="keyStorageWindows\ReceiveResponseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="letter\ColorPickerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="letter\DebateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="letter\ImageViewerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -217,6 +243,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Resource Include="letter\colorWheel3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <None Include="Resources\PolishVocabulary.txt" />
     <Resource Include="Icon1.ico" />
   </ItemGroup>
