@@ -15,7 +15,7 @@ namespace Dzik.data
 
         private static string InboundPath = LettersRootDir + "/inbound";
         private static string DraftPath = LettersRootDir + "/draft";
-        private static string OutputLetterPath = LettersOutputDir + "/milkBottle";
+        private static string OutputLetterPath = LettersOutputDir + "/milk bottle";
 
 
         private static void EnsureLettersDataFolderExists()
@@ -43,12 +43,6 @@ namespace Dzik.data
             File.WriteAllBytes(DraftPath, draftMsg);
         }
 
-        internal static void SaveOutboundMessage(byte[] outboundMsg)
-        {
-            EnsureLettersOutpoutFolderExists();
-            File.WriteAllBytes(OutputLetterPath, outboundMsg);
-        }
-
         // reads
 
         internal static byte[] ReadInboundMessage()
@@ -61,11 +55,6 @@ namespace Dzik.data
         {
             EnsureLettersDataFolderExists();
             return File.ReadAllBytes(DraftPath);
-        }
-
-        internal static void OpenOutputLetterFolder()
-        {
-            WindowsExplorerOpener.ShowFileInExplorer(OutputLetterPath);
         }
 
         // deletes
@@ -94,6 +83,12 @@ namespace Dzik.data
         {
             EnsureLettersDataFolderExists();
             return File.Exists(InboundPath);
+        }
+
+        internal static string GetOutBoundPath()
+        {
+            EnsureLettersOutpoutFolderExists();
+            return OutputLetterPath;
         }
     }
 }

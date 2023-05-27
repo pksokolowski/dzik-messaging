@@ -1,6 +1,7 @@
 ﻿using Dzik.common;
 using Dzik.crypto.protocols;
 using Dzik.crypto.utils;
+using Dzik.data;
 using Dzik.letters.utils;
 using System;
 using System.Collections.Generic;
@@ -296,17 +297,11 @@ namespace Dzik.letter
 
         private void EncryptToFileButton_Click(object sender, RoutedEventArgs e)
         {
+            var outputPath = LettersStorageManager.GetOutBoundPath();
+
             try
             {
-                // ensure output dir exists
-                if (!Directory.Exists(xamlMessageDestinationDir))
-                {
-                    Directory.CreateDirectory(xamlMessageDestinationDir);
-                }
-
-                var messageBytes = ObtainBytesFrom(outboundRtb);
-
-                var outputPath = $"{xamlMessageDestinationDir}milk bottle";
+                var messageBytes = ObtainBytesFrom(outboundRtb);             
                 var encryptionToFileResult = FileEncryptionTool.EncryptXamlMessageToFile(outputPath, keysVault, messageBytes);
 
                 if (encryptionToFileResult != FileCryptoOperationResult.encrypted)
@@ -320,7 +315,7 @@ namespace Dzik.letter
             }
             catch (Exception)
             {
-                DialogShower.ShowError($"Przygotowanie zaszyfrowanego pliku i/lub otwarcie folderu go zawierającego nie powiodło się.\n\nSprawdź folder {xamlMessageDestinationDir} sąsiadujący z LaVache.exe aby potwierdzić, czy plik wiadomości został wygenerowany. Zaleca się próbne odszyfrowanie pliku, dla pewności, przed wysłaniem.");
+                DialogShower.ShowError($"Przygotowanie zaszyfrowanego pliku i/lub otwarcie folderu go zawierającego nie powiodło się.\n\nSprawdź '{outputPath}' aby potwierdzić, czy plik wiadomości został wygenerowany. Zaleca się próbne odszyfrowanie pliku, dla pewności, przed wysłaniem.");
             }
         }
 
