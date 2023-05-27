@@ -10,7 +10,7 @@ namespace Dzik.data
 {
     internal static class LettersStorageManager
     {
-        private static string LettersRootDir = StorageManager.DataFolderPath + "letters";
+        private static string LettersRootDir = StorageManager.DataFolderPath + "/letters";
         private static string LettersOutputDir = LettersRootDir + "/outbound";
 
         private static string InboundPath = LettersRootDir + "/inbound";

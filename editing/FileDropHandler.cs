@@ -66,6 +66,8 @@ namespace Dzik.editing
                         case FileCryptoOperationResult.unknownError:
                             resultDescription = "BŁĄD";
                             break;
+                        case FileCryptoOperationResult.XamlMessageDetected:
+                            return;                            
                     }
 
                     var fileName = Path.GetFileName(file);
