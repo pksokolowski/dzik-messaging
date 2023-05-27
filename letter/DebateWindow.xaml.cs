@@ -338,6 +338,15 @@ namespace Dzik.letter
             SaveDraft();
         }
 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                SaveDraft();
+                e.Handled = true;
+            }
+        }
+
         private bool SaveDraft()
         {
             try
@@ -454,6 +463,5 @@ namespace Dzik.letter
                 WindowState = WindowState.Normal;
             }
         }
-
     }
 }

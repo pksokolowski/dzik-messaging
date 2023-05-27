@@ -252,6 +252,27 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Resource Include="images\1Image.png" />
+    <Resource Include="images\2Images.png" />
+    <Resource Include="images\3Images.png" />
+    <Resource Include="images\4Images.png" />
+    <Resource Include="images\AlignCenter.png" />
+    <Resource Include="images\AlignHorizontalStretch.png" />
+    <Resource Include="images\AlignLeft.png" />
+    <Resource Include="images\AlignRight.png" />
+    <Resource Include="images\BackgroundColor.png" />
+    <Resource Include="images\BulletList.png" />
+    <Resource Include="images\ClearFormatting.png" />
+    <Resource Include="images\Copy.png" />
+    <Resource Include="images\Cut.png" />
+    <Resource Include="images\DecreaseFontSize.png" />
+    <Resource Include="images\DecreaseIndent.png" />
+    <Resource Include="images\FontColor.png" />
+    <Resource Include="images\IncreaseFontSize.png" />
+    <Resource Include="images\IncreaseIndent.png" />
+    <Resource Include="images\Paste.png" />
+    <Resource Include="images\Redo.png" />
+    <Resource Include="images\Undo.png" />
     <Resource Include="letter\colorWheel3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
