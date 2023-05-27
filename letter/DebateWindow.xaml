@@ -6,6 +6,16 @@
         xmlns:local="clr-namespace:Dzik.letter"
         mc:Ignorable="d"
         Title="List" UseLayoutRounding="True" Height="757" MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}" Width="1256" MinWidth="1256" Background="{x:Null}" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" StateChanged="Window_StateChanged" Closing="Window_Closing" Closed="Window_Closed">
+    <Window.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/lettersTemplates.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
+    </Window.Resources>
+    
     <Border BorderThickness="4,4,4,4" CornerRadius="20,20,20,0" MouseLeftButtonDown="Border_MouseLeftButtonDown">
         <Border.BorderBrush>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

@@ -4,6 +4,7 @@ using Dzik.crypto.protocols;
 using Dzik.data;
 using Dzik.editing;
 using Dzik.keyStorageWindows;
+using Dzik.letter;
 using Dzik.Properties;
 using Dzik.replying;
 using System;
@@ -269,6 +270,17 @@ namespace Dzik
             }
 
             Settings.Default.Save();
+        }
+
+        private void LettersButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (keysVault == null) return;
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var debateWindow = new DebateWindow(keysVault);
+                debateWindow.Show();
+            });
         }
     }
 }

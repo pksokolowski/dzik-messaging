@@ -137,6 +137,7 @@
       <DependentUpon>ImageViewerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="letter\ImgUtils.cs" />
+    <Compile Include="letter\RtbManualProvider.cs" />
     <Compile Include="letter\RtbTools.cs" />
     <Compile Include="letter\XamlMessageDraftStorage.cs" />
     <Compile Include="PlaintextWindow.xaml.cs">
@@ -152,6 +153,14 @@
     <Compile Include="ReplyWindow.xaml.cs">
       <DependentUpon>ReplyWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="lettersTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="keyStorageWindows\GenerateResponseWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

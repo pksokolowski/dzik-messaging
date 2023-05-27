@@ -138,7 +138,7 @@ namespace Dzik.letter
             hasPotentiallyUnsavedChanges = true;
         }
 
-        private void ShowInstructionManual() => ManualStrings.DisplayXamlMessageManualIn(inboundRtb);
+        private void ShowInstructionManual() => RtbManualProvider.DisplayXamlMessageManualIn(inboundRtb);
 
         private void CommandBinding_CanExecutePaste(object sender, CanExecuteRoutedEventArgs e)
         {
