@@ -1,5 +1,6 @@
 ﻿using Dzik.common;
 using Dzik.crypto.protocols;
+using Dzik.letter;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,7 +44,7 @@ namespace Dzik.editing
 
                 foreach (string file in files)
                 {
-                    var result = await Task.Run(() => FileEncryptionTool.HandleFile(file, keysVault));
+                    var result = await Task.Run(() => FileEncryptionTool.HandleFile(file, keysVault, onSpecialFileTypeDropped));
                     var resultDescription = "";
                     switch (result)
                     {
@@ -74,6 +75,40 @@ namespace Dzik.editing
                 builder.AppendLine("Szyfrowanie plików operuje na kopiach - plik zaszyfrowany nazywa się tak jak oryginał, ale nie ma rozszerzenia.");
                 DialogShower.ShowInfo(builder.ToString());
             }
+        }
+
+        private void onSpecialFileTypeDropped(SpecialFileType type, byte[] fileBytes, long daysSinceEncryption)
+        {
+            switch (type)
+            {
+                case SpecialFileType.XamlMessage:
+                    if (daysSinceEncryption > Constants.ReplayAttackMaxDaysWithoutWarning)
+                    {
+                        ShowReplayAttackWarning(daysSinceEncryption);
+                    }
+                    ShowDebateWindow(fileBytes);
+                    break;
+                default:
+                    DialogShower.ShowError("Nieznane rozszerzenie specjalne. Czy używasz tej samej wersji La Vache co Twój rozmówca?");
+                    break;
+            }
+        }
+
+        private void ShowReplayAttackWarning(long daysSinceEncryption)
+        {
+            DialogShower.ShowDangerousWarning("Możliwy replay attack", $"Szyfrogram jest autentyczny, ale szyfrowanie odbyło się ~{daysSinceEncryption} dni temu.\n\nJeżeli wiadomość przyszła jako 'nowa', może to być próba wykorzystania przez osoby trzecie znanego, poprawnego szyfrogramu z przeszłości, którego sensu adwersarz domyślił się np. po zachowaniach stron komunikacji.\n\nJeżeli świadomie deszyfrujesz wiadomość z odleglejszej przeszłości, możesz zignorować to ostrzeżenie.");
+        }
+
+        private void ShowDebateWindow(byte[] inboundMessageDecryptedBytes = null)
+        {
+            var keysVault = getKeysVault();
+            if (keysVault == null) return;
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var debateWindow = new DebateWindow(keysVault, inboundMessageDecryptedBytes);
+                debateWindow.Show();
+            });
         }
     }
 }

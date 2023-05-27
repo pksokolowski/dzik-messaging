@@ -12,7 +12,7 @@ namespace Dzik.crypto.protocols
     {
         private const int maxAllowedExtensionLengthWithDotIncluded = 31;
 
-        internal static FileCryptoOperationResult HandleFile(string path, KeysVault keysVault)
+        internal static FileCryptoOperationResult HandleFile(string path, KeysVault keysVault, Action<SpecialFileType, byte[], long> onSpecialFileType)
         {
             var extension = Path.GetExtension(path);
             // fix for filenames with dots.
@@ -20,7 +20,7 @@ namespace Dzik.crypto.protocols
 
             if (extension == string.Empty)
             {
-                return DecryptFile(path, keysVault);
+                return DecryptFile(path, keysVault, onSpecialFileType);
             }
             else
             {
@@ -51,7 +51,7 @@ namespace Dzik.crypto.protocols
             }
         }
 
-        private static FileCryptoOperationResult DecryptFile(string path, KeysVault keysVault)
+        private static FileCryptoOperationResult DecryptFile(string path, KeysVault keysVault, Action<SpecialFileType, byte[], long> onSpecialFileType)
         {
             try
             {
@@ -64,6 +64,12 @@ namespace Dzik.crypto.protocols
                 var shouldShowReplayAttackWarning = decryptedBytesWithExtensionData.daysSinceEncryption > Constants.ReplayAttackMaxDaysWithoutWarning;
 
                 var (extension, decryptedFileBytes) = decryptedBytesWithExtensionData.plainText.StripPrefix();
+
+                if (extension == XamlMessageExtension)
+                {
+                    onSpecialFileType(SpecialFileType.XamlMessage, decryptedFileBytes, decryptedBytesWithExtensionData.daysSinceEncryption);
+                    return FileCryptoOperationResult.XamlMessageDetected;
+                }
 
                 var outputPath = path + extension;
                 File.WriteAllBytes(outputPath, decryptedFileBytes);
@@ -85,6 +91,11 @@ namespace Dzik.crypto.protocols
             return result;
         }
 
+        internal static FileCryptoOperationResult EncryptXamlMessageToFile(string path, KeysVault keysVault, byte[] data)
+        {
+            return EncryptDataToFile(path, XamlMessageExtension, keysVault, data);
+        }
+
         private static FileCryptoOperationResult EncryptDataToFile(string outputPath, string extension, KeysVault keysVault, byte[] data)
         {
             try
@@ -104,6 +115,8 @@ namespace Dzik.crypto.protocols
                 return FileCryptoOperationResult.unknownError;
             }
         }
+
+        private static string XamlMessageExtension = "#";
     }
 
     enum FileCryptoOperationResult
@@ -113,6 +126,12 @@ namespace Dzik.crypto.protocols
         decryptedOldCiphertext,
         fileIsEmpty,
         decryptionError,
-        unknownError   
+        unknownError,
+        XamlMessageDetected
+    }
+
+    enum SpecialFileType
+    {
+        XamlMessage
     }
 }

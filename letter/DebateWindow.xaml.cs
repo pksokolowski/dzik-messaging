@@ -294,38 +294,6 @@ namespace Dzik.letter
             RtbTools.QuoteSelection(inboundRtb, outboundRtb, backgroundToUse, accent);
         }
 
-        private void copyEncryptedButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var messageBytes = ObtainBytesFrom(outboundRtb);
-                var messageBytesMarkedAsXamlMessage = XamlMessageMarker.Mark(messageBytes);
-
-                var encryptedAndSignedBytes = keysVault.EncryptAndSign(messageBytesMarkedAsXamlMessage);
-                if (encryptedAndSignedBytes == null)
-                {
-                    DialogShower.ShowError("Nie udało się zaszyfrować wiadomości.");
-                    return;
-                }
-
-                var base64EncryptedBytes = Convert.ToBase64String(encryptedAndSignedBytes);
-
-                // ensure message length is acceptable
-                if (base64EncryptedBytes.Length > maxBase64MessageLenBytes)
-                {
-                    DialogShower.ShowInfo($"Wiadomość ma długość {base64EncryptedBytes.Length} bajtów (limit to {maxBase64MessageLenBytes}). Potencjalną przyczyną może być obecność grafiki.\n\nSpróbuj sąsiedniego przycisku by zaszyfrować wiadomość do pliku, w takiej formie obsługa długich wiadomości będzie łatwiejsza.");
-                    return;
-                }
-
-                hasPotentiallyUnsavedChanges = false;
-                Clipboard.SetText(base64EncryptedBytes);
-            }
-            catch (Exception)
-            {
-                DialogShower.ShowError("Przygotowanie tekstu zaszyfrowanego nie powiodło się.");
-            }
-        }
-
         private void EncryptToFileButton_Click(object sender, RoutedEventArgs e)
         {
             try
