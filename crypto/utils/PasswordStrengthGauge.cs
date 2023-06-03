@@ -28,11 +28,11 @@ namespace Dzik.crypto.utils
             var numOfExtraCharSpacesCovered = NumOfExtraCoveredCharSpaces(candidate);
             var uniqueChars = NumOfUniqueCharacters(candidate);
 
-            var weightedRepetitionProofedLength = ((3 * candidate.Length) + (1 * uniqueChars)) / 4;
+            var weightedRepetitionProofedLength = ((2 * candidate.Length) + (1 * uniqueChars)) / 3;
 
             var score = (2 * numOfExtraCharSpacesCovered) + (weightedRepetitionProofedLength - 15);
 
-            if (score < 5)
+            if (score < 5 || uniqueChars < 7)
             {
                 return PasswordStrength.CASUAL;
             }
@@ -40,9 +40,13 @@ namespace Dzik.crypto.utils
             {
                 return PasswordStrength.SEMI_SERIOUS;
             }
-            if (score < 36)
+            if (score < 23)
             {
                 return PasswordStrength.ENTREPRISE;
+            }
+            if (score < 36)
+            {
+                return PasswordStrength.TOP_SECRET;
             }
 
             return PasswordStrength.MAXED_OUT;
@@ -90,6 +94,7 @@ namespace Dzik.crypto.utils
             CASUAL,
             SEMI_SERIOUS,
             ENTREPRISE, // around 128 bit in some conditions
+            TOP_SECRET, // around 196 bit in some conditions
             MAXED_OUT, // around 256 bits in some conditions     
         }
     }
