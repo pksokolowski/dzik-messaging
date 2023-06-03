@@ -52,17 +52,6 @@ namespace Dzik.crypto.utils
             return PasswordStrength.MAXED_OUT;
         }
 
-        private static int NumOfLessObviousChars(string candidate)
-        {
-            var numOfWhiteSpaces = candidate.Count(char.IsWhiteSpace);
-            var numOfUpperCaseLetters = candidate.Count(char.IsUpper);
-            var numOfLowerCaseLetters = candidate.Count(char.IsLower);
-            var numOfSpecialCharacters = candidate.Length - candidate.Count(char.IsLetterOrDigit) - numOfWhiteSpaces;
-            var numOfDigits = candidate.Count(char.IsDigit);
-
-            return numOfUpperCaseLetters + numOfDigits + numOfSpecialCharacters;
-        }
-
         private static int NumOfUniqueCharacters(string candidate)
         {
             var uniques = new HashSet<char>();
@@ -92,8 +81,8 @@ namespace Dzik.crypto.utils
         {
             WEAK,
             CASUAL,
-            SEMI_SERIOUS,
-            ENTREPRISE, // around 128 bit in some conditions
+            SEMI_SERIOUS, // around 112 bits in some conditions
+            ENTREPRISE,  // around 128 bit in some conditions
             TOP_SECRET, // around 196 bit in some conditions
             MAXED_OUT, // around 256 bits in some conditions     
         }
