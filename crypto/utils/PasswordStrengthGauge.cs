@@ -36,7 +36,7 @@ namespace Dzik.crypto.utils
             {
                 return PasswordStrength.CASUAL;
             }
-            if (score < 8)
+            if (score < 8 || numOfExtraCharSpacesCovered < 3)
             {
                 return PasswordStrength.SEMI_SERIOUS;
             }
