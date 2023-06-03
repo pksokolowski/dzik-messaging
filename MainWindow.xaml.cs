@@ -44,6 +44,8 @@ namespace Dzik
 
             SourceInitialized += MainWindow_SourceInitialized;
             Closing += MainWindow_Closing;
+
+            DataObject.AddPastingHandler(Input, OnPaste);
         }
 
         private void LoadMasterKeys()
@@ -143,10 +145,31 @@ namespace Dzik
             var initialSelectionStart = Input.SelectionStart;
             var clipboardText = Clipboard.GetText();
 
+            HandleContentPasting(clipboardText);
+        }
+
+        private void HandleContentPasting(string text)
+        {
             // Handlers in order, only one can handle the content, then return.
-            if (CiphertextHandler.Handle(this, clipboardText, msgCryptoTool)) return;
-            if (KeyAgreementResponseHandler.Handle(clipboardText, keysVault, vault => { AcceptKeysVault(vault); })) return;
-            QuotationHandler.Handle(Input, clipboardText);
+            if (CiphertextHandler.Handle(this, text, msgCryptoTool)) return;
+            if (KeyAgreementResponseHandler.Handle(text, keysVault, vault => { AcceptKeysVault(vault); })) return;
+            QuotationHandler.Handle(Input, text);
+        }
+
+        private void OnPaste(object sender, DataObjectPastingEventArgs e)
+        {
+            try
+            {
+                if (e.DataObject.GetDataPresent(DataFormats.UnicodeText))
+                {
+                    var text = (string)e.DataObject.GetData(DataFormats.UnicodeText);
+                    HandleContentPasting(text);
+                    e.CancelCommand();
+                    this.Activate();
+                    Focus();
+                }
+            }
+            catch (Exception) { }
         }
 
         private void SaveDraftButton_Click(object sender, RoutedEventArgs e)
