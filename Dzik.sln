@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dzik", "Dzik.csproj", "{172EC8EE-72EF-470C-8CD6-EAD8AA67D1A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DzikTest", "Test\DzikTest\DzikTest.csproj", "{8D73B327-472D-4C04-B45C-878503AEB4F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{172EC8EE-72EF-470C-8CD6-EAD8AA67D1A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{172EC8EE-72EF-470C-8CD6-EAD8AA67D1A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{172EC8EE-72EF-470C-8CD6-EAD8AA67D1A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D73B327-472D-4C04-B45C-878503AEB4F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D73B327-472D-4C04-B45C-878503AEB4F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D73B327-472D-4C04-B45C-878503AEB4F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D73B327-472D-4C04-B45C-878503AEB4F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
