@@ -43,9 +43,7 @@ namespace Dzik
             fileDropHandler = new FileDropHandler(Input, () => { return keysVault; });
 
             SourceInitialized += MainWindow_SourceInitialized;
-            Closing += MainWindow_Closing;
-
-            DataObject.AddPastingHandler(Input, OnPaste);
+            Closing += MainWindow_Closing;        
         }
 
         private void LoadMasterKeys()
@@ -156,20 +154,16 @@ namespace Dzik
             QuotationHandler.Handle(Input, text);
         }
 
-        private void OnPaste(object sender, DataObjectPastingEventArgs e)
+        private void Input_PreviewDrop(object sender, DragEventArgs e)
         {
-            try
-            {
-                if (e.DataObject.GetDataPresent(DataFormats.UnicodeText))
-                {
-                    var text = (string)e.DataObject.GetData(DataFormats.UnicodeText);
-                    HandleContentPasting(text);
-                    e.CancelCommand();
-                    this.Activate();
-                    Focus();
-                }
+            if (e.Data.GetDataPresent(DataFormats.UnicodeText))
+            {                
+                var text = (string)e.Data.GetData(DataFormats.UnicodeText);
+                HandleContentPasting(text);
+                e.Handled = true;
+                this.Activate();
+                Focus();
             }
-            catch (Exception) { }
         }
 
         private void SaveDraftButton_Click(object sender, RoutedEventArgs e)
