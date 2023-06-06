@@ -214,7 +214,7 @@ namespace Dzik.letter
             }
         }
 
-        internal static void QuoteSelection(RichTextBox sourceRtb, RichTextBox destinationRtb, Brush quotationBackground, Brush accent = null)
+        internal static void QuoteSelection(RichTextBox sourceRtb, RichTextBox destinationRtb, Brush quotationBackground, Brush accent = null, Brush textColor = null)
         {
             try
             {
@@ -225,6 +225,16 @@ namespace Dzik.letter
                 var paragraph = new Paragraph(run);
                 paragraph.Background = quotationBackground;
                 paragraph.BorderThickness = new Thickness(0, 2, 2, 2);
+
+                if (textColor != null)
+                {
+                    paragraph.Foreground = textColor;
+                }
+                else
+                {
+                    // stay with default color
+                }
+
                 if (accent != null)
                 {
                     paragraph.BorderBrush = accent;

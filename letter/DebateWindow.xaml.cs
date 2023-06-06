@@ -292,13 +292,20 @@ namespace Dzik.letter
         {
             var elem = sender as Ellipse;
             if (elem == null) return;
-            QuoteSelection(elem.Fill, elem.Stroke);
+            QuoteSelection(accent: elem.Fill, background: elem.Stroke, textColor: Brushes.White);
         }
 
-        private void QuoteSelection(Brush accent = null, Brush background = null)
+        private void colorfulQuotationEllipse_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var backgroundToUse = background == null ? quotationBackground : background;
-            RtbTools.QuoteSelection(inboundRtb, outboundRtb, backgroundToUse, accent);
+            var elem = sender as Ellipse;
+            if (elem == null) return;
+            QuoteSelection(accent: elem.Stroke, background: Brushes.Black, textColor: elem.Fill);
+        }
+
+        private void QuoteSelection(Brush accent = null, Brush background = null, Brush textColor = null)
+        {
+            var backgroundToUse = background ?? quotationBackground;
+            RtbTools.QuoteSelection(inboundRtb, outboundRtb, backgroundToUse, accent, textColor);
         }
 
         private void EncryptToFileButton_Click(object sender, RoutedEventArgs e)
