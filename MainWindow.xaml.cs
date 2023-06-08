@@ -8,10 +8,8 @@ using Dzik.letter;
 using Dzik.Properties;
 using Dzik.replying;
 using System;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Dzik
@@ -45,7 +43,7 @@ namespace Dzik
                 Input,
             hasUnsavedChanges =>
             {
-                if (hasUnsavedChanges) { Title = "*Dzik"; } else { Title = "Dzik"; }
+                if (hasUnsavedChanges) { WindowTitleLabel.Content = "*Dzik"; } else { WindowTitleLabel.Content = "Dzik"; }
             },
 
             () => keysVault);

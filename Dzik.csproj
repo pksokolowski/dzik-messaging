@@ -266,6 +266,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Resource Include="Dzik64G.png" />
     <Resource Include="images\1Image.png" />
     <Resource Include="images\2Images.png" />
     <Resource Include="images\3Images.png" />
