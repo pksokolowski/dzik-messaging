@@ -25,8 +25,8 @@
             <Button x:Name="MarkImgButton" Content="Obrazek" Margin="122,0,0,10" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="107" Click="MarkImgButton_Click" ToolTip="ctrl + i"/>
             <Button x:Name="EncryptSelectionButton" Content="Szyfruj" Margin="234,0,0,10" Height="30" VerticalAlignment="Bottom" Width="108" MinWidth="108" HorizontalAlignment="Left" Click="EncryptSelectionButton_Click"/>
             <Button x:Name="LettersButton" Content="List" Margin="0,0,234,10" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="107" Click="LettersButton_Click"/>
-            <Image HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="24" Source="/Icon1.ico"/>
-            <Label x:Name="WindowTitleLabel" Content="Dzik" HorizontalAlignment="Left" Margin="29,-2,0,0" VerticalAlignment="Top" Width="114"/>
+            <Image HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="24" Source="/Icon1.ico" Margin="2,2,0,0"/>
+            <Label x:Name="WindowTitleLabel" Content="Dzik" HorizontalAlignment="Left" Margin="29,0,0,0" VerticalAlignment="Top" Width="114"/>
             <Button x:Name="CloseButton" Content="X" Margin="0,2,2,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#CC8C8C8C" Click="CloseButton_Click" HorizontalAlignment="Right" Width="31" Height="22" FontSize="14" FontFamily="Arial"/>
             <Button x:Name="ThemeButton" Content="T" Margin="0,2,64,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#CC8C8C8C" Click="ThemeButton_Click" HorizontalAlignment="Right" Width="30" Height="22" FontSize="14" FontFamily="Arial"/>
 
