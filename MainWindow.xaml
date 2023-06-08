@@ -16,7 +16,7 @@
         </WindowChrome>
     </WindowChrome.WindowChrome>
 
-    <Border Background="White" BorderBrush="#FFC8C8C8" BorderThickness="2,2,2,2" CornerRadius="5,5,5,5" MouseDown="Border_MouseDown">
+    <Border Style="{DynamicResource DzikBorderStyle}" MouseDown="Border_MouseDown">
         <Grid>
             <TextBox x:Name="Input" Margin="0,29,0,45" TextWrapping="Wrap" AcceptsReturn="True" Text="" FontSize="16" VerticalScrollBarVisibility="Visible" AllowDrop="True" BorderThickness="0 2 0 2" Padding="2,2,2,2" Style="{DynamicResource InputTextBoxStyle}" PreviewDrop="Input_PreviewDrop" />
             <Button x:Name="QuoteButton" Content="Wklej cytat" HorizontalAlignment="Left" Margin="10,0,0,10" Width="107" Height="30" VerticalAlignment="Bottom" Click="QuoteButton_Click" ToolTip="alternatywnie: przeciągnij i upuść tekst na edytor"/>
@@ -26,7 +26,7 @@
             <Button x:Name="EncryptSelectionButton" Content="Szyfruj" Margin="234,0,0,10" Height="30" VerticalAlignment="Bottom" Width="108" MinWidth="108" HorizontalAlignment="Left" Click="EncryptSelectionButton_Click"/>
             <Button x:Name="LettersButton" Content="List" Margin="0,0,234,10" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="107" Click="LettersButton_Click"/>
             <Image HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="24" Source="/Icon1.ico" Margin="2,2,0,0"/>
-            <Label x:Name="WindowTitleLabel" Content="Dzik" HorizontalAlignment="Left" Margin="29,0,0,0" VerticalAlignment="Top" Width="114"/>
+            <Label x:Name="WindowTitleLabel" Style="{DynamicResource DzikLabelStyle}" Content="Dzik" HorizontalAlignment="Left" Margin="29,0,0,0" VerticalAlignment="Top" Width="114"/>
             <Button x:Name="CloseButton" Content="X" Margin="0,2,2,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#CC8C8C8C" Click="CloseButton_Click" HorizontalAlignment="Right" Width="31" Height="22" FontSize="14" FontFamily="Arial"/>
             <Button x:Name="ThemeButton" Content="T" Margin="0,2,64,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#CC8C8C8C" Click="ThemeButton_Click" HorizontalAlignment="Right" Width="30" Height="22" FontSize="14" FontFamily="Arial"/>
 
