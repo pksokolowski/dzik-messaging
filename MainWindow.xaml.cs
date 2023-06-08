@@ -43,7 +43,7 @@ namespace Dzik
             fileDropHandler = new FileDropHandler(Input, () => { return keysVault; });
 
             SourceInitialized += MainWindow_SourceInitialized;
-            Closing += MainWindow_Closing;        
+            Closing += MainWindow_Closing;
         }
 
         private void LoadMasterKeys()
@@ -157,7 +157,7 @@ namespace Dzik
         private void Input_PreviewDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.UnicodeText))
-            {                
+            {
                 var text = (string)e.Data.GetData(DataFormats.UnicodeText);
                 HandleContentPasting(text);
                 e.Handled = true;
@@ -178,6 +178,11 @@ namespace Dzik
                 SaveDraft();
                 e.Handled = true;
             }
+            else if (e.Key == Key.I && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                InsertImageMarker();
+                e.Handled = true;
+            }
         }
 
         private void SaveDraft()
@@ -193,6 +198,11 @@ namespace Dzik
         }
 
         private void MarkImgButton_Click(object sender, RoutedEventArgs e)
+        {
+            InsertImageMarker();
+        }
+
+        private void InsertImageMarker()
         {
             var initialSelectionStart = Input.SelectionStart;
 
