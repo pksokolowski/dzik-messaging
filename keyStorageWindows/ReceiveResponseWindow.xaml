@@ -10,10 +10,10 @@
         <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Wpisz KEK klucza prywatnego poniżej" VerticalAlignment="Top"/>
         <TextBox x:Name="PrivKeyKEKInput" HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="271" Height="68"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,114,0,0" TextWrapping="Wrap" Text="(Opcjonalnie) ustaw hasło do Dzika" VerticalAlignment="Top"/>
-        <TextBox x:Name="passwdInput1" HorizontalAlignment="Left" Margin="10,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="271"/>
+        <TextBox x:Name="passwdInput1" Margin="10,135,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="passwdInput1_TextChanged"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,158,0,0" TextWrapping="Wrap" Text="Powtórz hasło" VerticalAlignment="Top"/>
-        <TextBox x:Name="passwdInput2" HorizontalAlignment="Left" Margin="10,179,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="271"/>
+        <TextBox x:Name="passwdInput2" Margin="10,179,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <Button x:Name="FinalizeButton" Content="Zakończ" Margin="0,0,10,10" HorizontalAlignment="Right" Width="80" Height="20" VerticalAlignment="Bottom" Click="FinalizeButton_Click"/>
-
+        <Label x:Name="PassStrengthEstimateLabel" Content="" Margin="10,0,0,7" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Width="214" Height="26" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

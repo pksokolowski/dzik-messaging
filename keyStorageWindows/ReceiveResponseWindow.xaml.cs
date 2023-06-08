@@ -47,7 +47,8 @@ namespace Dzik.keyStorageWindows
             try
             {
                 kek = ByteArrayHexStringConverters.ToByteArray(KekHex);
-            }catch
+            }
+            catch
             {
                 DialogShower.ShowError("Wpisz poprawny KEK klucza prywatnego");
                 return;
@@ -56,7 +57,7 @@ namespace Dzik.keyStorageWindows
             // with password:
             if (passwdInput1.Text.Length > 0 || passwdInput2.Text.Length > 0)
             {
-                if(passwdInput1.Text != passwdInput2.Text)
+                if (passwdInput1.Text != passwdInput2.Text)
                 {
                     DialogShower.ShowError("Wpisane hasła się różnią");
                     return;
@@ -70,6 +71,14 @@ namespace Dzik.keyStorageWindows
             DzikKeyAgreement.AcceptResponse(responseWithMarker, kek, null, onKeysReceivedInExchange);
 
             Close();
+        }
+
+        private void passwdInput1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var (tip, brush) = PasswordStrengthInterpreter.Interprete(passwdInput1.Text);
+
+            PassStrengthEstimateLabel.Content = tip;
+            PassStrengthEstimateLabel.Foreground = brush;
         }
     }
 }

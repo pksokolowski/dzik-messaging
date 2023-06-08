@@ -119,6 +119,7 @@
     <Compile Include="keyStorageWindows\GenerateResponseWindow.xaml.cs">
       <DependentUpon>GenerateResponseWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="keyStorageWindows\PasswordStrengthInterpreter.cs" />
     <Compile Include="keyStorageWindows\PasswordWindow.xaml.cs">
       <DependentUpon>PasswordWindow.xaml</DependentUpon>
     </Compile>
