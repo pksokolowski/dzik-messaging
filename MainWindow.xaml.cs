@@ -26,9 +26,19 @@ namespace Dzik
 
         private FileDropHandler fileDropHandler;
 
+        private ResourceDictionary DarkTheme;
+        private ResourceDictionary LightTheme;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            DarkTheme = new ResourceDictionary();
+            LightTheme = new ResourceDictionary();
+            DarkTheme.Source = new Uri("Theme/DarkTheme.xaml", UriKind.Relative);
+            LightTheme.Source = new Uri("Theme/LightTheme.xaml", UriKind.Relative);
+
+            ApplyTheme();
 
             DataLossPreventor.Setup(
                 this,
@@ -308,6 +318,38 @@ namespace Dzik
                 var debateWindow = new DebateWindow(keysVault);
                 debateWindow.Show();
             });
+        }
+
+        private void ApplyTheme()
+        {
+            Application.Current.Resources.MergedDictionaries.Remove(DarkTheme);
+            Application.Current.Resources.MergedDictionaries.Remove(LightTheme);
+
+            var themeChosen = Settings.Default.Theme;
+            ResourceDictionary themeToSet = LightTheme;
+            switch (themeChosen)
+            {
+                case 0: themeToSet = LightTheme; break;
+                case 1: themeToSet = DarkTheme; break;
+            }
+
+            Application.Current.Resources.MergedDictionaries.Add(themeToSet);
+        }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void ThemeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.Theme = (Settings.Default.Theme + 1) % 2;
+            ApplyTheme();
         }
     }
 }
