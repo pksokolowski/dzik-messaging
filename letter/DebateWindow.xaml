@@ -16,7 +16,7 @@
 
     </Window.Resources>
 
-    <Border BorderThickness="4,4,4,4" CornerRadius="20,20,20,0" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+    <Border BorderThickness="2,2,2,2" CornerRadius="20,20,20,0" MouseLeftButtonDown="Border_MouseLeftButtonDown">
         <Border.BorderBrush>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#FFB5B5B5"/>
@@ -50,7 +50,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- This tool bar contains all the editing buttons. -->
-            <ToolBar Style="{DynamicResource VacheToolbar}" Name="mainToolBar" ToolBarTray.IsLocked="True" Height="30" Grid.ColumnSpan="2" Margin="0,5,0,0" Background="#FF5F5F5F" VerticalAlignment="Top" HorizontalAlignment="Center" Width="764">
+            <ToolBar Style="{DynamicResource VacheToolbar}" Name="mainToolBar" ToolBarTray.IsLocked="True" Height="30" Grid.ColumnSpan="2" Margin="244,3,0,0" Background="#FF5F5F5F" VerticalAlignment="Top" HorizontalAlignment="Left" Width="764">
 
                 <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Wytnij">
                     <Image Source="/images/cut.png"></Image>
@@ -138,14 +138,14 @@
 
 
 
-            <RichTextBox x:Name="inboundRtb" Margin="10,38,10,59" Background="#FF0E0E0E" Foreground="#FFE0E0E0" IsReadOnly="True" VerticalScrollBarVisibility="Visible" IsDocumentEnabled="True" FontSize="14"/>
-            <RichTextBox x:Name="outboundRtb" Margin="10,38,10,59" Background="#FF0E0E0E" Grid.Column="1" Foreground="#FFE0E0E0" PreviewDragOver="outboundRtb_PreviewDragOver_1" VerticalScrollBarVisibility="Visible" AcceptsTab="True" IsDocumentEnabled="True" Drop="outboundRtb_Drop" TextChanged="outboundRtb_TextChanged" CommandManager.PreviewExecuted="outboundRtb_PreviewExecuted" CommandManager.PreviewCanExecute="CommandBinding_CanExecutePaste" FontSize="14"/>
-            <Button x:Name="closeButton" Content="x" Margin="0,10,10,0" Height="25" VerticalAlignment="Top" Width="25" Click="closeButton_Click" Grid.Column="1" HorizontalAlignment="Right"/>
-            <Button x:Name="QuoteSelectionButton" Content="Cytuj zaznaczone" Margin="0,0,10,13" HorizontalAlignment="Right" Width="132" Height="29" VerticalAlignment="Bottom" Click="QuoteSelectionButton_Click"/>
-            <Button x:Name="EncryptToFileButton" Content="Odpowiedz" HorizontalAlignment="Right" Margin="0,0,10,13" Height="29" VerticalAlignment="Bottom" Width="132" Grid.Column="1" Click="EncryptToFileButton_Click"/>
-            <Button x:Name="SaveDraftButton" Content="Zapisz" HorizontalAlignment="Right" Margin="0,0,147,13" Height="29" VerticalAlignment="Bottom" Width="132" Grid.Column="1" Click="SaveDraftButton_Click"/>
-            <Ellipse x:Name="quotationColorEllipse" Margin="0,0,147,20" Stroke="#FF477CFF" Height="15" VerticalAlignment="Bottom" Fill="#FF47A6FF" MouseLeftButtonDown="colorfulQuotationEllipse_MouseLeftButtonDown" MouseRightButtonDown="colorfulQuotationEllipse_MouseRightButtonDown" HorizontalAlignment="Right" Width="15"/>
-            <Ellipse x:Name="quotationColorEllipse_Copy" Margin="0,0,167,20" Stroke="#FFAD3AC1" Height="15" VerticalAlignment="Bottom" Fill="#FFF095FF" MouseLeftButtonDown="colorfulQuotationEllipse_MouseLeftButtonDown" MouseRightButtonDown="colorfulQuotationEllipse_MouseRightButtonDown" HorizontalAlignment="Right" Width="15"/>
+            <RichTextBox x:Name="inboundRtb" Margin="10,36,10,47" Background="#FF0E0E0E" Foreground="#FFE0E0E0" IsReadOnly="True" VerticalScrollBarVisibility="Visible" IsDocumentEnabled="True" FontSize="14"/>
+            <RichTextBox x:Name="outboundRtb" Margin="10,36,10,47" Background="#FF0E0E0E" Grid.Column="1" Foreground="#FFE0E0E0" PreviewDragOver="outboundRtb_PreviewDragOver_1" VerticalScrollBarVisibility="Visible" AcceptsTab="True" IsDocumentEnabled="True" Drop="outboundRtb_Drop" TextChanged="outboundRtb_TextChanged" CommandManager.PreviewExecuted="outboundRtb_PreviewExecuted" CommandManager.PreviewCanExecute="CommandBinding_CanExecutePaste" FontSize="14"/>
+            <Button x:Name="closeButton" Content="x" Margin="0,8,10,0" Height="25" VerticalAlignment="Top" Width="25" Click="closeButton_Click" Grid.Column="1" HorizontalAlignment="Right"/>
+            <Button x:Name="QuoteSelectionButton" Content="Cytuj zaznaczone" Margin="0,0,10,11" HorizontalAlignment="Right" Width="132" Height="29" VerticalAlignment="Bottom" Click="QuoteSelectionButton_Click"/>
+            <Button x:Name="EncryptToFileButton" Content="Odpowiedz" HorizontalAlignment="Right" Margin="0,0,10,11" Height="29" VerticalAlignment="Bottom" Width="132" Grid.Column="1" Click="EncryptToFileButton_Click"/>
+            <Button x:Name="SaveDraftButton" Content="Zapisz" HorizontalAlignment="Right" Margin="0,0,147,11" Height="29" VerticalAlignment="Bottom" Width="132" Grid.Column="1" Click="SaveDraftButton_Click"/>
+            <Ellipse x:Name="quotationColorEllipse" Margin="0,0,147,18" Stroke="#FF477CFF" Height="15" VerticalAlignment="Bottom" Fill="#FF47A6FF" MouseLeftButtonDown="colorfulQuotationEllipse_MouseLeftButtonDown" MouseRightButtonDown="colorfulQuotationEllipse_MouseRightButtonDown" HorizontalAlignment="Right" Width="15"/>
+            <Ellipse x:Name="quotationColorEllipse_Copy" Margin="0,0,167,18" Stroke="#FFAD3AC1" Height="15" VerticalAlignment="Bottom" Fill="#FFF095FF" MouseLeftButtonDown="colorfulQuotationEllipse_MouseLeftButtonDown" MouseRightButtonDown="colorfulQuotationEllipse_MouseRightButtonDown" HorizontalAlignment="Right" Width="15"/>
 
         </Grid>
     </Border>
