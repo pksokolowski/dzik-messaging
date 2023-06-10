@@ -148,7 +148,11 @@ namespace Dzik
 
         private void QuoteButton_Click(object sender, RoutedEventArgs e)
         {
-            var initialSelectionStart = Input.SelectionStart;
+            HandleClipboardContentPasting();
+        }
+
+        private void HandleClipboardContentPasting()
+        {           
             var clipboardText = Clipboard.GetText();
 
             HandleContentPasting(clipboardText);
@@ -189,6 +193,11 @@ namespace Dzik
             else if (e.Key == Key.I && Keyboard.Modifiers == ModifierKeys.Control)
             {
                 InsertImageMarker();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Q && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                HandleClipboardContentPasting();
                 e.Handled = true;
             }
         }
