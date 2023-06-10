@@ -153,18 +153,18 @@ namespace Dzik.letter
         {
             if (e.Command != ApplicationCommands.Paste) return;
 
-            var files = Clipboard.GetFileDropList();
-            if (files.Count > 0)
+            try
             {
-                try
+                var files = Clipboard.GetFileDropList();
+                if (files.Count > 0)
                 {
                     var filesArray = files.Cast<string>().ToArray();
                     PlaceImagesFromFilesInOutboundRtb(filesArray);
-                }
-                catch (Exception) { }
 
-                e.Handled = true;
+                    e.Handled = true;
+                }
             }
+            catch (Exception) { }
         }
 
         private void OnPaste(object sender, DataObjectPastingEventArgs e)
@@ -176,8 +176,7 @@ namespace Dzik.letter
                     e.CancelCommand();
                     Focus();
                 }
-                else
-                if (e.DataObject.GetDataPresent(DataFormats.XamlPackage))
+                else if (e.DataObject.GetDataPresent(DataFormats.XamlPackage))
                 {
                     //var data = e.DataObject.GetData(DataFormats.XamlPackage);
                     //if (data != null)
@@ -186,6 +185,17 @@ namespace Dzik.letter
                     //    e.Handled = true;
                     //}
                     e.Handled = true;
+                }
+                else if (e.DataObject.GetDataPresent(DataFormats.Bitmap))
+                {
+                    PlaceBitmapInOutboundRtb(e.DataObject, () =>
+                    {
+                        e.CancelCommand();
+                        return;
+                    });
+
+                    e.CancelCommand();
+                    Focus();
                 }
                 else if (e.DataObject.GetDataPresent(DataFormats.Xaml))
                 {
