@@ -5,9 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dzik"
         mc:Ignorable="d"
-        Title="Gotowa odpowiedź" Height="600" Width="460" Topmost="True" WindowStartupLocation="CenterOwner" MinWidth="460" MinHeight="460">
-    <Grid>
-        <ListBox Style="{DynamicResource ListBoxStyle1}" x:Name="MsgPartsListBox" d:ItemsSource="{d:SampleData ItemCount=5}" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+        Title="Gotowa odpowiedź" Height="600" Width="460" Topmost="True" WindowStartupLocation="CenterOwner" MinWidth="460" MaxWidth="460" MinHeight="460" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
 
-    </Grid>
+    <WindowChrome.WindowChrome>
+        <WindowChrome     
+        CaptionHeight="0"  
+        CornerRadius ="5"
+        ResizeBorderThickness="6"         
+        GlassFrameThickness="0">
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
+    
+    <Border Style="{DynamicResource DzikBorderStyle}" MouseDown="Border_MouseDown">
+        <Grid>
+            <Button x:Name="CloseButton" Content="X" Margin="0,2,2,0" VerticalAlignment="Top" Background="#01808080" BorderBrush="{x:Null}" Foreground="#CC8C8C8C" Click="CloseButton_Click" HorizontalAlignment="Right" Width="31" Height="22" FontSize="14" FontFamily="Arial"/>
+            <ListBox Style="{DynamicResource ListBoxStyle1}" x:Name="MsgPartsListBox" d:ItemsSource="{d:SampleData ItemCount=5}" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0,27,0,0"/>
+            <Label x:Name="WindowTitleLabel" Style="{DynamicResource DzikLabelStyle}" Content="Gotowa odpowiedź" HorizontalAlignment="Left" Margin="29,0,0,0" VerticalAlignment="Top" Width="114"/>
+            <Image HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="24" Source="/Dzik64G.png" Margin="2,2,0,0"/>
+
+        </Grid>
+    </Border>
 </Window>

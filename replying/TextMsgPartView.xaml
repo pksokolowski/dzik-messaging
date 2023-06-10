@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Dzik.replying"
-             mc:Ignorable="d" Height="71" Width="410">
+             mc:Ignorable="d" Height="71" Width="420">
     <Grid Background="#FFCCCCCC" Margin="0,0,0,3">
-        <CheckBox x:Name="msgPartCopiedCheckbox" Content="" Margin="389,26,0,26" Focusable="False" IsHitTestVisible="False" HorizontalAlignment="Left" Width="21"/>
+        <CheckBox x:Name="msgPartCopiedCheckbox" Content="" Margin="399,26,0,26" Focusable="False" IsHitTestVisible="False" HorizontalAlignment="Left" Width="21"/>
         <Label x:Name="MsgPartLabel" Content="Text" Margin="10,4,0,37" Background="{x:Null}" HorizontalAlignment="Left" Width="281" Foreground="Gray"/>
-        <Button x:Name="CopyButton" Content="Kopiuj" Margin="296,4,0,4" Click="CopyButton_Click" HorizontalAlignment="Left" Width="88"/>
+        <Button x:Name="CopyButton" Content="Kopiuj" Margin="306,4,0,4" Click="CopyButton_Click" HorizontalAlignment="Left" Width="88"/>
         <Label x:Name="TypeAndLenLabel" Content="Text" Margin="10,36,0,4" HorizontalAlignment="Left" Width="281"/>
 
     </Grid>
