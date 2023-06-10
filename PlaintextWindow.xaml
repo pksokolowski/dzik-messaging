@@ -5,11 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dzik"
         mc:Ignorable="d"
-        Title="Tekst odszyfrowany" Height="400" Width="760" Topmost="True" WindowStartupLocation="CenterOwner">
-    <Grid>
-        <TextBox x:Name="Output" Margin="0,0,0,63" TextWrapping="Wrap" Text="" IsReadOnly="True" IsReadOnlyCaretVisible="True" BorderThickness="0 2 0 2" Padding="2,2,2,2" Style="{DynamicResource InputTextBoxStyle}" VerticalScrollBarVisibility="Auto" FontSize="14"/>
-        <Button x:Name="CloseWindowButton" Content="Zamknij" Margin="0,0,10,10" HorizontalAlignment="Right" Width="112" Height="48" VerticalAlignment="Bottom" Click="CloseWindowButton_Click"/>
-        <Label x:Name="EncryptionAgeLabel" Content="Zaszyfrowano około n dni temu." Margin="10,0,127,21" Height="26" VerticalAlignment="Bottom"/>
+        Title="Tekst odszyfrowany" Height="400" Width="760" Topmost="True" WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
 
-    </Grid>
+    <WindowChrome.WindowChrome>
+        <WindowChrome     
+        CaptionHeight="0"  
+        CornerRadius ="5"
+        ResizeBorderThickness="6"         
+        GlassFrameThickness="0">
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
+
+    <Border Style="{DynamicResource DzikBorderStyle}" MouseDown="Border_MouseDown" >
+        <Grid>
+            <Image HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="24" Source="/Dzik64G.png" Margin="2,2,0,0"/>
+            <Label x:Name="WindowTitleLabel" Style="{DynamicResource DzikLabelStyle}" Content="Tekst odszyfrowany" HorizontalAlignment="Left" Margin="29,0,0,0" VerticalAlignment="Top" Width="114"/>
+            <Button x:Name="CloseButton" Content="X" Margin="0,2,2,0" VerticalAlignment="Top" Background="#01808080" BorderBrush="{x:Null}" Foreground="#CC8C8C8C" Click="CloseButton_Click" HorizontalAlignment="Right" Width="31" Height="22" FontSize="14" FontFamily="Arial"/>
+
+            <TextBox x:Name="Output" Margin="0,27,0,63" TextWrapping="Wrap" Text="" IsReadOnly="True" IsReadOnlyCaretVisible="True" BorderThickness="0 2 0 2" Padding="2,2,2,2" Style="{DynamicResource InputTextBoxStyle}" VerticalScrollBarVisibility="Auto" FontSize="14"/>
+            <Button x:Name="CloseWindowButton" Content="Zamknij" Margin="0,0,10,10" HorizontalAlignment="Right" Width="112" Height="48" VerticalAlignment="Bottom" Click="CloseWindowButton_Click"/>
+            <Label x:Name="EncryptionAgeLabel" Style="{DynamicResource DzikLabelStyle}" Content="Zaszyfrowano około n dni temu." Margin="10,0,127,21" Height="26" VerticalAlignment="Bottom"/>
+
+        </Grid>
+    </Border>
 </Window>
