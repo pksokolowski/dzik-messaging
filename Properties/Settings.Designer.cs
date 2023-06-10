@@ -118,5 +118,53 @@ namespace Dzik.Properties {
                 this["Theme"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double PlaintextWindowTop {
+            get {
+                return ((double)(this["PlaintextWindowTop"]));
+            }
+            set {
+                this["PlaintextWindowTop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double PlaintextWindowLeft {
+            get {
+                return ((double)(this["PlaintextWindowLeft"]));
+            }
+            set {
+                this["PlaintextWindowLeft"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("760")]
+        public double PlaintextWindowWidth {
+            get {
+                return ((double)(this["PlaintextWindowWidth"]));
+            }
+            set {
+                this["PlaintextWindowWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("400")]
+        public double PlaintextWindowHeight {
+            get {
+                return ((double)(this["PlaintextWindowHeight"]));
+            }
+            set {
+                this["PlaintextWindowHeight"] = value;
+            }
+        }
     }
 }

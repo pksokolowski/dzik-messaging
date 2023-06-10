@@ -1,4 +1,5 @@
 ﻿using Dzik.domain;
+using Dzik.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,9 @@ namespace Dzik
         {
             this.Owner = owner;
             InitializeComponent();
+
+            SourceInitialized += WindowRoot_SourceInitialized;
+            Closing += WindowRoot_Closing;
 
             Output.Text = decryptedMsg.plainText;
 
@@ -51,5 +55,37 @@ namespace Dzik
         {
             Close();
         }
+
+
+        // Remembering window location
+        private void WindowRoot_SourceInitialized(object sender, EventArgs e)
+        {
+            this.Top = Settings.Default.PlaintextWindowTop;
+            this.Left = Settings.Default.PlaintextWindowLeft;
+            this.Height = Settings.Default.PlaintextWindowHeight;
+            this.Width = Settings.Default.PlaintextWindowWidth;
+        }
+
+        private void WindowRoot_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
+                Settings.Default.PlaintextWindowTop = RestoreBounds.Top;
+                Settings.Default.PlaintextWindowLeft = RestoreBounds.Left;
+                Settings.Default.PlaintextWindowHeight = RestoreBounds.Height;
+                Settings.Default.PlaintextWindowWidth = RestoreBounds.Width;
+            }
+            else
+            {
+                Settings.Default.PlaintextWindowTop = this.Top;
+                Settings.Default.PlaintextWindowLeft = this.Left;
+                Settings.Default.PlaintextWindowHeight = this.Height;
+                Settings.Default.PlaintextWindowWidth = this.Width;
+            }
+
+            Settings.Default.Save();
+        }
+
     }
 }

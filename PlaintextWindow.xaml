@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dzik"
         mc:Ignorable="d"
-        Title="Tekst odszyfrowany" Height="400" Width="760" Topmost="True" WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
+        Title="Tekst odszyfrowany" Height="400" Width="760" MinHeight="200" MinWidth="400" Topmost="True" WindowStartupLocation="Manual" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
 
     <WindowChrome.WindowChrome>
         <WindowChrome     
