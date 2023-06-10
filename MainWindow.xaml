@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dzik"
         mc:Ignorable="d"
-        Title="Dzik" Height="750" Width="900" MinWidth="708" MinHeight="150" KeyDown="Window_KeyDown" ResizeMode="CanResizeWithGrip" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
+        Title="Dzik" Height="750" Width="900" MinWidth="708" MinHeight="150" KeyDown="Window_KeyDown" ResizeMode="CanResize" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
 
     <WindowChrome.WindowChrome>
         <WindowChrome     
-        CaptionHeight="1"  
-        CornerRadius ="0"
+        CaptionHeight="0"  
+        CornerRadius ="5"
         ResizeBorderThickness="6"         
         GlassFrameThickness="0">
         </WindowChrome>
