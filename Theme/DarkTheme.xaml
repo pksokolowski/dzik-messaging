@@ -399,6 +399,17 @@
     </Style>
 
 
+    <!--USER_CONTROL STYLE-->
+
+    <Style x:Key="DzikTextItemStyle" TargetType="{x:Type UserControl}">
+        <Setter Property="Background" Value="#FF373737"/>
+    </Style>
+
+    <Style x:Key="DzikImgItemStyle" TargetType="{x:Type UserControl}">
+        <Setter Property="Background" Value="#FF00335B"/>
+    </Style>
+
+
     <!--LABEL STYLE-->
 
     <Style x:Key="DzikLabelStyle" TargetType="{x:Type Label}">

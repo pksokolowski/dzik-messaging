@@ -72,6 +72,17 @@
         <Setter Property="BorderBrush" Value="#FFC8C8C8"/>
         <Setter Property="CornerRadius" Value="5,5,5,5"/>
     </Style>
+
+    
+    <!--USER_CONTROL STYLE-->
+
+    <Style x:Key="DzikTextItemStyle" TargetType="{x:Type UserControl}">
+        <Setter Property="Background" Value="#FFCCCCCC"/>
+    </Style>
+
+    <Style x:Key="DzikImgItemStyle" TargetType="{x:Type UserControl}">
+        <Setter Property="Background" Value="#FFB4DEFF"/>
+    </Style>
     
     
     <!--LABEL STYLE-->
