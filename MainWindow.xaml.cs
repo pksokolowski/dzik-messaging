@@ -152,7 +152,7 @@ namespace Dzik
         }
 
         private void HandleClipboardContentPasting()
-        {           
+        {
             var clipboardText = Clipboard.GetText();
 
             HandleContentPasting(clipboardText);
@@ -200,6 +200,16 @@ namespace Dzik
                 HandleClipboardContentPasting();
                 e.Handled = true;
             }
+            else if (e.Key == Key.E && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                MarkSelectionForEncryption();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Z && Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                Input.Redo();
+                e.Handled = true;
+            }
         }
 
         private void SaveDraft()
@@ -237,6 +247,11 @@ namespace Dzik
         }
 
         private void EncryptSelectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            MarkSelectionForEncryption();
+        }
+
+        private void MarkSelectionForEncryption()
         {
             PrefixAdder.Handle(Input, Constants.MARKER_TO_ENCRYPT_TAG);
         }
