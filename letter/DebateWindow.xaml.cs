@@ -257,8 +257,11 @@ namespace Dzik.letter
             else if (e.Data.GetDataPresent(DataFormats.Bitmap))
             {
                 PlaceBitmapInOutboundRtb(e.Data, () => { });
-                e.Handled = true;
+                e.Handled = true;              
             }
+
+            Activate();
+            Focus();
         }
 
         private void ImageMouseLEftButtonDownHandler(object sender, MouseButtonEventArgs e)
