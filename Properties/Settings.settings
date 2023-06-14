@@ -15,7 +15,7 @@
       <Value Profile="(Default)">900</Value>
     </Setting>
     <Setting Name="MsgPartMaxLen" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">16550</Value>
+      <Value Profile="(Default)">9900</Value>
     </Setting>
     <Setting Name="ReplyWindowTop" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>
