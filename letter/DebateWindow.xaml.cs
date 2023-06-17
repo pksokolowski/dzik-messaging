@@ -5,13 +5,9 @@ using Dzik.data;
 using Dzik.letters.utils;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -26,8 +22,6 @@ namespace Dzik.letter
     /// </summary>
     public partial class DebateWindow : Window
     {
-        private const int maxBase64MessageLenBytes = 100_000;
-        private const string xamlMessageDestinationDir = "Listy/";
         private readonly KeysVault keysVault;
 
         private Brush quotationBackground = new SolidColorBrush(Color.FromRgb(55, 55, 55));
