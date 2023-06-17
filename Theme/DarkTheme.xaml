@@ -394,7 +394,7 @@
     <Style x:Key="DzikBorderStyle" TargetType="{x:Type Border}">
         <Setter Property="BorderThickness" Value="2,2,2,2"/>
         <Setter Property="Background" Value="#FF222225"/>
-        <Setter Property="BorderBrush" Value="#FF4A4A4A"/>
+        <Setter Property="BorderBrush" Value="#FF353535"/>
         <Setter Property="CornerRadius" Value="5,5,5,5"/>
     </Style>
 

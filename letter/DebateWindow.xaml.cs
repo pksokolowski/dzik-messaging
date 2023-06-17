@@ -257,7 +257,7 @@ namespace Dzik.letter
             else if (e.Data.GetDataPresent(DataFormats.Bitmap))
             {
                 PlaceBitmapInOutboundRtb(e.Data, () => { });
-                e.Handled = true;              
+                e.Handled = true;
             }
 
             Activate();
@@ -312,7 +312,7 @@ namespace Dzik.letter
         {
             var elem = sender as Ellipse;
             if (elem == null) return;
-            QuoteSelection(accent: elem.Stroke, background: Brushes.Black, textColor: elem.Fill);
+            QuoteSelection(accent: elem.Stroke, background: outboundRtb.Background, textColor: elem.Fill);
         }
 
         private void QuoteSelection(Brush accent = null, Brush background = null, Brush textColor = null)
@@ -357,15 +357,6 @@ namespace Dzik.letter
         private void SaveDraftButton_Click(object sender, RoutedEventArgs e)
         {
             SaveDraft();
-        }
-
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control)
-            {
-                SaveDraft();
-                e.Handled = true;
-            }
         }
 
         private bool SaveDraft()
@@ -482,6 +473,34 @@ namespace Dzik.letter
             if (WindowState == WindowState.Maximized)
             {
                 WindowState = WindowState.Normal;
+            }
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                SaveDraft();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Q && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                QuoteSelection();
+                e.Handled = true;
+            }
+        }
+
+        private void outboundRtb_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Z && Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                outboundRtb.Redo();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.E && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                RtbTools.ClearFormatting(outboundRtb);
+                e.Handled = true;
             }
         }
     }
