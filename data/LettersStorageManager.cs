@@ -15,7 +15,7 @@ namespace Dzik.data
 
         private static string InboundPath = LettersRootDir + "/inbound";
         private static string DraftPath = LettersRootDir + "/draft";
-        private static string OutputLetterPath = LettersOutputDir + "/milk bottle";
+        private static string OutputLetterPath = LettersOutputDir + "/bottle";
 
 
         private static void EnsureLettersDataFolderExists()
