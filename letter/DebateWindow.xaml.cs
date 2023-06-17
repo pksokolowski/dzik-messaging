@@ -234,12 +234,23 @@ namespace Dzik.letter
 
         private void PlaceImagesFromFilesInOutboundRtb(string[] files)
         {
+            var images = new List<ImageSource>();
             foreach (string file in files)
             {
                 try
                 {
                     var imageSource = ImgUtils.LoadImageWithCorrectRotation(file);
-                    PlaceBitmapInOutbountRtb(imageSource);
+                    images.Add(imageSource);
+                }
+                catch (Exception) { }
+            }
+
+            var sortedImages = images.OrderBy(img => img.Height);
+            foreach (ImageSource img in sortedImages)
+            {
+                try
+                {
+                    PlaceBitmapInOutbountRtb(img);
                 }
                 catch (Exception) { }
             }
