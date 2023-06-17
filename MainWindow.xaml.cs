@@ -373,5 +373,10 @@ namespace Dzik
             Settings.Default.Theme = (Settings.Default.Theme + 1) % 2;
             ApplyTheme();
         }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
     }
 }
