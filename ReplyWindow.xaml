@@ -22,7 +22,7 @@
             <Label x:Name="WindowTitleLabel" Style="{DynamicResource DzikLabelStyle}" Content="Gotowa odpowiedź" HorizontalAlignment="Left" Margin="29,0,0,0" VerticalAlignment="Top" Width="114"/>
             <Button x:Name="CloseButton" Content="X" Margin="0,2,2,0" VerticalAlignment="Top" Background="#01808080" BorderBrush="{x:Null}" Foreground="#CC8C8C8C" Click="CloseButton_Click" HorizontalAlignment="Right" Width="31" Height="22" FontSize="14" FontFamily="Arial"/>
             
-            <ListBox Style="{DynamicResource ListBoxStyle1}" x:Name="MsgPartsListBox" d:ItemsSource="{d:SampleData ItemCount=5}" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0,27,0,0"/>
+            <ListBox Style="{DynamicResource ListBoxStyle1}" x:Name="MsgPartsListBox" d:ItemsSource="{d:SampleData ItemCount=5}" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0,27,0,0" ScrollViewer.CanContentScroll="False"/>
            
             
         </Grid>
