@@ -3,6 +3,7 @@ using Dzik.crypto.protocols;
 using Dzik.crypto.utils;
 using Dzik.data;
 using Dzik.letters.utils;
+using Dzik.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,6 @@ namespace Dzik.letter
     {
         private readonly KeysVault keysVault;
 
-        private Brush quotationBackground = new SolidColorBrush(Color.FromRgb(55, 55, 55));
         private int ImagesPerRow;
 
         private bool needToSaveInboundMessage = true;
@@ -192,9 +192,9 @@ namespace Dzik.letter
                     Focus();
                 }
                 else if (e.DataObject.GetDataPresent(DataFormats.Xaml))
-                {                   
+                {
                     QuoteSelection();
-                    e.CancelCommand();                
+                    e.CancelCommand();
                 }
                 else if (e.DataObject.GetDataPresent(DataFormats.UnicodeText))
                 {
@@ -307,24 +307,47 @@ namespace Dzik.letter
             QuoteSelection();
         }
 
-        private void colorfulQuotationEllipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void quotationGrayEllipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var elem = sender as Ellipse;
-            if (elem == null) return;
-            QuoteSelection(accent: elem.Fill, background: elem.Stroke, textColor: Brushes.White);
+            Settings.Default.LetterQuotationTheme = 0;
         }
 
-        private void colorfulQuotationEllipse_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void quotationPinkEllipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var elem = sender as Ellipse;
-            if (elem == null) return;
-            QuoteSelection(accent: elem.Stroke, background: outboundRtb.Background, textColor: elem.Fill);
+            Settings.Default.LetterQuotationTheme = 1;
         }
 
-        private void QuoteSelection(Brush accent = null, Brush background = null, Brush textColor = null)
+        private void quotationBlueEllipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var backgroundToUse = background ?? quotationBackground;
-            RtbTools.QuoteSelection(inboundRtb, outboundRtb, backgroundToUse, accent, textColor);
+            Settings.Default.LetterQuotationTheme = 2;
+        }
+
+        private void QuoteSelection()
+        {
+            var converter = new BrushConverter();
+            Brush bg;
+            Brush stroke;
+            Brush txt;
+
+            switch (Settings.Default.LetterQuotationTheme)
+            {
+                case 1:
+                    bg = outboundRtb.Background;
+                    stroke = (Brush)converter.ConvertFrom("#FFAD3AC1");
+                    txt = (Brush)converter.ConvertFrom("#FFF095FF");
+                    break;
+                case 2:
+                    bg = outboundRtb.Background;
+                    stroke = (Brush)converter.ConvertFrom("#FF477CFF");
+                    txt = (Brush)converter.ConvertFrom("#FF47A6FF");
+                    break;
+                default:
+                    bg = new SolidColorBrush(Color.FromRgb(55, 55, 55));
+                    stroke = null;
+                    txt = null;
+                    break;
+            }
+            RtbTools.QuoteSelection(inboundRtb, outboundRtb, bg, stroke, txt);
         }
 
         private void EncryptToFileButton_Click(object sender, RoutedEventArgs e)
