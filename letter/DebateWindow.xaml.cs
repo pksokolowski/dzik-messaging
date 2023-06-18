@@ -192,8 +192,9 @@ namespace Dzik.letter
                     Focus();
                 }
                 else if (e.DataObject.GetDataPresent(DataFormats.Xaml))
-                {
-                    e.Handled = false;
+                {                   
+                    QuoteSelection();
+                    e.CancelCommand();                
                 }
                 else if (e.DataObject.GetDataPresent(DataFormats.UnicodeText))
                 {
