@@ -62,5 +62,24 @@ namespace Dzik.editing
 
             input.Text = input.Text.Remove(cStart, cEnd).Insert(cStart, content);
         }
+
+        internal static int GetLineStartIndex(TextBox input)
+        {
+            var beginningOfFirstSelectedLine = 0;
+            if (IsCarretAtTheBeginningOfLine(input))
+            {
+                beginningOfFirstSelectedLine = input.SelectionStart;
+            }
+            else
+            {
+                for (int i = input.SelectionStart - 1; i >= 0; i--)
+                {
+                    if (input.Text[i] == '\n') { beginningOfFirstSelectedLine = i; break; }
+                    if (i == 0) beginningOfFirstSelectedLine = 0;
+                }
+            }
+
+            return beginningOfFirstSelectedLine;
+        }
     }
 }

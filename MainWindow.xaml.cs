@@ -253,7 +253,14 @@ namespace Dzik
 
         private void MarkSelectionForEncryption()
         {
-            PrefixAdder.Handle(Input, Constants.MARKER_TO_ENCRYPT_TAG);
+            if (PrefixDetector.HasPrefix(Input, Constants.MARKER_TO_ENCRYPT_TAG))
+            {
+                PrefixRemover.Handle(Input, Constants.MARKER_TO_ENCRYPT_TAG);
+            }
+            else
+            {
+                PrefixAdder.Handle(Input, Constants.MARKER_TO_ENCRYPT_TAG);
+            }
         }
 
         private void ReplyButton_Click(object sender, RoutedEventArgs e)

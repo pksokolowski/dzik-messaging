@@ -115,6 +115,8 @@
     <Compile Include="editing\PrefixAdder.cs" />
     <Compile Include="editing\FileDropHandler.cs" />
     <Compile Include="editing\KeyAgreementResponseHandler.cs" />
+    <Compile Include="editing\PrefixDetector.cs" />
+    <Compile Include="editing\PrefixRemover.cs" />
     <Compile Include="editing\QuotationHandler.cs" />
     <Compile Include="keyStorageWindows\GenerateResponseWindow.xaml.cs">
       <DependentUpon>GenerateResponseWindow.xaml</DependentUpon>
