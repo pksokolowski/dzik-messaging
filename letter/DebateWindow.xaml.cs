@@ -81,6 +81,8 @@ namespace Dzik.letter
             DataObject.AddPastingHandler(outboundRtb, OnPaste);
 
             ((App)Application.Current).SessionEnding += DebateWindow_SessionEnding;
+
+            IndicateChosenQuotationColor();
         }
 
         private void DebateWindow_SessionEnding(object sender, SessionEndingCancelEventArgs e)
@@ -310,16 +312,37 @@ namespace Dzik.letter
         private void quotationGrayEllipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Settings.Default.LetterQuotationTheme = 0;
+            IndicateChosenQuotationColor();
         }
 
         private void quotationPinkEllipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Settings.Default.LetterQuotationTheme = 1;
+            IndicateChosenQuotationColor();
         }
 
         private void quotationBlueEllipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Settings.Default.LetterQuotationTheme = 2;
+            IndicateChosenQuotationColor();
+        }
+
+        private void IndicateChosenQuotationColor()
+        {
+            var quotationThemeCode = Settings.Default.LetterQuotationTheme;
+            var ellipses = new Ellipse[] { quotationGrayEllipse, quotationPinkEllipse, quotationBlueEllipse };
+
+            for (int i = 0; i < ellipses.Length; i++)
+            {
+                if (quotationThemeCode == i)
+                {
+                    ellipses[i].Opacity = 1;
+                }
+                else
+                {
+                    ellipses[i].Opacity = 0.5;
+                }
+            }
         }
 
         private void QuoteSelection()
