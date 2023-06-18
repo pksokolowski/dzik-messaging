@@ -74,11 +74,11 @@ namespace Dzik.editing
             {
                 for (int i = input.SelectionStart - 1; i >= 0; i--)
                 {
-                    if (input.Text[i] == '\n') { beginningOfFirstSelectedLine = i; break; }
+                    if (input.Text[i] == '\n') { beginningOfFirstSelectedLine = i + 1; break; }
                     if (i == 0) beginningOfFirstSelectedLine = 0;
                 }
             }
-
+            
             return beginningOfFirstSelectedLine;
         }
     }

@@ -19,6 +19,9 @@ namespace Dzik.editing
                 var initialSelectionStart = tb.SelectionStart;
                 var initialSelectionLen = tb.SelectionLength;
 
+                var beginningOfFirstSelectedLine = LinesPrepender.GetLineStartIndex(tb);
+                var extendedSelectionLen = initialSelectionLen + (initialSelectionStart - beginningOfFirstSelectedLine);
+
                 var markerAndSpace = $"{prefix} ";
                 var NewLinesMarkerAndSpace = $"\n\n{prefix} ";
 
