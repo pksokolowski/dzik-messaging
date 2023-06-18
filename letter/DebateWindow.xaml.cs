@@ -195,8 +195,7 @@ namespace Dzik.letter
                 }
                 else if (e.DataObject.GetDataPresent(DataFormats.Xaml))
                 {
-                    QuoteSelection();
-                    e.CancelCommand();
+                    e.Handled = false;
                 }
                 else if (e.DataObject.GetDataPresent(DataFormats.UnicodeText))
                 {
