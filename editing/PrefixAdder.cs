@@ -25,40 +25,14 @@ namespace Dzik.editing
                 var markerAndSpace = $"{prefix} ";
                 var NewLinesMarkerAndSpace = $"\n\n{prefix} ";
 
-                if (initialSelectionLen == 0)
-                {
-                    if (isCarretAtBeginningOfLine)
-                    {
-                        tb.Text = tb.Text.Insert(initialSelectionStart, markerAndSpace);
-                        tb.Select(initialSelectionStart + markerAndSpace.Length, 0);
-                    }
-                    else
-                    {
-                        tb.Text = tb.Text.Insert(initialSelectionStart, NewLinesMarkerAndSpace);
-                        tb.Select(initialSelectionStart + NewLinesMarkerAndSpace.Length, 0);
-                    }
-                }
-                else
-                {
-                    if (isCarretAtBeginningOfLine)
-                    {
-                        var selectionText = tb.Text.Substring(initialSelectionStart, initialSelectionLen);
-                        tb.Text = tb.Text.Remove(initialSelectionStart, initialSelectionLen);
 
-                        var prepended = LinesPrepender.PrependedRetainingNewLines(selectionText, markerAndSpace, true);
-                        tb.Text = tb.Text.Insert(initialSelectionStart, prepended);
-                        tb.Select(initialSelectionStart + markerAndSpace.Length, prepended.Length - markerAndSpace.Length);
-                    }
-                    else
-                    {
-                        var selectionText = tb.Text.Substring(initialSelectionStart, initialSelectionLen);
-                        tb.Text = tb.Text.Remove(initialSelectionStart, initialSelectionLen);
+                var selectionText = tb.Text.Substring(beginningOfFirstSelectedLine, extendedSelectionLen);
+                tb.Text = tb.Text.Remove(beginningOfFirstSelectedLine, extendedSelectionLen);
 
-                        var prepended = LinesPrepender.PrependedRetainingNewLines(selectionText, NewLinesMarkerAndSpace, true);
-                        tb.Text = tb.Text.Insert(initialSelectionStart, prepended);
-                        tb.Select(initialSelectionStart + NewLinesMarkerAndSpace.Length, prepended.Length - NewLinesMarkerAndSpace.Length);
-                    }
-                }
+                var prepended = LinesPrepender.PrependedRetainingNewLines(selectionText, markerAndSpace, true);
+                tb.Text = tb.Text.Insert(beginningOfFirstSelectedLine, prepended);            
+                tb.Select(beginningOfFirstSelectedLine + prepended.Length, 0);
+
 
                 tb.Focus();
                 tb.EndChange();
@@ -66,7 +40,7 @@ namespace Dzik.editing
             catch (Exception)
             {
                 tb.EndChange();
-                DialogShower.ShowError("Oznaczanie do szyfrowania nie powiodło się.");
+                DialogShower.ShowError("Oznaczanie tekstu markerem nie powiodło się");
             }
         }
     }
