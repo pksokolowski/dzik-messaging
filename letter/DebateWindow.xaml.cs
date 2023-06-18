@@ -355,13 +355,13 @@ namespace Dzik.letter
             {
                 case 1:
                     bg = outboundRtb.Background;
-                    stroke = (Brush)converter.ConvertFrom("#FFAD3AC1");
+                    stroke = (Brush)converter.ConvertFrom("#FFbf48a7");
                     txt = (Brush)converter.ConvertFrom("#FFF095FF");
                     break;
                 case 2:
                     bg = outboundRtb.Background;
-                    stroke = (Brush)converter.ConvertFrom("#FF477CFF");
-                    txt = (Brush)converter.ConvertFrom("#FF47A6FF");
+                    stroke = (Brush)converter.ConvertFrom("#FF4383af");
+                    txt = Brushes.LightSkyBlue;
                     break;
                 default:
                     bg = new SolidColorBrush(Color.FromRgb(55, 55, 55));
