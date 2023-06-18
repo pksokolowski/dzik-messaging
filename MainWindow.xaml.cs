@@ -235,7 +235,7 @@ namespace Dzik
 
             var imgMarkerText = Constants.MARKER_IMAGE_TAG;
             // add newline before, if missing
-            if (!LinesPrepender.IsCarretAtTheBeginningOfLine(Input)) imgMarkerText = '\n' + imgMarkerText;
+            if (!LinesPrepender.IsCarretAtTheBeginningOfLine(Input)) imgMarkerText = "\n\n" + imgMarkerText;
 
             var imgMarkerTextNoteInitialText = " notka orientacyjna o jakie zdjęcie chodzi";
             var initialImgText = LinesPrepender.Prepended(imgMarkerTextNoteInitialText, imgMarkerText, true);
