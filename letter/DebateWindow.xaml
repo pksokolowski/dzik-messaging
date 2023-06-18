@@ -135,7 +135,7 @@
             <Button x:Name="SaveDraftButton" Content="Zapisz" HorizontalAlignment="Right" Margin="0,0,147,11" Height="29" VerticalAlignment="Bottom" Width="132" Grid.Column="1" Click="SaveDraftButton_Click"/>
             <Ellipse x:Name="quotationBlueEllipse" Margin="0,0,424,18" Stroke="#FF477CFF" Height="15" VerticalAlignment="Bottom" Fill="#FF47A6FF" MouseLeftButtonDown="quotationBlueEllipse_MouseLeftButtonDown" HorizontalAlignment="Right" Width="15" ToolTip="Kliknij aby ustawić kolor cytatów na niebieski"/>
             <Ellipse x:Name="quotationPinkEllipse" Margin="0,0,444,18" Stroke="#FFAD3AC1" Height="15" VerticalAlignment="Bottom" Fill="#FFF095FF" MouseLeftButtonDown="quotationPinkEllipse_MouseLeftButtonDown"  HorizontalAlignment="Right" Width="15" ToolTip="Kliknij aby ustawić kolor cytatów na różowy"/>
-            <Ellipse x:Name="quotationGrayEllipse" Margin="0,0,464,18" Stroke="DimGray" Height="15" VerticalAlignment="Bottom" Fill="#FFABABAB" MouseLeftButtonDown="quotationGrayEllipse_MouseLeftButtonDown" HorizontalAlignment="Right" Width="15" ToolTip="Kliknij aby ustawić kolor cytatów na szary"/>
+            <Ellipse x:Name="quotationGrayEllipse" Margin="0,0,464,18" Stroke="DimGray" Height="15" VerticalAlignment="Bottom" Fill="#FFCCCCCC" MouseLeftButtonDown="quotationGrayEllipse_MouseLeftButtonDown" HorizontalAlignment="Right" Width="15" ToolTip="Kliknij aby ustawić kolor cytatów na szary"/>
 
         </Grid>
     </Border>
