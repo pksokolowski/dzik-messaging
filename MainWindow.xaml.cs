@@ -205,7 +205,7 @@ namespace Dzik
                 MarkSelectionForEncryption();
                 e.Handled = true;
             }
-            else if (e.Key == Key.Z && Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftShift))
+            else if (e.Key == Key.Z && Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftShift) && Keyboard.IsKeyUp(Key.RightAlt))
             {
                 Input.Redo();
                 e.Handled = true;
