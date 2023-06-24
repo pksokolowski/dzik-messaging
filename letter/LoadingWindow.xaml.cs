@@ -67,7 +67,7 @@ namespace Dzik.letter
                 _owner.Dispatcher.Invoke(() => _owner.Activate());
             }));
             newWindowThread.SetApartmentState(ApartmentState.STA);
-            newWindowThread.IsBackground = true;
+            newWindowThread.IsBackground = false;
             newWindowThread.Start();
 
         }
