@@ -141,6 +141,9 @@
       <DependentUpon>ImageViewerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="letter\ImgUtils.cs" />
+    <Compile Include="letter\LoadingWindow.xaml.cs">
+      <DependentUpon>LoadingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="letter\RtbManualProvider.cs" />
     <Compile Include="letter\RtbTools.cs" />
     <Compile Include="letter\XamlMessageDraftStorage.cs" />
@@ -190,6 +193,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="letter\ImageViewerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="letter\LoadingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
