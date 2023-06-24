@@ -50,11 +50,14 @@ namespace Dzik.letter
 
             if (messageReceived != null)
             {
+                var loadingIndicator = new LoadingIndicator(this);
                 PopulateRtbWithBytes(inboundRtb, messageReceived);
                 inboundMessageBytes = messageReceived;
+                loadingIndicator.CloseIndicator();
             }
             else if (XamlMessageDraftStorage.HasStoredDraft())
             {
+                var loadingIndicator = new LoadingIndicator(this, LoadingIndicatorLocation.CenterScreen);
                 // since inbound message is readOnly, if it's present, no need to save it again.
                 needToSaveInboundMessage = false;
 
@@ -72,6 +75,7 @@ namespace Dzik.letter
                     PopulateRtbWithBytes(outboundRtb, outbound);
                     hasPotentiallyUnsavedChanges = false;
                 }
+                loadingIndicator.CloseIndicator();
             }
             else
             {
@@ -374,6 +378,8 @@ namespace Dzik.letter
 
         private void EncryptToFileButton_Click(object sender, RoutedEventArgs e)
         {
+            var loadingIndicator = new LoadingIndicator(this);
+
             var outputPath = LettersStorageManager.GetOutBoundPath();
 
             try
@@ -394,6 +400,10 @@ namespace Dzik.letter
             {
                 DialogShower.ShowError($"Przygotowanie zaszyfrowanego pliku i/lub otwarcie folderu go zawierającego nie powiodło się.\n\nSprawdź '{outputPath}' aby potwierdzić, czy plik wiadomości został wygenerowany. Zaleca się próbne odszyfrowanie pliku, dla pewności, przed wysłaniem.");
             }
+            finally
+            {
+                loadingIndicator.CloseIndicator();
+            }
         }
 
         private byte[] ObtainInboundBytesEfficiently()
@@ -412,6 +422,7 @@ namespace Dzik.letter
 
         private bool SaveDraft()
         {
+            var loadingIndicator = new LoadingIndicator(this);
             try
             {
                 var inbound = needToSaveInboundMessage ? ObtainInboundBytesEfficiently() : null;
@@ -430,6 +441,10 @@ namespace Dzik.letter
             {
                 DialogShower.ShowError("Nie udało się zapisać kopii roboczej wiadomości.");
                 return false;
+            }
+            finally
+            {
+                loadingIndicator.CloseIndicator();
             }
         }
 

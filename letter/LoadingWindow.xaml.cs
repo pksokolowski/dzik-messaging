@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Threading;
+using static Dzik.letter.LoadingIndicator;
 
 namespace Dzik.letter
 {
@@ -12,62 +13,25 @@ namespace Dzik.letter
     /// </summary>
     public partial class LoadingWindow : Window
     {
-        public LoadingWindow(Window owner)
+        public LoadingWindow()
         {
             InitializeComponent();
-
-            double ox = owner.Left;
-            double oy = owner.Top;
-            double ow = owner.Width;
-            double oh = owner.Height;
-
-            this.Left = ox + (0.5 * this.Width);
-            this.Top = oy + (0.5 * this.Height);
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         public LoadingWindow(double ox, double oy, double ow, double oh)
         {
             InitializeComponent();
 
-            this.Left = ox + (0.5 * this.Width);
-            this.Top = oy + (0.5 * this.Height);
+            this.Left = ox + (0.5 * ow) - (0.5 * this.Width);
+            this.Top = oy + (0.5 * oh) - (0.5 * this.Height);
         }
+    }
 
-        public static void ShowIndicator(Window owner)
-        {
-            double ox = owner.Left;
-            double oy = owner.Top;
-            double ow = owner.Width;
-            double oh = owner.Height;
-
-            Thread newWindowThread = new Thread(new ThreadStart(() =>
-            {
-                var window = new LoadingWindow(ox, oy, ow, oh);
-                _window = window;
-                window.ShowDialog();
-                owner.Dispatcher.Invoke(() => owner.Activate());
-            }));
-            newWindowThread.SetApartmentState(ApartmentState.STA);
-            newWindowThread.IsBackground = true;
-            newWindowThread.Start();
-
-
-        }
-
-        private static LoadingWindow _window;
-
-        public static void CloseWindowSafely()
-        {
-            while (_window == null)
-            {
-                Thread.Sleep(50);
-            }
-
-            if (_window.Dispatcher.CheckAccess())
-                _window.Close();
-            else
-                _window.Dispatcher.Invoke(DispatcherPriority.Normal, new ThreadStart(_window.Close));
-        }
+    public enum LoadingIndicatorLocation
+    {
+        CenterScreen,
+        CenterOwner,
     }
 
     class LoadingIndicator
@@ -75,13 +39,13 @@ namespace Dzik.letter
         private LoadingWindow _window;
         private Window _owner;
         private bool _markedForClosing = false;
-        public LoadingIndicator(Window owner)
+        public LoadingIndicator(Window owner, LoadingIndicatorLocation location = LoadingIndicatorLocation.CenterOwner)
         {
             _owner = owner;
-            ShowLoadingDialog();
+            ShowLoadingDialog(location);
         }
 
-        private void ShowLoadingDialog()
+        private void ShowLoadingDialog(LoadingIndicatorLocation location = LoadingIndicatorLocation.CenterOwner)
         {
             double ox = _owner.Left;
             double oy = _owner.Top;
@@ -90,9 +54,16 @@ namespace Dzik.letter
 
             Thread newWindowThread = new Thread(new ThreadStart(() =>
             {
-                var window = new LoadingWindow(ox, oy, ow, oh);
-                _window = window;
-                window.ShowDialog();
+                if (location == LoadingIndicatorLocation.CenterOwner)
+                {
+                    _window = new LoadingWindow(ox, oy, ow, oh);
+                }
+                else
+                {
+                    _window = new LoadingWindow();
+                }
+
+                _window.ShowDialog();
                 _owner.Dispatcher.Invoke(() => _owner.Activate());
             }));
             newWindowThread.SetApartmentState(ApartmentState.STA);
@@ -101,7 +72,7 @@ namespace Dzik.letter
 
         }
 
-        public void CloseLoadingWindows()
+        public void CloseIndicator()
         {
             while (_window == null)
             {
