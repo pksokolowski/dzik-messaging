@@ -41,5 +41,8 @@
     <Setting Name="LetterQuotationTheme" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="EstimateLoadingXamlMsg" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0.00831733</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

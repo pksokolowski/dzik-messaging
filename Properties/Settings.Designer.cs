@@ -178,5 +178,17 @@ namespace Dzik.Properties {
                 this["LetterQuotationTheme"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.00831733")]
+        public string EstimateLoadingXamlMsg {
+            get {
+                return ((string)(this["EstimateLoadingXamlMsg"]));
+            }
+            set {
+                this["EstimateLoadingXamlMsg"] = value;
+            }
+        }
     }
 }

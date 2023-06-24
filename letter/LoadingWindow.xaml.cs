@@ -44,6 +44,11 @@ namespace Dzik.letter
 
         public LoadingIndicator(Window owner, LoadingIndicatorLocation location = LoadingIndicatorLocation.CenterOwner, Estimator estimator = null)
         {
+            _estimator = estimator;
+            _owner = owner;
+
+            estimator?.Start();
+
             if (estimator != null)
             {
                 var estimateMillis = estimator.GetEstimatedMillis();
@@ -53,10 +58,7 @@ namespace Dzik.letter
                     return;
                 }
             }
-
-            estimator?.Start();
-            _owner = owner;
-            _estimator = estimator;
+                                  
             ShowLoadingDialog(location);
         }
 
@@ -89,9 +91,9 @@ namespace Dzik.letter
 
         public void CloseIndicator()
         {
-            if (_aborted) return;
-
             _estimator?.End();
+
+            if (_aborted) return;           
 
             while (_window == null)
             {
