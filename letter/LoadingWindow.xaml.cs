@@ -12,12 +12,61 @@ namespace Dzik.letter
     /// </summary>
     public partial class LoadingWindow : Window
     {
+        public LoadingWindow(Window owner)
+        {
+            InitializeComponent();
+
+            double ox = owner.Left;
+            double oy = owner.Top;
+            double ow = owner.Width;
+            double oh = owner.Height;
+
+            this.Left = ox + (0.5 * this.Width);
+            this.Top = oy + (0.5 * this.Height);
+        }
+
         public LoadingWindow(double ox, double oy, double ow, double oh)
         {
             InitializeComponent();
 
             this.Left = ox + (0.5 * this.Width);
             this.Top = oy + (0.5 * this.Height);
+        }
+
+        public static void ShowIndicator(Window owner)
+        {
+            double ox = owner.Left;
+            double oy = owner.Top;
+            double ow = owner.Width;
+            double oh = owner.Height;
+
+            Thread newWindowThread = new Thread(new ThreadStart(() =>
+            {
+                var window = new LoadingWindow(ox, oy, ow, oh);
+                _window = window;
+                window.ShowDialog();
+                owner.Dispatcher.Invoke(() => owner.Activate());
+            }));
+            newWindowThread.SetApartmentState(ApartmentState.STA);
+            newWindowThread.IsBackground = true;
+            newWindowThread.Start();
+
+
+        }
+
+        private static LoadingWindow _window;
+
+        public static void CloseWindowSafely()
+        {
+            while (_window == null)
+            {
+                Thread.Sleep(50);
+            }
+
+            if (_window.Dispatcher.CheckAccess())
+                _window.Close();
+            else
+                _window.Dispatcher.Invoke(DispatcherPriority.Normal, new ThreadStart(_window.Close));
         }
     }
 
@@ -39,67 +88,30 @@ namespace Dzik.letter
             double ow = _owner.Width;
             double oh = _owner.Height;
 
-
-            // Create a thread
             Thread newWindowThread = new Thread(new ThreadStart(() =>
             {
-                lock (this)
-                {
-                    if (_markedForClosing)
-                    {
-                        Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
-                    }
-                    else
-                    {
-                        var window = new LoadingWindow(ox, oy, ow, oh);
-                        _window = window;
-
-                        // Create our context, and install it:
-                        SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
-
-                        // When the window closes, shut down the dispatcher
-                        window.Closed += (s, e) =>
-                        {
-                            Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
-                        };
-
-                        window.ShowDialog();
-
-                        // Start the Dispatcher Processing
-                        Dispatcher.Run();
-                    }
-                }
-
+                var window = new LoadingWindow(ox, oy, ow, oh);
+                _window = window;
+                window.ShowDialog();
+                _owner.Dispatcher.Invoke(() => _owner.Activate());
             }));
-
-            lock (this)
-            {
-                // Set the apartment state
-                newWindowThread.SetApartmentState(ApartmentState.STA);
-                // Make the thread a background thread
-                newWindowThread.IsBackground = true;
-                // Start the thread
-                newWindowThread.Start();
-            }
+            newWindowThread.SetApartmentState(ApartmentState.STA);
+            newWindowThread.IsBackground = true;
+            newWindowThread.Start();
 
         }
 
-        public bool CloseLoadingWindows()
+        public void CloseLoadingWindows()
         {
-            lock (this)
+            while (_window == null)
             {
-                if (_window == null)
-                {
-                    _markedForClosing = true;
-                    return false;
-                }
-
-                _window.Dispatcher.Invoke(new Action(() => _window.Close()));
-                _window = null;
-                _owner = null;
-
-                return true;
+                Thread.Sleep(50);
             }
+
+            if (_window.Dispatcher.CheckAccess())
+                _window.Close();
+            else
+                _window.Dispatcher.Invoke(DispatcherPriority.Normal, new ThreadStart(_window.Close));
         }
     }
 }
