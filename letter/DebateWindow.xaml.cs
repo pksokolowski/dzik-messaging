@@ -50,7 +50,7 @@ namespace Dzik.letter
 
             if (messageReceived != null)
             {
-                var loadingIndicator = new LoadingIndicator(this);
+                var loadingIndicator = new LoadingIndicator(this, LoadingIndicatorLocation.CenterScreen);
                 PopulateRtbWithBytes(inboundRtb, messageReceived);
                 inboundMessageBytes = messageReceived;
                 loadingIndicator.CloseIndicator();

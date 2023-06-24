@@ -62,7 +62,7 @@ namespace Dzik.letter
                 {
                     _window = new LoadingWindow();
                 }
-
+         
                 _window.ShowDialog();
                 _owner.Dispatcher.Invoke(() => _owner.Activate());
             }));
