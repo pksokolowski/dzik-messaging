@@ -25,6 +25,7 @@ namespace Dzik.letter
     {
         private LoadingWindow _window;
         private Window _owner;
+        private bool _markedForClosing = false;
         public LoadingIndicator(Window owner)
         {
             _owner = owner;
@@ -38,46 +39,67 @@ namespace Dzik.letter
             double ow = _owner.Width;
             double oh = _owner.Height;
 
-            // clear existing threads:
-            CloseLoadingWindows();
 
             // Create a thread
             Thread newWindowThread = new Thread(new ThreadStart(() =>
             {
-                var window = new LoadingWindow(ox, oy, ow, oh);
-                _window = window;
+                lock (this)
+                {
+                    if (_markedForClosing)
+                    {
+                        Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
+                    }
+                    else
+                    {
+                        var window = new LoadingWindow(ox, oy, ow, oh);
+                        _window = window;
 
-                // Create our context, and install it:
-                SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
+                        // Create our context, and install it:
+                        SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
 
+                        // When the window closes, shut down the dispatcher
+                        window.Closed += (s, e) =>
+                        {
+                            Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
+                        };
 
-                // When the window closes, shut down the dispatcher
-                window.Closed += (s, e) =>
-                Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
+                        window.ShowDialog();
 
-                window.ShowDialog();
+                        // Start the Dispatcher Processing
+                        Dispatcher.Run();
+                    }
+                }
 
-                // Start the Dispatcher Processing
-                Dispatcher.Run();
             }));
 
-            // Set the apartment state
-            newWindowThread.SetApartmentState(ApartmentState.STA);
-            // Make the thread a background thread
-            newWindowThread.IsBackground = true;
-            // Start the thread
-            newWindowThread.Start();
+            lock (this)
+            {
+                // Set the apartment state
+                newWindowThread.SetApartmentState(ApartmentState.STA);
+                // Make the thread a background thread
+                newWindowThread.IsBackground = true;
+                // Start the thread
+                newWindowThread.Start();
+            }
+
         }
 
         public bool CloseLoadingWindows()
         {
-            if (_window == null) return false;
+            lock (this)
+            {
+                if (_window == null)
+                {
+                    _markedForClosing = true;
+                    return false;
+                }
 
-            _window.Dispatcher.Invoke(new Action(() => _window.Close()));
-            _window = null;
-            _owner = null;
+                _window.Dispatcher.Invoke(new Action(() => _window.Close()));
+                _window = null;
+                _owner = null;
 
-            return true;
+                return true;
+            }
         }
     }
 }
