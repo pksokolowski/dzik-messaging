@@ -137,6 +137,7 @@
     <Compile Include="letter\DebateWindow.xaml.cs">
       <DependentUpon>DebateWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="letter\estimators\Estimator.cs" />
     <Compile Include="letter\ImageViewerWindow.xaml.cs">
       <DependentUpon>ImageViewerWindow.xaml</DependentUpon>
     </Compile>

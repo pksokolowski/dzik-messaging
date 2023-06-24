@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dzik.letter.estimators;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
@@ -38,10 +39,24 @@ namespace Dzik.letter
     {
         private LoadingWindow _window;
         private Window _owner;
-        private bool _markedForClosing = false;
-        public LoadingIndicator(Window owner, LoadingIndicatorLocation location = LoadingIndicatorLocation.CenterOwner)
+        private Estimator _estimator;
+        private bool _aborted = false;
+
+        public LoadingIndicator(Window owner, LoadingIndicatorLocation location = LoadingIndicatorLocation.CenterOwner, Estimator estimator = null)
         {
+            if (estimator != null)
+            {
+                var estimateMillis = estimator.GetEstimatedMillis();
+                if (estimateMillis < 1000)
+                {
+                    _aborted = true;
+                    return;
+                }
+            }
+
+            estimator?.Start();
             _owner = owner;
+            _estimator = estimator;
             ShowLoadingDialog(location);
         }
 
@@ -62,7 +77,7 @@ namespace Dzik.letter
                 {
                     _window = new LoadingWindow();
                 }
-         
+
                 _window.ShowDialog();
                 _owner.Dispatcher.Invoke(() => _owner.Activate());
             }));
@@ -74,6 +89,10 @@ namespace Dzik.letter
 
         public void CloseIndicator()
         {
+            if (_aborted) return;
+
+            _estimator?.End();
+
             while (_window == null)
             {
                 Thread.Sleep(50);

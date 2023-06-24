@@ -2,6 +2,7 @@
 using Dzik.crypto.protocols;
 using Dzik.crypto.utils;
 using Dzik.data;
+using Dzik.letter.estimators;
 using Dzik.letters.utils;
 using Dzik.Properties;
 using System;
@@ -50,7 +51,12 @@ namespace Dzik.letter
 
             if (messageReceived != null)
             {
-                var loadingIndicator = new LoadingIndicator(this, LoadingIndicatorLocation.CenterScreen);
+                var loadingIndicator = new LoadingIndicator(
+                    owner: this,
+                    location: LoadingIndicatorLocation.CenterScreen,
+                    estimator: new RtbBytesLoadingEstimator(messageReceived.Length)
+                    );
+
                 PopulateRtbWithBytes(inboundRtb, messageReceived);
                 inboundMessageBytes = messageReceived;
                 loadingIndicator.CloseIndicator();
