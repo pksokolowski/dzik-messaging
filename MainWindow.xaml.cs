@@ -54,7 +54,7 @@ namespace Dzik
 
             () => keysVault);
 
-            fileDropHandler = new FileDropHandler(Input, () => { return keysVault; });
+            fileDropHandler = new FileDropHandler(this, Input, () => { return keysVault; });
 
             SourceInitialized += MainWindow_SourceInitialized;
             Closing += MainWindow_Closing;

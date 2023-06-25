@@ -57,12 +57,14 @@ namespace Dzik.letter
         private LoadingWindow _window;
         private Window _owner;
         private Estimator _estimator;
+        private bool _shouldActivateOwnerWindowAfterwards;
         private bool _aborted = false;
 
-        public LoadingIndicator(Window owner, LoadingIndicatorLocation location = LoadingIndicatorLocation.CenterOwner, Estimator estimator = null)
+        public LoadingIndicator(Window owner, LoadingIndicatorLocation location = LoadingIndicatorLocation.CenterOwner, bool shouldActivateOwnerAfterwards = true, Estimator estimator = null)
         {
             _estimator = estimator;
             _owner = owner;
+            _shouldActivateOwnerWindowAfterwards = shouldActivateOwnerAfterwards;
 
             estimator?.Start();
 
@@ -75,7 +77,7 @@ namespace Dzik.letter
                     return;
                 }
             }
-                                  
+
             ShowLoadingDialog(location);
         }
 
@@ -98,7 +100,11 @@ namespace Dzik.letter
                 }
 
                 _window.ShowDialog();
-                _owner.Dispatcher.Invoke(() => _owner.Activate());
+
+                if (_shouldActivateOwnerWindowAfterwards)
+                {
+                    _owner.Dispatcher.Invoke(() => _owner.Activate());
+                }
             }));
             newWindowThread.SetApartmentState(ApartmentState.STA);
             newWindowThread.IsBackground = false;
@@ -110,7 +116,7 @@ namespace Dzik.letter
         {
             _estimator?.End();
 
-            if (_aborted) return;           
+            if (_aborted) return;
 
             while (_window == null)
             {

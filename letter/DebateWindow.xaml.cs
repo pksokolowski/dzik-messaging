@@ -51,15 +51,8 @@ namespace Dzik.letter
 
             if (messageReceived != null)
             {
-                var loadingIndicator = new LoadingIndicator(
-                    owner: this,
-                    location: LoadingIndicatorLocation.CenterScreen
-                   // estimator: new RtbBytesLoadingEstimator(messageReceived.Length)
-                    );
-
                 PopulateRtbWithBytes(inboundRtb, messageReceived);
-                inboundMessageBytes = messageReceived;
-                loadingIndicator.CloseIndicator();
+                inboundMessageBytes = messageReceived;            
             }
             else if (XamlMessageDraftStorage.HasStoredDraft())
             {

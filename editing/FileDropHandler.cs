@@ -15,10 +15,12 @@ namespace Dzik.editing
     internal class FileDropHandler
     {
         Func<KeysVault> getKeysVault;
+        private Window window;
 
-        public FileDropHandler(TextBox dropSurface, Func<KeysVault> getKeysVault)
+        public FileDropHandler(Window window, TextBox dropSurface, Func<KeysVault> getKeysVault)
         {
             this.getKeysVault = getKeysVault;
+            this.window = window;
             dropSurface.Drop += Drop;
             dropSurface.PreviewDragOver += PreviewDragOver;
         }
@@ -31,7 +33,7 @@ namespace Dzik.editing
         private async void Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
+            {               
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
                 var keysVault = getKeysVault();
@@ -41,6 +43,7 @@ namespace Dzik.editing
                 }
 
                 var builder = new StringBuilder();
+                var loadingIndicator = new LoadingIndicator(window, LoadingIndicatorLocation.CenterOwner, false);
 
                 foreach (string file in files)
                 {
@@ -67,12 +70,15 @@ namespace Dzik.editing
                             resultDescription = "BŁĄD";
                             break;
                         case FileCryptoOperationResult.XamlMessageDetected:
+                            loadingIndicator.CloseIndicator();
                             return;                            
                     }
 
                     var fileName = Path.GetFileName(file);
                     builder.AppendLine($"Plik: \"{fileName}\" - {resultDescription}\n");
                 }
+
+                loadingIndicator.CloseIndicator();                
 
                 builder.AppendLine("Szyfrowanie plików operuje na kopiach - plik zaszyfrowany nazywa się tak jak oryginał, ale nie ma rozszerzenia.");
                 DialogShower.ShowInfo(builder.ToString());
