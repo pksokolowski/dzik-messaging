@@ -41,7 +41,7 @@ namespace Dzik.letter
             BeginAnimation(OpacityProperty, new DoubleAnimation
             {
                 To = 1,
-                Duration = TimeSpan.FromSeconds(2)
+                Duration = TimeSpan.FromSeconds(1)
             });
         }
     }

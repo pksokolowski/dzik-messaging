@@ -9,6 +9,7 @@ using Dzik.Properties;
 using Dzik.replying;
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -28,8 +29,12 @@ namespace Dzik
         private ResourceDictionary DarkTheme;
         private ResourceDictionary LightTheme;
 
+        [DllImport("user32.dll")]
+        public static extern void DisableProcessWindowsGhosting();
+
         public MainWindow()
         {
+            DisableProcessWindowsGhosting();
             InitializeComponent();
 
             DarkTheme = new ResourceDictionary();
