@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using static Dzik.letter.LoadingIndicator;
 
@@ -16,16 +17,32 @@ namespace Dzik.letter
     {
         public LoadingWindow()
         {
+            Opacity = 0;
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            AnimateEntrance();
         }
 
         public LoadingWindow(double ox, double oy, double ow, double oh)
         {
+            Opacity = 0;
             InitializeComponent();
 
             this.Left = ox + (0.5 * ow) - (0.5 * this.Width);
             this.Top = oy + (0.5 * oh) - (0.5 * this.Height);
+
+            AnimateEntrance();
+        }
+
+        private void AnimateEntrance()
+        {
+            Opacity = 0;
+
+            BeginAnimation(OpacityProperty, new DoubleAnimation
+            {
+                To = 1,
+                Duration = TimeSpan.FromSeconds(2)
+            });
         }
     }
 

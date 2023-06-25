@@ -53,8 +53,8 @@ namespace Dzik.letter
             {
                 var loadingIndicator = new LoadingIndicator(
                     owner: this,
-                    location: LoadingIndicatorLocation.CenterScreen,
-                    estimator: new RtbBytesLoadingEstimator(messageReceived.Length)
+                    location: LoadingIndicatorLocation.CenterScreen
+                   // estimator: new RtbBytesLoadingEstimator(messageReceived.Length)
                     );
 
                 PopulateRtbWithBytes(inboundRtb, messageReceived);
@@ -63,11 +63,16 @@ namespace Dzik.letter
             }
             else if (XamlMessageDraftStorage.HasStoredDraft())
             {
-                var loadingIndicator = new LoadingIndicator(this, LoadingIndicatorLocation.CenterScreen);
                 // since inbound message is readOnly, if it's present, no need to save it again.
                 needToSaveInboundMessage = false;
 
-                var (inbound, outbound) = XamlMessageDraftStorage.LoadDraftState(keysVault);
+                var loadingIndicator = new LoadingIndicator(
+                 owner: this,
+                 location: LoadingIndicatorLocation.CenterScreen
+                 );
+
+                var (inbound, outbound) = XamlMessageDraftStorage.LoadDraftState(keysVault);             
+
                 if (inbound == null)
                 {
                     ShowInstructionManual();

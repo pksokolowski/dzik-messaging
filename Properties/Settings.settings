@@ -42,7 +42,10 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="EstimateLoadingXamlMsg" Type="System.String" Scope="User">
-      <Value Profile="(Default)">0.00831733</Value>
+      <Value Profile="(Default)">63051</Value>
+    </Setting>
+    <Setting Name="EstimateSavingDraftXamlMsg" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

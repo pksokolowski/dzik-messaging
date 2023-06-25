@@ -181,13 +181,25 @@ namespace Dzik.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.00831733")]
+        [global::System.Configuration.DefaultSettingValueAttribute("63051")]
         public string EstimateLoadingXamlMsg {
             get {
                 return ((string)(this["EstimateLoadingXamlMsg"]));
             }
             set {
                 this["EstimateLoadingXamlMsg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public string EstimateSavingDraftXamlMsg {
+            get {
+                return ((string)(this["EstimateSavingDraftXamlMsg"]));
+            }
+            set {
+                this["EstimateSavingDraftXamlMsg"] = value;
             }
         }
     }

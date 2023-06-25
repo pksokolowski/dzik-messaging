@@ -85,6 +85,17 @@ namespace Dzik.letter
             onImageAdded(image);
         }
 
+        internal static long GetImagesTotalImagePixelsCountFrom(FlowDocument document)
+        {
+            var images = GetAllImagesFrom(document);
+            var total = 0L;
+            foreach (var image in images)
+            {
+                total += (long)(image.Height * image.Width);
+            }
+            return total;
+        }
+
         internal static void PopulateRtbWithBytes(RichTextBox rtb, byte[] bytes, Action<Image> onImageLoaded)
         {
             TextRange range;

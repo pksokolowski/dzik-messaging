@@ -138,6 +138,8 @@
       <DependentUpon>DebateWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="letter\estimators\Estimator.cs" />
+    <Compile Include="letter\estimators\RtbBytesLoadingEstimator.cs" />
+    <Compile Include="letter\estimators\utils\StringListUtil.cs" />
     <Compile Include="letter\ImageViewerWindow.xaml.cs">
       <DependentUpon>ImageViewerWindow.xaml</DependentUpon>
     </Compile>
