@@ -325,7 +325,7 @@ namespace Dzik
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (WindowState == WindowState.Maximized)
+            if (WindowState == WindowState.Maximized || WindowState == WindowState.Minimized)
             {
                 // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
                 Settings.Default.Top = RestoreBounds.Top;
