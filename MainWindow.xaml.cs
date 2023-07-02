@@ -304,6 +304,7 @@ namespace Dzik
 
             Input.Text = draft;
             DataLossPreventor.OnDataSaved();
+            Input.ScrollToEnd();
         }
 
         private void AcceptKeysVault(KeysVault vault)
