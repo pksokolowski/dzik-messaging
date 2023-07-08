@@ -64,6 +64,7 @@ namespace Dzik.keyStorageWindows
                 }
 
                 DzikKeyAgreement.AcceptResponse(responseWithMarker, kek, passwdInput1.Text, onKeysReceivedInExchange);
+                Close();
                 return;
             }
 
