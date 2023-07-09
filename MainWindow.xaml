@@ -29,8 +29,7 @@
             <Label x:Name="WindowTitleLabel" Style="{DynamicResource DzikLabelStyle}" Content="Dzik" HorizontalAlignment="Left" Margin="34,0,0,0" VerticalAlignment="Top" Width="114"/>
             <Button x:Name="CloseButton" Content="X" Margin="0,2,2,0" VerticalAlignment="Top" Background="#01808080" BorderBrush="{x:Null}" Foreground="#CC8C8C8C" Click="CloseButton_Click" HorizontalAlignment="Right" Width="31" Height="22" FontSize="14" FontFamily="Arial"/>
             <Button x:Name="MinimizeButton" Content="_" Margin="0,2,38,0" VerticalAlignment="Top" Background="#01808080" BorderBrush="{x:Null}" Foreground="#CC8C8C8C" HorizontalAlignment="Right" Width="31" Height="22" FontSize="14" FontFamily="Arial" Click="MinimizeButton_Click"/>
-            <Button x:Name="ThemeButton" Content="T" Margin="0,2,74,0" VerticalAlignment="Top" Background="#01808080" BorderBrush="{x:Null}" Foreground="#CC8C8C8C" Click="ThemeButton_Click" HorizontalAlignment="Right" Width="30" Height="22" FontSize="14" FontFamily="Arial"/>
-
+            <Button x:Name="ThemeButton" Content="{DynamicResource IconThemeSwitch}" Margin="0,2,74,0" VerticalAlignment="Top" Background="#01808080" BorderBrush="{x:Null}" Foreground="#CC8C8C8C" Click="ThemeButton_Click" HorizontalAlignment="Right" Width="30" Height="22" FontSize="14" FontFamily="Arial"/>
         </Grid>
     </Border>
 </Window>
