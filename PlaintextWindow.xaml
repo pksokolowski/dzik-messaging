@@ -18,8 +18,8 @@
 
     <Border Style="{DynamicResource DzikBorderStyle}" MouseDown="Border_MouseDown" >
         <Grid>
-            <Image HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="24" Source="/Dzik64G.png" Margin="2,2,0,0"/>
-            <Label x:Name="WindowTitleLabel" Style="{DynamicResource DzikLabelStyle}" Content="Tekst odszyfrowany" HorizontalAlignment="Left" Margin="29,0,0,0" VerticalAlignment="Top" Width="114"/>
+            <Image HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="24" Source="/Dzik64G.png" Margin="7,2,0,0"/>
+            <Label x:Name="WindowTitleLabel" Style="{DynamicResource DzikLabelStyle}" Content="Tekst odszyfrowany" HorizontalAlignment="Left" Margin="34,0,0,0" VerticalAlignment="Top" Width="114"/>
             <Button x:Name="CloseButton" Content="X" Margin="0,2,2,0" VerticalAlignment="Top" Background="#01808080" BorderBrush="{x:Null}" Foreground="#CC8C8C8C" Click="CloseButton_Click" HorizontalAlignment="Right" Width="31" Height="22" FontSize="14" FontFamily="Arial"/>
 
             <TextBox x:Name="Output" Margin="0,27,0,63" TextWrapping="Wrap" Text="" IsReadOnly="True" IsReadOnlyCaretVisible="True" BorderThickness="0 2 0 2" Padding="2,2,2,2" Style="{DynamicResource InputTextBoxStyle}" VerticalScrollBarVisibility="Auto" FontSize="14"/>
