@@ -72,14 +72,14 @@ namespace Dzik
             Settings.Default.Save();
         }
 
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
     }
 }

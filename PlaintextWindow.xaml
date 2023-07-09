@@ -16,7 +16,7 @@
         </WindowChrome>
     </WindowChrome.WindowChrome>
 
-    <Border Style="{DynamicResource DzikBorderStyle}" MouseDown="Border_MouseDown" >
+    <Border Style="{DynamicResource DzikBorderStyle}" MouseLeftButtonDown="Border_MouseLeftButtonDown" >
         <Grid>
             <Image HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="24" Source="/Dzik64G.png" Margin="7,2,0,0"/>
             <Label x:Name="WindowTitleLabel" Style="{DynamicResource DzikLabelStyle}" Content="Tekst odszyfrowany" HorizontalAlignment="Left" Margin="34,0,0,0" VerticalAlignment="Top" Width="114"/>

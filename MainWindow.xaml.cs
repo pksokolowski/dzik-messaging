@@ -372,11 +372,6 @@ namespace Dzik
             Application.Current.Resources.MergedDictionaries.Add(themeToSet);
         }
 
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -391,6 +386,11 @@ namespace Dzik
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
     }
 }

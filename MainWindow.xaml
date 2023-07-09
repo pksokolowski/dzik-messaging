@@ -16,7 +16,7 @@
         </WindowChrome>
     </WindowChrome.WindowChrome>
 
-    <Border Style="{DynamicResource DzikBorderStyle}" MouseDown="Border_MouseDown">
+    <Border Style="{DynamicResource DzikBorderStyle}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
         <Grid>
             <TextBox x:Name="Input" Margin="0,29,0,45" TextWrapping="Wrap" AcceptsReturn="True" Text="" FontSize="16" VerticalScrollBarVisibility="Visible" AllowDrop="True" BorderThickness="0 2 0 2" Padding="2,2,2,2" Style="{DynamicResource InputTextBoxStyle}" PreviewDrop="Input_PreviewDrop" />
             <Button x:Name="QuoteButton" Content="Wklej cytat" HorizontalAlignment="Left" Margin="10,0,0,10" Width="107" Height="30" VerticalAlignment="Bottom" Click="QuoteButton_Click" ToolTip="ctrl + q, lub alternatywnie: przeciągnij i upuść tekst na edytor"/>

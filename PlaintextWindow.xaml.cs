@@ -35,9 +35,9 @@ namespace Dzik
             if (decryptedMsg.daysSinceEncryption == 1) daysPluralIfNeeded = "dzień";
             EncryptionAgeLabel.Content = $"Zaszyfrowano około {decryptedMsg.daysSinceEncryption} {daysPluralIfNeeded} temu.";
 
-            if(decryptedMsg.daysSinceEncryption > Constants.ReplayAttackMaxDaysWithoutWarning)
+            if (decryptedMsg.daysSinceEncryption > Constants.ReplayAttackMaxDaysWithoutWarning)
             {
-                EncryptionAgeLabel.Foreground = Brushes.Red;               
+                EncryptionAgeLabel.Foreground = Brushes.Red;
             }
         }
 
@@ -46,7 +46,7 @@ namespace Dzik
             Close();
         }
 
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }
@@ -55,7 +55,6 @@ namespace Dzik
         {
             Close();
         }
-
 
         // Remembering window location
         private void WindowRoot_SourceInitialized(object sender, EventArgs e)
@@ -86,6 +85,5 @@ namespace Dzik
 
             Settings.Default.Save();
         }
-
     }
 }
