@@ -392,5 +392,15 @@ namespace Dzik
         {
             DragMove();
         }
+
+        private void IncreaseFontSizeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DecreaseFontSizeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -7,7 +7,7 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/CustomTemplates.xaml"/>
+          
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
          
