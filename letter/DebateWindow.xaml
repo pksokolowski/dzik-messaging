@@ -47,13 +47,10 @@
                 <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Cofnij" Content="{DynamicResource Undo}"/>
                 <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Ponów" Content="{DynamicResource Redo}"/>
 
-                <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
-                    <TextBlock FontWeight="Bold">B</TextBlock>
-                </Button>
-                <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Kursywa">
-                    <TextBlock FontStyle="Italic" FontWeight="Bold">I</TextBlock>
-                </Button>
+                <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold" Content="{DynamicResource Bold}"/>
+                <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Kursywa" Content="{DynamicResource Italic}"/>
                 <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Podkreślenie" Content="{DynamicResource Underline}"/>
+                
                 <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Zwiększ rozmiar czcionki" Content="{DynamicResource IncreaseFontSizeOriginal}"/>
                 <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Zmniejsz rozmiar czcionki" Content="{DynamicResource DecreaseFontSizeOriginal}"/>
                 <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullet pointsy" Content="{DynamicResource BulletList}"/>
