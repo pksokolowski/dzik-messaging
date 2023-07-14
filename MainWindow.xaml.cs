@@ -321,6 +321,8 @@ namespace Dzik
             this.Height = Settings.Default.Height;
             this.Width = Settings.Default.Width;
 
+            Input.FontSize = Settings.Default.MainEditorFontSize;
+
             LoadMasterKeys();
         }
 
@@ -341,6 +343,8 @@ namespace Dzik
                 Settings.Default.Height = this.Height;
                 Settings.Default.Width = this.Width;
             }
+
+            Settings.Default.MainEditorFontSize = Input.FontSize;
 
             Settings.Default.Save();
         }
@@ -395,12 +399,12 @@ namespace Dzik
 
         private void IncreaseFontSizeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Input.FontSize += 1;
         }
 
         private void DecreaseFontSizeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Input.FontSize -= 1;
         }
     }
 }

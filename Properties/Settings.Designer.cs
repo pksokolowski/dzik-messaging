@@ -202,5 +202,17 @@ namespace Dzik.Properties {
                 this["EstimateSavingDraftXamlMsg"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        public double MainEditorFontSize {
+            get {
+                return ((double)(this["MainEditorFontSize"]));
+            }
+            set {
+                this["MainEditorFontSize"] = value;
+            }
+        }
     }
 }
