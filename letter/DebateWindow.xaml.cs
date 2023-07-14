@@ -562,7 +562,7 @@ namespace Dzik.letter
 
         private void outboundRtb_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Z && Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftShift))
+            if (e.Key == Key.Z && Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftShift) && Keyboard.IsKeyUp(Key.RightAlt))
             {
                 outboundRtb.Redo();
                 e.Handled = true;
