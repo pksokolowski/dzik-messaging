@@ -12,6 +12,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/lettersTemplates.xaml"/>
                 <ResourceDictionary Source="/theme/DarkTheme.xaml"/>
+                <ResourceDictionary Source="../Icons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
@@ -40,21 +41,11 @@
             <!-- This tool bar contains all the editing buttons. -->
             <ToolBar Style="{DynamicResource VacheToolbar}" Name="mainToolBar" ToolBarTray.IsLocked="True" Height="30" Grid.ColumnSpan="2" Margin="244,3,0,0" Background="#FF5F5F5F" VerticalAlignment="Top" HorizontalAlignment="Left" Width="764">
 
-                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Wytnij">
-                    <Image Source="/images/cut.png"></Image>
-                </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Kopiuj">
-                    <Image Source="/images/copy.png"></Image>
-                </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Wklej">
-                    <Image Source="/images/paste.png"></Image>
-                </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Cofnij">
-                    <Image Source="/images/undo.png"></Image>
-                </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Ponów">
-                    <Image Source="/images/redo.png"></Image>
-                </Button>
+                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Wytnij" Content="{DynamicResource Cut}"/>
+                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Kopiuj" Content="{DynamicResource Copy}"/>
+                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Wklej" Content="{DynamicResource Paste}"/>
+                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Cofnij" Content="{DynamicResource Undo}"/>
+                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Ponów" Content="{DynamicResource Redo}"/>
 
                 <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
                     <TextBlock FontWeight="Bold">B</TextBlock>
@@ -62,66 +53,26 @@
                 <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Kursywa">
                     <TextBlock FontStyle="Italic" FontWeight="Bold">I</TextBlock>
                 </Button>
-                <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Podkreślenie">
-                    <TextBlock TextDecorations="Underline" FontWeight="Bold">U</TextBlock>
-                </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Zwiększ rozmiar czcionki">
-                    <Image Source="/images/increaseFontSize.png"></Image>
-                </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Zmniejsz rozmiar czcionki">
-                    <Image Source="/images/decreaseFontSize.png"></Image>
-                </Button>
+                <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Podkreślenie" Content="{DynamicResource Underline}"/>
+                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Zwiększ rozmiar czcionki" Content="{DynamicResource IncreaseFontSizeOriginal}"/>
+                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Zmniejsz rozmiar czcionki" Content="{DynamicResource DecreaseFontSizeOriginal}"/>
+                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullet pointsy" Content="{DynamicResource BulletList}"/>
+                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Lista ponumerowana" Content="{DynamicResource OrderedList}"/>
+                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Wyrównaj tekst do lewej" Content="{DynamicResource AlignLeft}"/>
+                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Wycentruj tekst" Content="{DynamicResource AlignCenter}"/>
+                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Wyrównaj tekst do prawej" Content="{DynamicResource AlignRight}"/>
+                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Wyjustuj" Content="{DynamicResource AlignHorizontalStretch}"/>
+                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Zwiększ wcięcie" Content="{DynamicResource IncreaseIndent}"/>
+                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Zmniejsz wcięcie" Content="{DynamicResource DecreaseIndent}"/>
+                
+                <Button x:Name="ImagesPerRow_1Button" Style="{StaticResource formatImageStyle}" ToolTip="1 obraz per wiersz (na całą szerokość pola tekstowego)" Click="Button_Click" Content="{DynamicResource Image}"/>
+                <Button x:Name="ImagesPerRow_2Button" Style="{StaticResource formatImageStyle}" ToolTip="2 obrazy per wiersz" Click="ImagesPerRow_2Button_Click" Content="{DynamicResource TwoColumns}"/>
+                <Button x:Name="ImagesPerRow_3Button" Style="{StaticResource formatImageStyle}" ToolTip="3 obrazy per wiersz" Click="ImagesPerRow_3Button_Click" Content="{DynamicResource ThreeColumns}"/>
+                <Button x:Name="ImagesPerRow_4Button" Style="{StaticResource formatImageStyle}" ToolTip="4 obrazy per wiersz" Click="ImagesPerRow_4Button_Click" Content="{DynamicResource FourColumns}"/>
 
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullet pointsy">
-                    <Image Source="/images/bulletList.png"></Image>
-                </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Lista ponumerowana">
-                    <Image Source="/images/bulletList.png"></Image>
-                </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Wyrównaj tekst do lewej">
-                    <Image Source="/images/alignLeft.png"></Image>
-                </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Wycentruj tekst">
-                    <Image Source="/images/alignCenter.png"></Image>
-                </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Wyrównaj tekst do prawej">
-                    <Image Source="/images/alignRight.png"></Image>
-                </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Wyjustuj">
-                    <Image Source="/images/AlignHorizontalStretch.png"></Image>
-                </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Zwiększ wcięcie">
-                    <Image Source="/images/increaseIndent.png"></Image>
-                </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Zmniejsz wcięcie">
-                    <Image Source="/images/decreaseIndent.png"></Image>
-                </Button>
-
-                <Button x:Name="ImagesPerRow_1Button" Style="{StaticResource formatImageStyle}" ToolTip="1 obraz per wiersz (na całą szerokość pola tekstowego)" Click="Button_Click">
-                    <Image Source="/images/1Image.png"></Image>
-                </Button>
-
-                <Button x:Name="ImagesPerRow_2Button" Style="{StaticResource formatImageStyle}" ToolTip="2 obrazy per wiersz" Click="ImagesPerRow_2Button_Click">
-                    <Image Source="/images/2Images.png"></Image>
-                </Button>
-
-                <Button x:Name="ImagesPerRow_3Button" Style="{StaticResource formatImageStyle}" ToolTip="3 obrazy per wiersz" Click="ImagesPerRow_3Button_Click">
-                    <Image Source="/images/3Images.png"></Image>
-                </Button>
-
-                <Button x:Name="ImagesPerRow_4Button" Style="{StaticResource formatImageStyle}" ToolTip="4 obrazy per wiersz" Click="ImagesPerRow_4Button_Click">
-                    <Image Source="/images/4Images.png"></Image>
-                </Button>
-
-                <Button x:Name="ClearFormattingButton" Style="{StaticResource formatImageStyle}" ToolTip="ctrl + e, Usuń formatowanie, ramkę cytatu etc. Obejmuje zaznaczenie lub cały paragraf, jeżeli nic nie jest zaznaczone." Click="ClearFormattingButton_Click" >
-                    <Image Source="/images/ClearFormatting.png"></Image>
-                </Button>
-                <Button x:Name="ForegroundColorButton" Style="{StaticResource formatImageStyle}" ToolTip="Wybierz kolor tekstu. Obejmuje zaznaczenie lub cały paragraf, jeżeli nic nie jest zaznaczone." Click="ForegroundColorButton_Click" >
-                    <Image Source="/images/fontColor.png"></Image>
-                </Button>
-                <Button x:Name="BackgroundColorButton" Style="{StaticResource formatImageStyle}" ToolTip="Wybierz kolor tła tekstu. Obejmuje zaznaczenie lub cały paragraf, jeżeli nic nie jest zaznaczone." Click="BackgroundColorButton_Click">
-                    <Image Source="/images/backgroundColor.png"></Image>
-                </Button>
+                <Button x:Name="ClearFormattingButton" Style="{StaticResource formatImageStyle}" ToolTip="ctrl + e, Usuń formatowanie, ramkę cytatu etc. Obejmuje zaznaczenie lub cały paragraf, jeżeli nic nie jest zaznaczone." Click="ClearFormattingButton_Click" Content="{DynamicResource CleanData}"/>
+                <Button x:Name="ForegroundColorButton" Style="{StaticResource formatImageStyle}" ToolTip="Wybierz kolor tekstu. Obejmuje zaznaczenie lub cały paragraf, jeżeli nic nie jest zaznaczone." Click="ForegroundColorButton_Click"  Content="{DynamicResource FontColor}"/>
+                <Button x:Name="BackgroundColorButton" Style="{StaticResource formatImageStyle}" ToolTip="Wybierz kolor tła tekstu. Obejmuje zaznaczenie lub cały paragraf, jeżeli nic nie jest zaznaczone." Click="BackgroundColorButton_Click" Content="{DynamicResource BackgroundColor}"/>
             </ToolBar>
 
 
