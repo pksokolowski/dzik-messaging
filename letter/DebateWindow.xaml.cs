@@ -136,6 +136,8 @@ namespace Dzik.letter
                 RemoveCallbacksFromToolWindow(window);
                 window.Close();
             });
+
+            Settings.Default.Save();
         }
 
         private void outboundRtb_TextChanged(object sender, TextChangedEventArgs e)
